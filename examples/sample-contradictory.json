@@ -1,0 +1,204 @@
+{
+  "format": "rifflecheck-record",
+  "version": 1,
+  "record": {
+    "id": "sample-contradictory",
+    "status": "submitted",
+    "createdAt": "2026-09-22T11:44:00.000Z",
+    "submittedAt": "2026-09-22T11:49:00.000Z",
+    "sampleId": "sample-contradictory"
+  },
+  "answers": {
+    "streamName": "Ribeira dos Covoes (sample)",
+    "latitude": 40.1952,
+    "longitude": -8.4571,
+    "observedAt": "2026-09-22T17:10",
+    "weather": "heavy_rain",
+    "rain48h": "no",
+    "flow": "slow",
+    "colour": "brown",
+    "clarity": "cloudy",
+    "odour": "sewage",
+    "surface": "foam",
+    "temperatureC": 19,
+    "ph": 7.9,
+    "dissolvedOxygen": 4.2,
+    "vegetation": "sparse",
+    "erosion": "some",
+    "channel": "partly_modified",
+    "landUse": [
+      "commercial",
+      "roads"
+    ],
+    "pollutionSources": [
+      "pipe"
+    ],
+    "life": [
+      "worms_midges",
+      "algae_mats"
+    ],
+    "overallImpression": "poor",
+    "notes": "Water barely moving today. Lots of mud on the bottom.",
+    "photoAttached": false
+  },
+  "labels": {
+    "streamName": "Ribeira dos Covoes (sample)",
+    "latitude": "40.1952",
+    "longitude": "-8.4571",
+    "observedAt": "2026-09-22 17:10",
+    "weather": "Heavy rain",
+    "rain48h": "No",
+    "flow": "Slow",
+    "colour": "Brown",
+    "clarity": "Cloudy",
+    "odour": "Sewage",
+    "surface": "Foam",
+    "temperatureC": "19 °C",
+    "ph": "7.9",
+    "dissolvedOxygen": "4.2 mg/L",
+    "vegetation": "Sparse",
+    "erosion": "Some",
+    "channel": "Partly modified",
+    "landUse": "Shops or offices, Roads or car parks",
+    "pollutionSources": "Pipe or drain",
+    "life": "Worms or midge larvae, Algae mats",
+    "overallImpression": "Poor",
+    "notes": "Water barely moving today. Lots of mud on the bottom."
+  },
+  "summary": {
+    "text": "At Ribeira dos Covoes (sample) on 2026-09-22 17:10 the flow was slow and the water was cloudy and brown, with a sewage smell and foam on the surface. Bank vegetation was sparse, erosion some and the channel partly modified; life seen: worms or midge larvae, algae mats.",
+    "source": "answers"
+  },
+  "contextNotes": [],
+  "aiReview": {
+    "status": "done",
+    "mode": "demo",
+    "notice": "Demo mode: no AI key is set, so this is a prepared example response for the built-in sample.",
+    "reviewedAt": "2026-09-22T11:45:00.000Z",
+    "inputHash": "2ca4f15"
+  },
+  "dataQuality": {
+    "rule": {
+      "raised": 2,
+      "fixed": 2,
+      "kept": 0,
+      "open": 0
+    },
+    "ai": {
+      "raised": 2,
+      "fixed": 1,
+      "kept": 1,
+      "open": 0
+    },
+    "total": {
+      "raised": 4,
+      "fixed": 3,
+      "kept": 1,
+      "open": 0
+    }
+  },
+  "auditTrail": [
+    {
+      "id": "clear-but-coloured",
+      "source": "rule",
+      "severity": "check",
+      "fields": [
+        "clarity",
+        "colour",
+        "notes"
+      ],
+      "concern": "You marked the water as clear, and also recorded the colour as brown and mud or silt in your notes. Could you look again?",
+      "why": "Brown or grey water, or water carrying mud or silt, is usually at least a little cloudy. Clear means you can see the bottom.",
+      "question": "Can you see the stream bed clearly through the water?",
+      "raisedAt": "2026-09-22T11:44:00.000Z",
+      "before": {
+        "clarity": "clear",
+        "colour": "brown",
+        "notes": "Water barely moving today. Lots of mud on the bottom."
+      },
+      "decision": "fixed",
+      "decidedAt": "2026-09-22T11:46:00.000Z",
+      "after": {
+        "clarity": "cloudy",
+        "colour": "brown",
+        "notes": "Water barely moving today. Lots of mud on the bottom."
+      }
+    },
+    {
+      "id": "pollution-signs-no-source",
+      "source": "rule",
+      "severity": "check",
+      "fields": [
+        "odour",
+        "pollutionSources"
+      ],
+      "concern": "You recorded a sewage smell, but no visible pollution source. Is there a pipe, drain or dumping nearby that you may have missed?",
+      "why": "These signs usually come from somewhere close by. It is fine if you cannot see the source; the question is only whether you had a chance to look.",
+      "question": "Looking up and down the bank, can you see a pipe, drain, or anything dumped?",
+      "raisedAt": "2026-09-22T11:44:00.000Z",
+      "before": {
+        "odour": "sewage",
+        "pollutionSources": [
+          "none_seen"
+        ]
+      },
+      "decision": "fixed",
+      "decidedAt": "2026-09-22T11:46:00.000Z",
+      "after": {
+        "odour": "sewage",
+        "pollutionSources": [
+          "pipe"
+        ]
+      }
+    },
+    {
+      "id": "ai:2026-09-22T11:45:00.000Z:0",
+      "source": "ai",
+      "severity": "check",
+      "fields": [
+        "flow",
+        "notes"
+      ],
+      "concern": "Your notes and your flow answer seem to describe different water speeds. Could you look again?",
+      "why": "Flow is recorded as \"Fast\", but your notes say \"Water barely moving today\".",
+      "question": "If you drop a leaf in, does it move faster or slower than walking pace?",
+      "confidence": "high",
+      "raisedAt": "2026-09-22T11:45:00.000Z",
+      "before": {
+        "flow": "fast",
+        "notes": "Water barely moving today. Lots of mud on the bottom."
+      },
+      "decision": "fixed",
+      "decidedAt": "2026-09-22T11:47:00.000Z",
+      "after": {
+        "flow": "slow",
+        "notes": "Water barely moving today. Lots of mud on the bottom."
+      }
+    },
+    {
+      "id": "ai:2026-09-22T11:45:00.000Z:1",
+      "source": "ai",
+      "severity": "check",
+      "fields": [
+        "weather",
+        "rain48h"
+      ],
+      "concern": "It is raining now, but rain in the last 48 hours is recorded as no. Does that answer include today?",
+      "why": "Weather now is \"Heavy rain\" and rain in the last 48 hours is \"No\". The last 48 hours include the present moment.",
+      "question": "Has any rain fallen here today or in the two days before?",
+      "confidence": "medium",
+      "raisedAt": "2026-09-22T11:45:00.000Z",
+      "before": {
+        "weather": "heavy_rain",
+        "rain48h": "no"
+      },
+      "decision": "kept",
+      "reason": "The rain started just as I arrived. It had been dry for the two days before.",
+      "decidedAt": "2026-09-22T11:48:00.000Z",
+      "after": {
+        "weather": "heavy_rain",
+        "rain48h": "no"
+      }
+    }
+  ]
+}

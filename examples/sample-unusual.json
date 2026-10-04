@@ -1,0 +1,135 @@
+{
+  "format": "rifflecheck-record",
+  "version": 1,
+  "record": {
+    "id": "sample-unusual",
+    "status": "submitted",
+    "createdAt": "2026-09-25T03:49:00.000Z",
+    "submittedAt": "2026-09-25T03:54:00.000Z",
+    "sampleId": "sample-unusual"
+  },
+  "answers": {
+    "streamName": "Ribeira de Eiras (sample)",
+    "latitude": 40.2431,
+    "longitude": -8.4302,
+    "observedAt": "2026-09-25T09:15",
+    "weather": "cloudy",
+    "rain48h": "no",
+    "flow": "moderate",
+    "colour": "colourless",
+    "clarity": "clear",
+    "odour": "sewage",
+    "surface": "none",
+    "temperatureC": 14,
+    "ph": null,
+    "dissolvedOxygen": null,
+    "vegetation": "moderate",
+    "erosion": "none",
+    "channel": "natural",
+    "landUse": [
+      "housing",
+      "park"
+    ],
+    "pollutionSources": [
+      "pipe"
+    ],
+    "life": [
+      "mayfly_stonefly",
+      "snails",
+      "water_birds"
+    ],
+    "overallImpression": "moderate",
+    "notes": "Sewage smell comes from a manhole on the footpath, not from the water. Found three larvae with three tails under stones in the fast part.",
+    "photoAttached": false
+  },
+  "labels": {
+    "streamName": "Ribeira de Eiras (sample)",
+    "latitude": "40.2431",
+    "longitude": "-8.4302",
+    "observedAt": "2026-09-25 09:15",
+    "weather": "Cloudy",
+    "rain48h": "No",
+    "flow": "Moderate",
+    "colour": "No colour",
+    "clarity": "Clear",
+    "odour": "Sewage",
+    "surface": "Nothing",
+    "temperatureC": "14 °C",
+    "ph": "Not recorded",
+    "dissolvedOxygen": "Not recorded",
+    "vegetation": "Moderate",
+    "erosion": "None",
+    "channel": "Natural",
+    "landUse": "Homes, Park or green space",
+    "pollutionSources": "Pipe or drain",
+    "life": "Mayfly or stonefly larvae, Snails, Water birds",
+    "overallImpression": "Moderate",
+    "notes": "Sewage smell comes from a manhole on the footpath, not from the water. Found three larvae with three tails under stones in the fast part."
+  },
+  "summary": {
+    "text": "At Ribeira de Eiras (sample) on 2026-09-25 09:15 the flow was moderate and the water was clear and colourless, with a sewage smell. Bank vegetation was moderate, erosion none and the channel natural; life seen: mayfly or stonefly larvae, snails, water birds.",
+    "source": "ai"
+  },
+  "contextNotes": [],
+  "aiReview": {
+    "status": "done",
+    "mode": "demo",
+    "notice": "Demo mode: no AI key is set, so this is a prepared example response for the built-in sample.",
+    "reviewedAt": "2026-09-25T03:50:00.000Z",
+    "inputHash": "ee85ff74"
+  },
+  "dataQuality": {
+    "rule": {
+      "raised": 1,
+      "fixed": 0,
+      "kept": 1,
+      "open": 0
+    },
+    "ai": {
+      "raised": 0,
+      "fixed": 0,
+      "kept": 0,
+      "open": 0
+    },
+    "total": {
+      "raised": 1,
+      "fixed": 0,
+      "kept": 1,
+      "open": 0
+    }
+  },
+  "auditTrail": [
+    {
+      "id": "sensitive-life-with-pollution-signs",
+      "source": "rule",
+      "severity": "unusual",
+      "fields": [
+        "life",
+        "odour"
+      ],
+      "concern": "Mayfly or stonefly larvae together with a sewage smell is uncommon and worth a second look.",
+      "why": "These larvae usually live in clean water, so finding them where the water smells of sewage or cannot be seen into does not happen often. It can happen, for example just after a spill or where the smell comes from somewhere else.",
+      "question": "Did the larvae have two or three tails, and where is the smell coming from?",
+      "raisedAt": "2026-09-25T03:49:00.000Z",
+      "before": {
+        "life": [
+          "mayfly_stonefly",
+          "snails",
+          "water_birds"
+        ],
+        "odour": "sewage"
+      },
+      "decision": "kept",
+      "reason": "I double-checked on site and it is correct",
+      "decidedAt": "2026-09-25T03:52:00.000Z",
+      "after": {
+        "life": [
+          "mayfly_stonefly",
+          "snails",
+          "water_birds"
+        ],
+        "odour": "sewage"
+      }
+    }
+  ]
+}

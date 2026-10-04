@@ -1,0 +1,102 @@
+{
+  "format": "rifflecheck-record",
+  "version": 1,
+  "record": {
+    "id": "sample-clean",
+    "status": "submitted",
+    "createdAt": "2026-09-20T05:04:00.000Z",
+    "submittedAt": "2026-09-20T05:09:00.000Z",
+    "sampleId": "sample-clean"
+  },
+  "answers": {
+    "streamName": "Ribeira de Coselhas (sample)",
+    "latitude": 40.2203,
+    "longitude": -8.4107,
+    "observedAt": "2026-09-20T10:30",
+    "weather": "sunny",
+    "rain48h": "no",
+    "flow": "moderate",
+    "colour": "colourless",
+    "clarity": "clear",
+    "odour": "none",
+    "surface": "none",
+    "temperatureC": 15.5,
+    "ph": 7.4,
+    "dissolvedOxygen": 9.1,
+    "vegetation": "dense",
+    "erosion": "none",
+    "channel": "natural",
+    "landUse": [
+      "park",
+      "housing"
+    ],
+    "pollutionSources": [
+      "none_seen"
+    ],
+    "life": [
+      "fish",
+      "dragonflies",
+      "mayfly_stonefly"
+    ],
+    "overallImpression": "good",
+    "notes": "Water running over stones. Saw two small fish near the footbridge.",
+    "photoAttached": false
+  },
+  "labels": {
+    "streamName": "Ribeira de Coselhas (sample)",
+    "latitude": "40.2203",
+    "longitude": "-8.4107",
+    "observedAt": "2026-09-20 10:30",
+    "weather": "Sunny",
+    "rain48h": "No",
+    "flow": "Moderate",
+    "colour": "No colour",
+    "clarity": "Clear",
+    "odour": "None",
+    "surface": "Nothing",
+    "temperatureC": "15.5 °C",
+    "ph": "7.4",
+    "dissolvedOxygen": "9.1 mg/L",
+    "vegetation": "Dense",
+    "erosion": "None",
+    "channel": "Natural",
+    "landUse": "Park or green space, Homes",
+    "pollutionSources": "None seen",
+    "life": "Fish, Dragonflies, Mayfly or stonefly larvae",
+    "overallImpression": "Good",
+    "notes": "Water running over stones. Saw two small fish near the footbridge."
+  },
+  "summary": {
+    "text": "At Ribeira de Coselhas (sample) on 2026-09-20 10:30 the flow was moderate and the water was clear and colourless, with no smell. Bank vegetation was dense, erosion none and the channel natural; life seen: fish, dragonflies, mayfly or stonefly larvae.",
+    "source": "ai"
+  },
+  "contextNotes": [],
+  "aiReview": {
+    "status": "done",
+    "mode": "demo",
+    "notice": "Demo mode: no AI key is set, so this is a prepared example response for the built-in sample.",
+    "reviewedAt": "2026-09-20T05:05:00.000Z",
+    "inputHash": "60d5cd34"
+  },
+  "dataQuality": {
+    "rule": {
+      "raised": 0,
+      "fixed": 0,
+      "kept": 0,
+      "open": 0
+    },
+    "ai": {
+      "raised": 0,
+      "fixed": 0,
+      "kept": 0,
+      "open": 0
+    },
+    "total": {
+      "raised": 0,
+      "fixed": 0,
+      "kept": 0,
+      "open": 0
+    }
+  },
+  "auditTrail": []
+}

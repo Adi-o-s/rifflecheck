@@ -1,0 +1,805 @@
+{
+  "resourceType": "Bundle",
+  "identifier": {
+    "system": "urn:ietf:rfc:3986",
+    "value": "urn:uuid:477198da-326b-4c6b-bb4c-3a54b1989085"
+  },
+  "type": "collection",
+  "timestamp": "2026-09-22T11:49:00.000Z",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:90f8d361-7cfc-432c-a7bf-fdb3d127f726",
+      "resource": {
+        "resourceType": "Location",
+        "id": "90f8d361-7cfc-432c-a7bf-fdb3d127f726",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/location-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Stream assessment site: Ribeira dos Covoes (sample)</p><p>Latitude 40.1952, longitude -8.4571</p></div>"
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:90f8d361-7cfc-432c-a7bf-fdb3d127f726"
+          }
+        ],
+        "status": "active",
+        "name": "Ribeira dos Covoes (sample)",
+        "description": "Citizen stream assessment site",
+        "mode": "instance",
+        "position": {
+          "longitude": -8.4571,
+          "latitude": 40.1952
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:86e326b5-2500-4178-93e0-bb431e900f5e",
+      "resource": {
+        "resourceType": "QuestionnaireResponse",
+        "id": "86e326b5-2500-4178-93e0-bb431e900f5e",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Stream assessment of Ribeira dos Covoes (sample), observed 2026-09-22 17:10.</p><p>Stream name: Ribeira dos Covoes (sample)</p><p>Latitude: 40.1952</p><p>Longitude: -8.4571</p><p>Date and time: 2026-09-22 17:10</p><p>Weather now: Heavy rain</p><p>Rain in the last 48 hours: No</p><p>Flow: Slow</p><p>Water colour: Brown</p><p>Clarity: Cloudy</p><p>Odour: Sewage</p><p>On the surface: Foam</p><p>Water temperature: 19 °C</p><p>pH: 7.9</p><p>Dissolved oxygen: 4.2 mg/L</p><p>Bank vegetation cover: Sparse</p><p>Bank erosion: Some</p><p>Channel: Partly modified</p><p>Nearby land use: Shops or offices, Roads or car parks</p><p>Visible pollution sources: Pipe or drain</p><p>Animals and plants seen: Worms or midge larvae, Algae mats</p><p>Your overall impression: Poor</p><p>Notes: Water barely moving today. Lots of mud on the bottom.</p></div>"
+        },
+        "identifier": {
+          "system": "urn:ietf:rfc:3986",
+          "value": "urn:uuid:f04a82c7-2326-4aaa-8b42-e6f1f89f8a4c"
+        },
+        "status": "completed",
+        "subject": {
+          "reference": "urn:uuid:90f8d361-7cfc-432c-a7bf-fdb3d127f726",
+          "display": "Ribeira dos Covoes (sample)"
+        },
+        "authored": "2026-09-22T11:49:00.000Z",
+        "item": [
+          {
+            "linkId": "site",
+            "text": "Site",
+            "item": [
+              {
+                "linkId": "streamName",
+                "text": "Stream name",
+                "answer": [
+                  {
+                    "valueString": "Ribeira dos Covoes (sample)"
+                  }
+                ]
+              },
+              {
+                "linkId": "latitude",
+                "text": "Latitude",
+                "answer": [
+                  {
+                    "valueDecimal": 40.1952
+                  }
+                ]
+              },
+              {
+                "linkId": "longitude",
+                "text": "Longitude",
+                "answer": [
+                  {
+                    "valueDecimal": -8.4571
+                  }
+                ]
+              },
+              {
+                "linkId": "observedAt",
+                "text": "Date and time",
+                "answer": [
+                  {
+                    "valueDateTime": "2026-09-22T17:10:00+05:30"
+                  }
+                ]
+              },
+              {
+                "linkId": "weather",
+                "text": "Weather now",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/weather",
+                      "code": "heavy_rain",
+                      "display": "Heavy rain"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "rain48h",
+                "text": "Rain in the last 48 hours",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/rain48h",
+                      "code": "no",
+                      "display": "No"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "linkId": "water",
+            "text": "Water",
+            "item": [
+              {
+                "linkId": "flow",
+                "text": "Flow",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/flow",
+                      "code": "slow",
+                      "display": "Slow"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "colour",
+                "text": "Water colour",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/colour",
+                      "code": "brown",
+                      "display": "Brown"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "clarity",
+                "text": "Clarity",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/clarity",
+                      "code": "cloudy",
+                      "display": "Cloudy"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "odour",
+                "text": "Odour",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/odour",
+                      "code": "sewage",
+                      "display": "Sewage"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "surface",
+                "text": "On the surface",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/surface",
+                      "code": "foam",
+                      "display": "Foam"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "temperatureC",
+                "text": "Water temperature",
+                "answer": [
+                  {
+                    "valueDecimal": 19
+                  }
+                ]
+              },
+              {
+                "linkId": "ph",
+                "text": "pH",
+                "answer": [
+                  {
+                    "valueDecimal": 7.9
+                  }
+                ]
+              },
+              {
+                "linkId": "dissolvedOxygen",
+                "text": "Dissolved oxygen",
+                "answer": [
+                  {
+                    "valueDecimal": 4.2
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "linkId": "banks",
+            "text": "Banks and surroundings",
+            "item": [
+              {
+                "linkId": "vegetation",
+                "text": "Bank vegetation cover",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/vegetation",
+                      "code": "sparse",
+                      "display": "Sparse"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "erosion",
+                "text": "Bank erosion",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/erosion",
+                      "code": "some",
+                      "display": "Some"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "channel",
+                "text": "Channel",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/channel",
+                      "code": "partly_modified",
+                      "display": "Partly modified"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "landUse",
+                "text": "Nearby land use",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/landUse",
+                      "code": "commercial",
+                      "display": "Shops or offices"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/landUse",
+                      "code": "roads",
+                      "display": "Roads or car parks"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "pollutionSources",
+                "text": "Visible pollution sources",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/pollutionSources",
+                      "code": "pipe",
+                      "display": "Pipe or drain"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "linkId": "life",
+            "text": "Life",
+            "item": [
+              {
+                "linkId": "life",
+                "text": "Animals and plants seen",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/life",
+                      "code": "worms_midges",
+                      "display": "Worms or midge larvae"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/life",
+                      "code": "algae_mats",
+                      "display": "Algae mats"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "overallImpression",
+                "text": "Your overall impression",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/overallImpression",
+                      "code": "poor",
+                      "display": "Poor"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "notes",
+                "text": "Notes",
+                "answer": [
+                  {
+                    "valueString": "Water barely moving today. Lots of mud on the bottom."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:09158da9-0d43-4094-8004-bc678b436572",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "09158da9-0d43-4094-8004-bc678b436572",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Water temperature: 19 °C, measured by the volunteer at Ribeira dos Covoes (sample).</p></div>"
+        },
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "waterTemperature",
+              "display": "Water temperature"
+            }
+          ],
+          "text": "Water temperature"
+        },
+        "subject": {
+          "reference": "urn:uuid:90f8d361-7cfc-432c-a7bf-fdb3d127f726",
+          "display": "Ribeira dos Covoes (sample)"
+        },
+        "effectiveDateTime": "2026-09-22T17:10:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueQuantity": {
+          "value": 19,
+          "unit": "°C",
+          "system": "http://unitsofmeasure.org",
+          "code": "Cel"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:86e326b5-2500-4178-93e0-bb431e900f5e"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:579f0512-c052-4d23-bc7f-f7ac0586d995",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "579f0512-c052-4d23-bc7f-f7ac0586d995",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>pH: 7.9, measured by the volunteer at Ribeira dos Covoes (sample).</p></div>"
+        },
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "pH",
+              "display": "pH"
+            }
+          ],
+          "text": "pH"
+        },
+        "subject": {
+          "reference": "urn:uuid:90f8d361-7cfc-432c-a7bf-fdb3d127f726",
+          "display": "Ribeira dos Covoes (sample)"
+        },
+        "effectiveDateTime": "2026-09-22T17:10:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueQuantity": {
+          "value": 7.9,
+          "unit": "pH",
+          "system": "http://unitsofmeasure.org",
+          "code": "[pH]"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:86e326b5-2500-4178-93e0-bb431e900f5e"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d52c4abf-9d4e-47ec-81f6-519992a04dce",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "d52c4abf-9d4e-47ec-81f6-519992a04dce",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Dissolved oxygen: 4.2 mg/L, measured by the volunteer at Ribeira dos Covoes (sample).</p></div>"
+        },
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "dissolvedO2",
+              "display": "Dissolved O2"
+            }
+          ],
+          "text": "Dissolved oxygen"
+        },
+        "subject": {
+          "reference": "urn:uuid:90f8d361-7cfc-432c-a7bf-fdb3d127f726",
+          "display": "Ribeira dos Covoes (sample)"
+        },
+        "effectiveDateTime": "2026-09-22T17:10:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueQuantity": {
+          "value": 4.2,
+          "unit": "mg/L",
+          "system": "http://unitsofmeasure.org",
+          "code": "mg/L"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:86e326b5-2500-4178-93e0-bb431e900f5e"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:167973f5-b8ff-4358-8d53-2fd71cc653c2",
+      "resource": {
+        "resourceType": "Provenance",
+        "id": "167973f5-b8ff-4358-8d53-2fd71cc653c2",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Stream assessment recorded by a volunteer with RiffleCheck.</p><p>Flags raised: 4. Fixed by the volunteer: 3. Kept by the volunteer: 1.</p><p>AI review: demo. No answer was changed automatically.</p></div>"
+        },
+        "target": [
+          {
+            "reference": "urn:uuid:86e326b5-2500-4178-93e0-bb431e900f5e"
+          },
+          {
+            "reference": "urn:uuid:09158da9-0d43-4094-8004-bc678b436572"
+          },
+          {
+            "reference": "urn:uuid:579f0512-c052-4d23-bc7f-f7ac0586d995"
+          },
+          {
+            "reference": "urn:uuid:d52c4abf-9d4e-47ec-81f6-519992a04dce"
+          }
+        ],
+        "occurredDateTime": "2026-09-22T17:10:00+05:30",
+        "recorded": "2026-09-22T11:49:00.000Z",
+        "location": {
+          "reference": "urn:uuid:90f8d361-7cfc-432c-a7bf-fdb3d127f726"
+        },
+        "activity": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+              "code": "CREATE",
+              "display": "create"
+            }
+          ]
+        },
+        "agent": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                  "code": "author",
+                  "display": "Author"
+                }
+              ]
+            },
+            "who": {
+              "display": "Citizen science volunteer (anonymous)"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:6a01ed22-1a8c-4ced-a10f-d4c0d25cc04b",
+      "resource": {
+        "resourceType": "Provenance",
+        "id": "6a01ed22-1a8c-4ced-a10f-d4c0d25cc04b",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Flag clear-but-coloured (rule check, check), raised 2026-09-22T11:44:00.000Z: You marked the water as clear, and also recorded the colour as brown and mud or silt in your notes. Could you look again?</p><p>The volunteer changed their answer.</p><p>Clarity: before &quot;Clear&quot;, after &quot;Cloudy&quot;</p><p>Water colour: before &quot;Brown&quot;, after &quot;Brown&quot;</p><p>Notes: before &quot;Water barely moving today. Lots of mud on the bottom.&quot;, after &quot;Water barely moving today. Lots of mud on the bottom.&quot;</p></div>"
+        },
+        "target": [
+          {
+            "reference": "urn:uuid:86e326b5-2500-4178-93e0-bb431e900f5e"
+          }
+        ],
+        "occurredDateTime": "2026-09-22T11:46:00.000Z",
+        "recorded": "2026-09-22T11:46:00.000Z",
+        "activity": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+              "code": "UPDATE",
+              "display": "revise"
+            }
+          ],
+          "text": "Volunteer changed their answer after a flag"
+        },
+        "agent": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                  "code": "author",
+                  "display": "Author"
+                }
+              ]
+            },
+            "who": {
+              "display": "Citizen science volunteer (anonymous)"
+            }
+          },
+          {
+            "role": [
+              {
+                "text": "Raised the flag (rule check)"
+              }
+            ],
+            "who": {
+              "display": "RiffleCheck rule check (clear-but-coloured)"
+            }
+          }
+        ],
+        "entity": [
+          {
+            "role": "revision",
+            "what": {
+              "identifier": {
+                "system": "https://rifflecheck.example/fhir/field",
+                "value": "clarity"
+              },
+              "display": "Clarity: before \"Clear\", after \"Cloudy\""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:74cbed70-1ca5-4011-afe9-393244656043",
+      "resource": {
+        "resourceType": "Provenance",
+        "id": "74cbed70-1ca5-4011-afe9-393244656043",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Flag pollution-signs-no-source (rule check, check), raised 2026-09-22T11:44:00.000Z: You recorded a sewage smell, but no visible pollution source. Is there a pipe, drain or dumping nearby that you may have missed?</p><p>The volunteer changed their answer.</p><p>Odour: before &quot;Sewage&quot;, after &quot;Sewage&quot;</p><p>Visible pollution sources: before &quot;None seen&quot;, after &quot;Pipe or drain&quot;</p></div>"
+        },
+        "target": [
+          {
+            "reference": "urn:uuid:86e326b5-2500-4178-93e0-bb431e900f5e"
+          }
+        ],
+        "occurredDateTime": "2026-09-22T11:46:00.000Z",
+        "recorded": "2026-09-22T11:46:00.000Z",
+        "activity": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+              "code": "UPDATE",
+              "display": "revise"
+            }
+          ],
+          "text": "Volunteer changed their answer after a flag"
+        },
+        "agent": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                  "code": "author",
+                  "display": "Author"
+                }
+              ]
+            },
+            "who": {
+              "display": "Citizen science volunteer (anonymous)"
+            }
+          },
+          {
+            "role": [
+              {
+                "text": "Raised the flag (rule check)"
+              }
+            ],
+            "who": {
+              "display": "RiffleCheck rule check (pollution-signs-no-source)"
+            }
+          }
+        ],
+        "entity": [
+          {
+            "role": "revision",
+            "what": {
+              "identifier": {
+                "system": "https://rifflecheck.example/fhir/field",
+                "value": "pollutionSources"
+              },
+              "display": "Visible pollution sources: before \"None seen\", after \"Pipe or drain\""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:5dc81d45-0b39-45b0-b65c-885f8e9dddf2",
+      "resource": {
+        "resourceType": "Provenance",
+        "id": "5dc81d45-0b39-45b0-b65c-885f8e9dddf2",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Flag ai:2026-09-22T11:45:00.000Z:0 (AI review, check, high confidence), raised 2026-09-22T11:45:00.000Z: Your notes and your flow answer seem to describe different water speeds. Could you look again?</p><p>The volunteer changed their answer.</p><p>Flow: before &quot;Fast&quot;, after &quot;Slow&quot;</p><p>Notes: before &quot;Water barely moving today. Lots of mud on the bottom.&quot;, after &quot;Water barely moving today. Lots of mud on the bottom.&quot;</p></div>"
+        },
+        "target": [
+          {
+            "reference": "urn:uuid:86e326b5-2500-4178-93e0-bb431e900f5e"
+          }
+        ],
+        "occurredDateTime": "2026-09-22T11:47:00.000Z",
+        "recorded": "2026-09-22T11:47:00.000Z",
+        "activity": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+              "code": "UPDATE",
+              "display": "revise"
+            }
+          ],
+          "text": "Volunteer changed their answer after a flag"
+        },
+        "agent": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                  "code": "author",
+                  "display": "Author"
+                }
+              ]
+            },
+            "who": {
+              "display": "Citizen science volunteer (anonymous)"
+            }
+          },
+          {
+            "role": [
+              {
+                "text": "Raised the flag (AI review)"
+              }
+            ],
+            "who": {
+              "display": "RiffleCheck AI review (prepared demo response)"
+            }
+          }
+        ],
+        "entity": [
+          {
+            "role": "revision",
+            "what": {
+              "identifier": {
+                "system": "https://rifflecheck.example/fhir/field",
+                "value": "flow"
+              },
+              "display": "Flow: before \"Fast\", after \"Slow\""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:5cc81bb2-0c39-4743-b55c-86cc8f9ddf85",
+      "resource": {
+        "resourceType": "Provenance",
+        "id": "5cc81bb2-0c39-4743-b55c-86cc8f9ddf85",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Flag ai:2026-09-22T11:45:00.000Z:1 (AI review, check, medium confidence), raised 2026-09-22T11:45:00.000Z: It is raining now, but rain in the last 48 hours is recorded as no. Does that answer include today?</p><p>The volunteer kept their answer. Reason given: The rain started just as I arrived. It had been dry for the two days before.</p><p>Weather now: before &quot;Heavy rain&quot;, after &quot;Heavy rain&quot;</p><p>Rain in the last 48 hours: before &quot;No&quot;, after &quot;No&quot;</p></div>"
+        },
+        "target": [
+          {
+            "reference": "urn:uuid:86e326b5-2500-4178-93e0-bb431e900f5e"
+          }
+        ],
+        "occurredDateTime": "2026-09-22T11:48:00.000Z",
+        "recorded": "2026-09-22T11:48:00.000Z",
+        "activity": {
+          "text": "Volunteer kept their answer after a flag"
+        },
+        "reason": [
+          {
+            "text": "The rain started just as I arrived. It had been dry for the two days before."
+          }
+        ],
+        "agent": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                  "code": "author",
+                  "display": "Author"
+                }
+              ]
+            },
+            "who": {
+              "display": "Citizen science volunteer (anonymous)"
+            }
+          },
+          {
+            "role": [
+              {
+                "text": "Raised the flag (AI review)"
+              }
+            ],
+            "who": {
+              "display": "RiffleCheck AI review (prepared demo response)"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

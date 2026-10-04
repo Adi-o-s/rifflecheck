@@ -1,0 +1,494 @@
+{
+  "resourceType": "Bundle",
+  "identifier": {
+    "system": "urn:ietf:rfc:3986",
+    "value": "urn:uuid:ce6de20a-cdea-4f1f-a2ad-25e802f139cd"
+  },
+  "type": "collection",
+  "timestamp": "2026-09-25T03:54:00.000Z",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:9a264b11-f892-4340-9acb-3ed79ce7e97e",
+      "resource": {
+        "resourceType": "Location",
+        "id": "9a264b11-f892-4340-9acb-3ed79ce7e97e",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/location-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Stream assessment site: Ribeira de Eiras (sample)</p><p>Latitude 40.2431, longitude -8.4302</p></div>"
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:9a264b11-f892-4340-9acb-3ed79ce7e97e"
+          }
+        ],
+        "status": "active",
+        "name": "Ribeira de Eiras (sample)",
+        "description": "Citizen stream assessment site",
+        "mode": "instance",
+        "position": {
+          "longitude": -8.4302,
+          "latitude": 40.2431
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:1beb8105-e67d-4564-9de0-54afa72087c6",
+      "resource": {
+        "resourceType": "QuestionnaireResponse",
+        "id": "1beb8105-e67d-4564-9de0-54afa72087c6",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Stream assessment of Ribeira de Eiras (sample), observed 2026-09-25 09:15.</p><p>Stream name: Ribeira de Eiras (sample)</p><p>Latitude: 40.2431</p><p>Longitude: -8.4302</p><p>Date and time: 2026-09-25 09:15</p><p>Weather now: Cloudy</p><p>Rain in the last 48 hours: No</p><p>Flow: Moderate</p><p>Water colour: No colour</p><p>Clarity: Clear</p><p>Odour: Sewage</p><p>On the surface: Nothing</p><p>Water temperature: 14 °C</p><p>Bank vegetation cover: Moderate</p><p>Bank erosion: None</p><p>Channel: Natural</p><p>Nearby land use: Homes, Park or green space</p><p>Visible pollution sources: Pipe or drain</p><p>Animals and plants seen: Mayfly or stonefly larvae, Snails, Water birds</p><p>Your overall impression: Moderate</p><p>Notes: Sewage smell comes from a manhole on the footpath, not from the water. Found three larvae with three tails under stones in the fast part.</p></div>"
+        },
+        "identifier": {
+          "system": "urn:ietf:rfc:3986",
+          "value": "urn:uuid:71d70e57-badd-407e-ab6a-d335339d7944"
+        },
+        "status": "completed",
+        "subject": {
+          "reference": "urn:uuid:9a264b11-f892-4340-9acb-3ed79ce7e97e",
+          "display": "Ribeira de Eiras (sample)"
+        },
+        "authored": "2026-09-25T03:54:00.000Z",
+        "item": [
+          {
+            "linkId": "site",
+            "text": "Site",
+            "item": [
+              {
+                "linkId": "streamName",
+                "text": "Stream name",
+                "answer": [
+                  {
+                    "valueString": "Ribeira de Eiras (sample)"
+                  }
+                ]
+              },
+              {
+                "linkId": "latitude",
+                "text": "Latitude",
+                "answer": [
+                  {
+                    "valueDecimal": 40.2431
+                  }
+                ]
+              },
+              {
+                "linkId": "longitude",
+                "text": "Longitude",
+                "answer": [
+                  {
+                    "valueDecimal": -8.4302
+                  }
+                ]
+              },
+              {
+                "linkId": "observedAt",
+                "text": "Date and time",
+                "answer": [
+                  {
+                    "valueDateTime": "2026-09-25T09:15:00+05:30"
+                  }
+                ]
+              },
+              {
+                "linkId": "weather",
+                "text": "Weather now",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/weather",
+                      "code": "cloudy",
+                      "display": "Cloudy"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "rain48h",
+                "text": "Rain in the last 48 hours",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/rain48h",
+                      "code": "no",
+                      "display": "No"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "linkId": "water",
+            "text": "Water",
+            "item": [
+              {
+                "linkId": "flow",
+                "text": "Flow",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/flow",
+                      "code": "moderate",
+                      "display": "Moderate"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "colour",
+                "text": "Water colour",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/colour",
+                      "code": "colourless",
+                      "display": "No colour"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "clarity",
+                "text": "Clarity",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/clarity",
+                      "code": "clear",
+                      "display": "Clear"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "odour",
+                "text": "Odour",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/odour",
+                      "code": "sewage",
+                      "display": "Sewage"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "surface",
+                "text": "On the surface",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/surface",
+                      "code": "none",
+                      "display": "Nothing"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "temperatureC",
+                "text": "Water temperature",
+                "answer": [
+                  {
+                    "valueDecimal": 14
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "linkId": "banks",
+            "text": "Banks and surroundings",
+            "item": [
+              {
+                "linkId": "vegetation",
+                "text": "Bank vegetation cover",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/vegetation",
+                      "code": "moderate",
+                      "display": "Moderate"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "erosion",
+                "text": "Bank erosion",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/erosion",
+                      "code": "none",
+                      "display": "None"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "channel",
+                "text": "Channel",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/channel",
+                      "code": "natural",
+                      "display": "Natural"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "landUse",
+                "text": "Nearby land use",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/landUse",
+                      "code": "housing",
+                      "display": "Homes"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/landUse",
+                      "code": "park",
+                      "display": "Park or green space"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "pollutionSources",
+                "text": "Visible pollution sources",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/pollutionSources",
+                      "code": "pipe",
+                      "display": "Pipe or drain"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "linkId": "life",
+            "text": "Life",
+            "item": [
+              {
+                "linkId": "life",
+                "text": "Animals and plants seen",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/life",
+                      "code": "mayfly_stonefly",
+                      "display": "Mayfly or stonefly larvae"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/life",
+                      "code": "snails",
+                      "display": "Snails"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/life",
+                      "code": "water_birds",
+                      "display": "Water birds"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "overallImpression",
+                "text": "Your overall impression",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/overallImpression",
+                      "code": "moderate",
+                      "display": "Moderate"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "notes",
+                "text": "Notes",
+                "answer": [
+                  {
+                    "valueString": "Sewage smell comes from a manhole on the footpath, not from the water. Found three larvae with three tails under stones in the fast part."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d38eb8d9-7ae0-4508-9776-9dbb8d346b3a",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "d38eb8d9-7ae0-4508-9776-9dbb8d346b3a",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Water temperature: 14 °C, measured by the volunteer at Ribeira de Eiras (sample).</p></div>"
+        },
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "waterTemperature",
+              "display": "Water temperature"
+            }
+          ],
+          "text": "Water temperature"
+        },
+        "subject": {
+          "reference": "urn:uuid:9a264b11-f892-4340-9acb-3ed79ce7e97e",
+          "display": "Ribeira de Eiras (sample)"
+        },
+        "effectiveDateTime": "2026-09-25T09:15:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueQuantity": {
+          "value": 14,
+          "unit": "°C",
+          "system": "http://unitsofmeasure.org",
+          "code": "Cel"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:1beb8105-e67d-4564-9de0-54afa72087c6"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:dbcc2365-8a82-4c94-80e0-eae33545ff9a",
+      "resource": {
+        "resourceType": "Provenance",
+        "id": "dbcc2365-8a82-4c94-80e0-eae33545ff9a",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Stream assessment recorded by a volunteer with RiffleCheck.</p><p>Flags raised: 1. Fixed by the volunteer: 0. Kept by the volunteer: 1.</p><p>AI review: demo. No answer was changed automatically.</p></div>"
+        },
+        "target": [
+          {
+            "reference": "urn:uuid:1beb8105-e67d-4564-9de0-54afa72087c6"
+          },
+          {
+            "reference": "urn:uuid:d38eb8d9-7ae0-4508-9776-9dbb8d346b3a"
+          }
+        ],
+        "occurredDateTime": "2026-09-25T09:15:00+05:30",
+        "recorded": "2026-09-25T03:54:00.000Z",
+        "location": {
+          "reference": "urn:uuid:9a264b11-f892-4340-9acb-3ed79ce7e97e"
+        },
+        "activity": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+              "code": "CREATE",
+              "display": "create"
+            }
+          ]
+        },
+        "agent": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                  "code": "author",
+                  "display": "Author"
+                }
+              ]
+            },
+            "who": {
+              "display": "Citizen science volunteer (anonymous)"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d2f077af-64ff-4226-8662-a105e5b5a8e4",
+      "resource": {
+        "resourceType": "Provenance",
+        "id": "d2f077af-64ff-4226-8662-a105e5b5a8e4",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Flag sensitive-life-with-pollution-signs (rule check, unusual), raised 2026-09-25T03:49:00.000Z: Mayfly or stonefly larvae together with a sewage smell is uncommon and worth a second look.</p><p>The volunteer kept their answer. Reason given: I double-checked on site and it is correct</p><p>Animals and plants seen: before &quot;Mayfly or stonefly larvae, Snails, Water birds&quot;, after &quot;Mayfly or stonefly larvae, Snails, Water birds&quot;</p><p>Odour: before &quot;Sewage&quot;, after &quot;Sewage&quot;</p></div>"
+        },
+        "target": [
+          {
+            "reference": "urn:uuid:1beb8105-e67d-4564-9de0-54afa72087c6"
+          }
+        ],
+        "occurredDateTime": "2026-09-25T03:52:00.000Z",
+        "recorded": "2026-09-25T03:52:00.000Z",
+        "activity": {
+          "text": "Volunteer kept their answer after a flag"
+        },
+        "reason": [
+          {
+            "text": "I double-checked on site and it is correct"
+          }
+        ],
+        "agent": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                  "code": "author",
+                  "display": "Author"
+                }
+              ]
+            },
+            "who": {
+              "display": "Citizen science volunteer (anonymous)"
+            }
+          },
+          {
+            "role": [
+              {
+                "text": "Raised the flag (rule check)"
+              }
+            ],
+            "who": {
+              "display": "RiffleCheck rule check (sensitive-life-with-pollution-signs)"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
