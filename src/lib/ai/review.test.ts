@@ -76,6 +76,18 @@ describe("live AI review", () => {
     expect(fetchImpl).toHaveBeenCalledTimes(2);
   });
 
+  it("retries on a different model when the first one is rate limited", async () => {
+    const fetchImpl = fetchReturning(geminiReply("{}", 429), geminiReply(JSON.stringify(GOOD)));
+    const result = await reviewAssessment(
+      { assessment },
+      { apiKey: "k", model: "main-model", fallbackModel: "other-model", fetchImpl },
+    );
+    expect(result).toMatchObject({ mode: "live", model: "other-model" });
+    const urls = fetchImpl.mock.calls.map((call) => (call as unknown as [string])[0]);
+    expect(urls[0]).toContain("main-model");
+    expect(urls[1]).toContain("other-model");
+  });
+
   it("falls back when the network fails or the service errors", async () => {
     const fetchImpl = fetchReturning(new Error("network down"), geminiReply("{}", 429));
     const result = await reviewAssessment({ assessment }, { apiKey: "k", fetchImpl });

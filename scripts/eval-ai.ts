@@ -35,6 +35,8 @@ for (const sample of SAMPLES) {
   const payload = buildPayload(sample.assessment, rules, []);
   console.log(`\n=== ${sample.title} (${rules.length} rule flags) ===`);
   for (let run = 1; run <= runs; run++) {
+    // The free tier allows roughly ten calls a minute, so leave a gap between runs.
+    await new Promise((resolve) => setTimeout(resolve, 7000));
     const result = await reviewAssessment({ assessment: sample.assessment }, { apiKey, model });
     console.log(`  run ${run}: mode=${result.mode}, flags=${result.flags.length}, dropped by guards=${result.dropped ?? 0}`);
     if (result.mode !== "live") {

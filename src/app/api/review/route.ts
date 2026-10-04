@@ -9,6 +9,7 @@ function settings() {
   return {
     apiKey: process.env.GEMINI_API_KEY?.trim() || undefined,
     model: process.env.GEMINI_MODEL?.trim() || DEFAULT_MODEL,
+    fallbackModel: process.env.GEMINI_FALLBACK_MODEL?.trim() || undefined,
   };
 }
 

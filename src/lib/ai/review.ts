@@ -5,12 +5,15 @@ import { cannedReview, hasCanned } from "./canned";
 import { SYSTEM_PROMPT, buildPayload, buildUserMessage, type PromptPayload } from "./prompt";
 import { AI_FIELD_KEYS, AiResponseSchema, GEMINI_RESPONSE_SCHEMA, type AiResponse } from "./schema";
 
-export const DEFAULT_MODEL = "gemini-3.5-flash";
+export const DEFAULT_MODEL = "gemini-3.5-flash-lite";
+/** Used for the retry when the main model is rate limited; each model has its own free quota. */
+export const FALLBACK_MODEL = "gemini-3.1-flash-lite";
 export const UNAVAILABLE = "AI review unavailable, rule checks only.";
 
 export interface ReviewDeps {
   apiKey?: string;
   model?: string;
+  fallbackModel?: string;
   fetchImpl?: typeof fetch;
   timeoutMs?: number;
 }
@@ -96,6 +99,12 @@ export function parseResponse(text: string): AiResponse {
   return AiResponseSchema.parse(JSON.parse(trimmed));
 }
 
+class GeminiError extends Error {
+  constructor(readonly status: number) {
+    super(`Gemini responded with HTTP ${status}`);
+  }
+}
+
 async function callGemini(userMessage: string, deps: Required<Pick<ReviewDeps, "apiKey" | "model" | "fetchImpl" | "timeoutMs">>): Promise<string> {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(deps.model)}:generateContent`;
   const response = await deps.fetchImpl(url, {
@@ -112,7 +121,7 @@ async function callGemini(userMessage: string, deps: Required<Pick<ReviewDeps, "
       },
     }),
   });
-  if (!response.ok) throw new Error(`Gemini responded with HTTP ${response.status}`);
+  if (!response.ok) throw new GeminiError(response.status);
   const data = (await response.json()) as {
     candidates?: { content?: { parts?: { text?: string }[] } }[];
   };
@@ -158,18 +167,23 @@ export async function reviewAssessment(
     apiKey: deps.apiKey,
     model: deps.model || DEFAULT_MODEL,
     fetchImpl: deps.fetchImpl ?? fetch,
-    timeoutMs: deps.timeoutMs ?? 15_000,
+    timeoutMs: deps.timeoutMs ?? 20_000,
   };
   const payload = buildPayload(assessment, ruleFlags, contextNotes(assessment));
   const message = buildUserMessage(payload);
 
+  let model = settings.model;
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
     try {
-      const parsed = parseResponse(await callGemini(message, settings));
+      const parsed = parseResponse(await callGemini(message, { ...settings, model }));
       const clean = sanitise(parsed, ruleFlags, payload);
-      return { mode: "live", flags: clean.flags, summary: clean.summary, model: settings.model, dropped: clean.dropped };
+      return { mode: "live", flags: clean.flags, summary: clean.summary, model, dropped: clean.dropped };
     } catch (error) {
-      console.warn(`AI review attempt ${attempt} failed:`, error instanceof Error ? error.message : error);
+      console.warn(`AI review attempt ${attempt} (${model}) failed:`, error instanceof Error ? error.message : error);
+      // Rate limited or overloaded: retrying the same model would fail again, so try the other one.
+      if (error instanceof GeminiError && (error.status === 429 || error.status === 503)) {
+        model = deps.fallbackModel || FALLBACK_MODEL;
+      }
     }
   }
   return {

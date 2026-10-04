@@ -44,7 +44,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000. Other commands: `npm test` (154 unit tests), `npm run eval:ai` (runs the live model five times on each sample and checks every flag; needs a key), `npm run build`, `npm run examples` (regenerates `examples/`), `python3 scripts/validate-fhir.py` (validates the example bundles with the HL7 validator).
+Open http://localhost:3000. Other commands: `npm test` (155 unit tests), `npm run eval:ai` (runs the live model five times on each sample and checks every flag; needs a key), `npm run build`, `npm run examples` (regenerates `examples/`), `python3 scripts/validate-fhir.py` (validates the example bundles with the HL7 validator).
 
 ### Demo mode (no API key)
 
@@ -97,7 +97,7 @@ Errors must be fixed. "Check" flags are phrased as questions. "Unusual" flags sa
 
 ### Layer 2 AI review
 
-- Model: Gemini (`gemini-3.5-flash` by default, set `GEMINI_MODEL` to change), called from `src/app/api/review/route.ts` with a JSON response schema.
+- Model: Gemini (`gemini-3.5-flash-lite` by default, set `GEMINI_MODEL` to change), called from `src/app/api/review/route.ts` with a JSON response schema. The lite model answers in about a second, which matters at a stream; the larger `gemini-3.5-flash` took over ten seconds per reply in testing. If the main model is rate limited, the retry goes to a second model (`gemini-3.1-flash-lite`), which has its own free quota.
 - The response is validated with Zod on the server. If it fails to parse or has the wrong shape, the server retries once, then returns rule results only with a visible notice. The same happens if the network is down. Nothing crashes.
 - After validation the server drops any flag that:
   - names a field that does not exist or was not shown to the AI;
