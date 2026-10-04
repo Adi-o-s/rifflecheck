@@ -17,6 +17,7 @@ export interface Assessment {
   vegetation: string;
   erosion: string;
   channel: string;
+  invasivePlants: string;
   landUse: string[];
   pollutionSources: string[];
   life: string[];
@@ -92,6 +93,8 @@ export interface AssessmentRecord {
   ai: AiState;
   summary?: Summary;
   contextNotes: string[];
+  /** Set when the volunteer chose to send the record to a FHIR server. */
+  sent?: { server: string; at: string; responseUrl: string; stored: number };
 }
 
 export interface AiFlagPayload {

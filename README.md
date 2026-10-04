@@ -44,7 +44,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000. Other commands: `npm test` (160 tests, including the fuzz tests), `npm run eval:ai` (runs the live model five times on each sample and checks every flag; needs a key), `npm run build`, `npm run examples` (regenerates `examples/`), `python3 scripts/validate-fhir.py` (validates the example bundles with the HL7 validator).
+Open http://localhost:3000. Other commands: `npm test` (164 tests, including the fuzz tests), `npm run eval:ai` (runs the live model five times on each sample and checks every flag; needs a key), `npm run build`, `npm run examples` (regenerates `examples/`), `python3 scripts/validate-fhir.py` (validates the example bundles with the HL7 validator).
 
 ### Demo mode (no API key)
 
@@ -118,11 +118,11 @@ Errors must be fixed. "Check" flags are phrased as questions. "Unusual" flags sa
 - **No stream health score.** The data quality panel describes the record (flags raised, fixed, kept), not the stream. The only rating in the app is the volunteer's own "overall impression".
 - **Overrides feed back into the checks.** The reviewer view shows, for every check, how often volunteers fixed their answer and how often they kept it. A check that is mostly kept is a signal to researchers that the rule or its wording needs work, so the people in the field calibrate the system rather than the other way round.
 - **It degrades safely.** With no key, a broken model reply, or no network, the volunteer still gets the rule checks and can submit.
-- **Accessibility.** Labelled inputs, native radios and checkboxes, keyboard reachable, visible focus, tap targets of 44 px or more, and severity shown by icon and text as well as colour.
+- **Accessibility.** An automated axe-core audit (WCAG 2.1 A and AA plus best practices) on 5 October 2026 found 0 violations on all nine screens and states checked at phone width: home, the four form steps, review, review with the keep form open, record, and reviewer view. Automated audits catch only part of what matters; no screen-reader user has tried it. Labelled inputs, native radios and checkboxes, keyboard reachable, visible focus, tap targets of 44 px or more, and severity shown by icon and text as well as colour.
 
 ## Assessment fields and the OneAquaHealth app
 
-**The form fields are a generic visual stream assessment, to be mapped to the official protocol.** The OneAquaHealth Citizen Science App's form is behind a login, so its exact wording could not be copied. The table shows which app category each field corresponds to, based on public descriptions of the app. The mapping should be confirmed with the OneAquaHealth team.
+**The form fields are a generic visual stream assessment, to be mapped to the official protocol.** The OneAquaHealth Citizen Science App's form is behind a login, so its exact wording could not be copied. The fields cover what the project's own [citizen science page](https://www.oneaquahealth.eu/citizen-science-project/) says volunteers record ("water clarity, flow, odour, surrounding land use", plus litter, erosion, invasive plants, wildlife and vegetation). Where the project's FHIR guide defines an official answer list, the form uses it directly: bank vegetation cover uses the guide's five percentage bands, and invasive plants uses its Absent / Present / Extensive codes. The table shows which app category each field corresponds to; the mapping should be confirmed with the OneAquaHealth team.
 
 | RiffleCheck field | OneAquaHealth app category |
 |---|---|
@@ -133,7 +133,8 @@ Errors must be fixed. "Check" flags are phrased as questions. "Unusual" flags sa
 | Odour | Water aspect; sewage |
 | Water temperature | Optional extra (water temperature) |
 | pH, dissolved oxygen | Not in the app (optional measurements) |
-| Bank vegetation cover | Left and right margins (plant cover) |
+| Bank vegetation cover (official 0-20% to 81-100% bands) | Left and right margins (plant cover) |
+| Invasive plants (official Absent / Present / Extensive) | Left and right margins (invasive plants) |
 | Bank erosion | Bed and banks |
 | Channel | Channel form |
 | Nearby land use | Left and right margins (paving) |
@@ -152,17 +153,25 @@ All fields, labels, helpers and options live in one table (`src/lib/fields.ts`) 
 
 | Resource | Content |
 |---|---|
+| `Questionnaire` | The form itself, generated from the same field table that draws the screens, so the response can be checked against it. |
 | `Location` | Stream name, `position.latitude` and `position.longitude`. Shaped to the OneAquaHealth IG profile `LocationOah` (identifier, name, mode = instance). |
-| `QuestionnaireResponse` | Every answer; `linkId` is the field key. |
-| `Observation` | One per numeric measurement entered (water temperature, pH, dissolved oxygen) with `valueQuantity` in UCUM units, and one per qualitative answer that matches a OneAquaHealth indicator (flow, colour, odour, surface, bank vegetation, channel, land use, and fish / amphibians / birds seen) with category `survey` and a `valueCodeableConcept`. All are `status` final, subject = the Location, `derivedFrom` the QuestionnaireResponse, and shaped to the IG profile `ObservationIndicatorsOah`. |
+| `QuestionnaireResponse` | Every answer; `linkId` is the field key; points to the Questionnaire. |
+| `Observation` | One per numeric measurement entered (water temperature, pH, dissolved oxygen) with `valueQuantity` in UCUM units, and one per qualitative answer that matches a OneAquaHealth indicator (flow, colour, odour, surface, bank vegetation, invasive plants, channel, land use, and fish / amphibians / birds seen) with category `survey` and a `valueCodeableConcept`. All are `status` final, subject = the Location, `derivedFrom` the QuestionnaireResponse, and shaped to the IG profile `ObservationIndicatorsOah`. |
 | `Provenance` | The audit trail. One for the record, plus one per flag decision: the decision in `activity`, the volunteer's reason in `reason`, who raised the flag in `agent`, and each changed answer as an `entity` with role `revision`. The same detail is in the narrative. No extensions are used. |
+
+### Sent to the OneAquaHealth FHIR server, not only exported
+
+The record page has a **Send this record** button. It stores the record on the project's public FHIR sandbox (`https://sandbox.hl7europe.eu/oneaquahealth/fhir`), the same server that holds the project's own example data, as one transaction. Each resource is stored under a stable id, so sending twice updates the record instead of duplicating it. Sending is always the volunteer's choice, the photo is never sent, and the screen says plainly that it is a public test server.
+
+The contradictory sample was sent on 5 October 2026 and can be read back from the server: [QuestionnaireResponse](https://sandbox.hl7europe.eu/oneaquahealth/fhir/QuestionnaireResponse/86e326b5-2500-4178-93e0-bb431e900f5e), [Location](https://sandbox.hl7europe.eu/oneaquahealth/fhir/Location/90f8d361-7cfc-432c-a7bf-fdb3d127f726), and its Observations and Provenance. The route that relays the record (`src/app/api/fhir/route.ts`) only forwards bundles shaped like this app's own exports, is rate limited, and can be pointed at another server or switched off with `FHIR_SERVER_URL`.
 
 ### Codes used, and codes to confirm
 
 | Use | System | Codes | Status |
 |---|---|---|---|
 | Measurement type | `http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu` | `waterTemperature`, `pH`, `dissolvedO2` | Read verbatim from the OneAquaHealth IG source ([hl7-eu/oah](https://github.com/hl7-eu/oah), `oah-codeSystem.fsh`). The system URL, the profile URL and the `Cel` unit match the water-temperature example on the project's FHIR sandbox (`Observation/Obs-WaterTemp-Almyros-2024-11-21` at https://sandbox.hl7europe.eu/oneaquahealth/fhir). The code system is marked temporary and experimental by its authors. |
-| Qualitative indicator | same system | `hydrology` (flow), `foam` (colour, odour, surface), `riparianVegetation` (bank vegetation), `morophology` (channel; the IG's own spelling), `LandUse` (land use), `fish`, `amphibians`, `birds`, and the value `present` | Read verbatim from the same source. **To confirm with the IG authors:** whether these are the right indicators for these citizen answers, in particular bank vegetation cover (the IG has percentage bands that the form's None / Sparse / Moderate / Dense do not map onto) and treating a ticked animal as `present`. Water clarity, bank erosion, pollution sources and the other animals have no matching indicator and stay in the QuestionnaireResponse only. |
+| Qualitative indicator | same system | `hydrology` (flow), `foam` (colour, odour, surface), `riparianVegetation` (bank vegetation), `invasiveOrganisms` (invasive plants), `morophology` (channel; the IG's own spelling), `LandUse` (land use), `fish`, `amphibians`, `birds` | Read verbatim from the same source. **To confirm with the IG authors:** whether these are the right indicators for these citizen answers, in particular treating a ticked animal as `present` and using `invasiveOrganisms` for plants only. Water clarity, bank erosion, pollution sources and the other animals have no matching indicator and stay in the QuestionnaireResponse only. |
+| Official answer values | same system | `0-20-percent` to `81-100-percent` (the IG's riparian vegetation value set), `absent`, `present`, `extensive` | Read verbatim from the IG source. These answers are fully coded with the project's own vocabulary; no placeholder is involved. |
 | Units | `http://unitsofmeasure.org` (UCUM) | `Cel`, `[pH]`, `mg/L` | Accepted by the HL7 validator. |
 | Provenance activity | `http://terminology.hl7.org/CodeSystem/v3-DataOperation` | `CREATE`, `UPDATE` | Accepted by the HL7 validator. |
 | Provenance agent type | `http://terminology.hl7.org/CodeSystem/provenance-participant-type` | `author` | Accepted by the HL7 validator. |
@@ -174,14 +183,14 @@ All fields, labels, helpers and options live in one table (`src/lib/fields.ts`) 
 
 ### HL7 validator result
 
-The three example bundles were validated with the official HL7 validator service (validator.fhir.org, FHIR 4.0.1) on 5 October 2026 using `scripts/validate-fhir.py`: **0 errors** on each. Warnings (42 to 44 per bundle, a handful of kinds repeated once per resource), all expected:
+The three example bundles were validated with the official HL7 validator service (validator.fhir.org, FHIR 4.0.1) on 5 October 2026 using `scripts/validate-fhir.py`: **0 errors** on each. Warnings (47 to 49 per bundle, a handful of kinds repeated once per resource), all expected:
 
 - *Profile reference has not been checked because it could not be found*: the OneAquaHealth IG is not on a package server (its build page returned 404 on 5 October 2026), so the validator cannot load the profiles. Conformance to them is by construction, checked by eye against the sandbox examples, and has not been machine-checked.
 - *A definition for CodeSystem could not be found*: the same cause for the OneAquaHealth code system, plus this prototype's placeholder answer codes.
 - *No code provided* on `Provenance.activity` and `Provenance.reason` for "kept" decisions: there is no standard code for "volunteer kept their answer" or for a free-text reason, so these are text only.
 - One *Error performing tx5 operation*: the validator's own terminology server timing out.
 
-Informational notes: no `Questionnaire` is referenced.
+- *The questionnaire could not be resolved*: the Questionnaire travels inside the same bundle under a placeholder address, which the validator does not look up.
 
 ### JSON and CSV
 
@@ -212,6 +221,7 @@ src/app/
   record/[id]/       record page and downloads
   reviewer/          reviewer view
   api/review/        Layer 2 route
+  api/fhir/          relay that stores a record on the OneAquaHealth FHIR server
 ```
 
 Tests (Vitest) cover every rule firing and not firing, the wording of "unusual" flags, the fix / keep / submit state machine, AI retry and fallback with a mocked model, the grounding and policy guards, the rate limit, the FHIR bundle's required fields and reference integrity, and CSV escaping.
@@ -240,7 +250,7 @@ What this does not cover: real phones on a poor connection, many volunteers at o
 - **The fields are not the official OneAquaHealth protocol.** They are a generic visual assessment with a mapping table. The rules would need review by a freshwater ecologist before real use.
 - **The rule thresholds are simple.** For example, a temperature limit of 40 °C and "mud" as a keyword. They catch slips, not subtle errors, and the keyword check only understands English.
 - **The AI can be wrong in both directions.** It can miss a real inconsistency or question a correct answer. The policy guard is pattern-based and can be evaded by unusual wording, and the grounding guard only checks quoted text and numbers, so it will sometimes drop a fair question and cannot catch an invented claim written without quotes. The retry, fallback and guards are tested with mocked model replies. Live testing is small: 15 runs with `npm run eval:ai` on 5 October 2026 (`gemini-3.5-flash-lite`). The clean sample got no flags in 5 of 5 runs; the contradictory sample got the notes-versus-flow flag in 5 of 5 and the notes-versus-pollution-sources flag in 4 of 5; every flag quoted only text from the answers. The unusual sample got one unnecessary question in 5 runs (it asked about a smell the notes had already explained, and rated its own confidence as high). Three made-up samples are not an evaluation.
-- **Data stays in one browser.** There is no sync, no backup and no way to send a record to OneAquaHealth yet. Clearing browser data deletes everything.
+- **Data lives in one browser unless the volunteer sends it.** There is no sync and no backup. A record reaches OneAquaHealth only when the volunteer presses Send, and then only the project's public test server. Clearing browser data deletes everything that was not sent.
 - **The reviewer view shows only this browser's records.** It demonstrates what a researcher would see; it is not a multi-user tool.
 - **Photos are stored as small thumbnails** in localStorage, are not included in the exports, and are not analysed.
 - **FHIR conformance to the OneAquaHealth profiles is not machine-checked** because the IG package is not published; see above. The mapping of citizen answers to indicators is a proposal. The IG has no model yet for citizen answers or for an audit trail, so the QuestionnaireResponse and Provenance shapes are proposals.
@@ -251,7 +261,7 @@ What this does not cover: real phones on a poor connection, many volunteers at o
 
 1. Replace `fields.ts` with the app's real questions and answer codes, and have ecologists review and extend the rule table for the official protocol.
 2. Run the rule table inside the existing app as a library: it is plain TypeScript with no dependencies, so it works offline at the stream.
-3. Send records to the OneAquaHealth FHIR server (the project runs a sandbox at sandbox.hl7europe.eu/oneaquahealth) as the FHIR Bundle, and propose the `Provenance` audit trail and a citizen `Questionnaire` to the IG authors.
+3. Records already go to the project's FHIR sandbox. The next step is the production server, with authentication, and proposing the `Provenance` audit trail and the citizen `Questionnaire` to the IG authors.
 4. Give researchers the override data: which rules are kept most often shows which questions or helpers are confusing, and which rules are too strict.
 5. Evaluate the AI layer on real, anonymised assessments with ecologists labelling the flags as useful or not, before it is switched on for volunteers.
 6. Translate the form and prompts into the languages of the project's research cities.

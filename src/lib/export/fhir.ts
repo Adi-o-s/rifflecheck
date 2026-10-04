@@ -5,6 +5,7 @@ import type { AssessmentRecord, FieldKey, Snapshot, TrackedFlag } from "../types
  * FHIR R4 export.
  *
  * Bundle (collection) containing:
+ * - Questionnaire: the form itself, generated from the field table.
  * - Location: the site, with latitude and longitude.
  * - QuestionnaireResponse: every answer, linkId = field key.
  * - Observation: one per numeric measurement that was entered, and one per
@@ -61,12 +62,37 @@ interface Indicator {
   oahDisplay: string;
 }
 
+/**
+ * Answers whose options ARE OneAquaHealth codes (value -> official display).
+ * These are exported with the project's own code system, not a placeholder.
+ * An option missing from the map (for example "Not sure") is not exported as an Observation.
+ */
+export const OAH_ANSWERS: Partial<Record<FieldKey, Record<string, string>>> = {
+  vegetation: {
+    "0-20-percent": "0-20%",
+    "21-40-percent": "21-40%",
+    "41-60-percent": "41-60%",
+    "61-80-percent": "61-80%",
+    "81-100-percent": "81-100%",
+  },
+  invasivePlants: { absent: "Absent", present: "Present", extensive: "Extensive" },
+};
+
+/** The coding for one chosen option: the OneAquaHealth code where one exists, otherwise this prototype's own. */
+function answerCoding(key: FieldKey, value: string): { system: string; code: string; display: string } {
+  const official = OAH_ANSWERS[key]?.[value];
+  return official
+    ? { system: OAH_CODE_SYSTEM, code: value, display: official }
+    : { system: `${LOCAL_BASE}/CodeSystem/${key}`, code: value, display: optionLabel(key, value) };
+}
+
 export const INDICATORS: Indicator[] = [
   { key: "flow", oahCode: "hydrology", oahDisplay: "Hydrology of the stream" },
   { key: "colour", oahCode: "foam", oahDisplay: "Foam/colour/smell" },
   { key: "odour", oahCode: "foam", oahDisplay: "Foam/colour/smell" },
   { key: "surface", oahCode: "foam", oahDisplay: "Foam/colour/smell" },
   { key: "vegetation", oahCode: "riparianVegetation", oahDisplay: "Riparian vegetation" },
+  { key: "invasivePlants", oahCode: "invasiveOrganisms", oahDisplay: "Invasive invertebrate, plants and fish" },
   { key: "channel", oahCode: "morophology", oahDisplay: "Morphology of the streams" },
   { key: "landUse", oahCode: "LandUse", oahDisplay: "Land use in the margins" },
 ];
@@ -153,9 +179,7 @@ function answersFor(key: FieldKey, record: AssessmentRecord): Json[] {
   const def = field(key);
   const value = record.assessment[key];
   if (isEmpty(value)) return [];
-  const coding = (v: string) => ({
-    valueCoding: { system: `${LOCAL_BASE}/CodeSystem/${key}`, code: v, display: optionLabel(key, v) },
-  });
+  const coding = (v: string) => ({ valueCoding: answerCoding(key, v) });
   switch (def.type) {
     case "number":
       return [{ valueDecimal: value }];
@@ -238,6 +262,70 @@ function decisionProvenance(flag: TrackedFlag, record: AssessmentRecord, respons
   };
 }
 
+export const QUESTIONNAIRE_URL = `${LOCAL_BASE}/Questionnaire/stream-assessment`;
+const QUESTIONNAIRE_VERSION = "1.0.0";
+
+const ITEM_TYPE: Record<string, string> = {
+  text: "string",
+  longtext: "text",
+  number: "decimal",
+  datetime: "dateTime",
+  single: "choice",
+  multi: "choice",
+  photo: "attachment",
+};
+
+/** The form itself as a FHIR Questionnaire, generated from the same field table that draws the screens. */
+export function buildQuestionnaire(): Json {
+  return {
+    resourceType: "Questionnaire",
+    id: stableUuid(`rifflecheck:questionnaire:${QUESTIONNAIRE_VERSION}`),
+    url: QUESTIONNAIRE_URL,
+    version: QUESTIONNAIRE_VERSION,
+    name: "RiffleCheckStreamAssessment",
+    title: "RiffleCheck citizen stream assessment",
+    status: "draft",
+    experimental: true,
+    subjectType: ["Location"],
+    text: narrative([
+      "RiffleCheck citizen stream assessment, version " + QUESTIONNAIRE_VERSION + ".",
+      ...STEPS.map((step) => `${step.title}: ${FIELDS.filter((f) => f.step === step.id).map((f) => f.label).join(", ")}`),
+    ]),
+    description:
+      "A visual stream assessment for citizen scientists. Prototype form; to be mapped to the official OneAquaHealth protocol.",
+    item: STEPS.map((step) => ({
+      linkId: `step-${step.key}`,
+      text: step.title,
+      type: "group",
+      item: FIELDS.filter((f) => f.step === step.id).map((f) => ({
+        linkId: f.key,
+        text: f.label,
+        type: ITEM_TYPE[f.type],
+        required: Boolean(f.required),
+        repeats: f.type === "multi",
+        ...(f.options ? { answerOption: f.options.map((o) => ({ valueCoding: answerCoding(f.key, o.value) })) } : {}),
+      })),
+    })),
+  };
+}
+
+/**
+ * The same bundle as a transaction that a FHIR server can store. Each resource
+ * is PUT under its own stable id, so sending a record twice updates it rather
+ * than creating duplicates.
+ */
+export function toTransaction(bundle: Json): Json {
+  const entries = bundle.entry as { fullUrl: string; resource: Json }[];
+  return {
+    resourceType: "Bundle",
+    type: "transaction",
+    entry: entries.map((entry) => ({
+      ...entry,
+      request: { method: "PUT", url: `${entry.resource.resourceType}/${entry.resource.id}` },
+    })),
+  };
+}
+
 export function buildFhirBundle(record: AssessmentRecord): Json {
   const a = record.assessment;
   const authored = record.submittedAt ?? record.updatedAt;
@@ -276,11 +364,12 @@ export function buildFhirBundle(record: AssessmentRecord): Json {
       ),
     ]),
     identifier: { system: "urn:ietf:rfc:3986", value: urn(stableUuid(`${record.id}:record`)) },
+    questionnaire: `${QUESTIONNAIRE_URL}|${QUESTIONNAIRE_VERSION}`,
     status: "completed",
     subject: locationRef,
     authored,
     item: STEPS.map((step) => ({
-      linkId: step.key,
+      linkId: `step-${step.key}`,
       text: step.title,
       item: FIELDS.filter((f) => f.step === step.id)
         .map((f) => ({ linkId: f.key, text: f.label, answer: answersFor(f.key, record) }))
@@ -328,16 +417,17 @@ export function buildFhirBundle(record: AssessmentRecord): Json {
           coding: [{ system: OAH_CODE_SYSTEM, code: "present", display: "Present" }],
           text: `${optionLabel(key, value)} seen`,
         }
-      : {
-          coding: [{ system: `${LOCAL_BASE}/CodeSystem/${key}`, code: value, display: optionLabel(key, value) }],
-          text: optionLabel(key, value),
-        },
+      : { coding: [answerCoding(key, value)], text: optionLabel(key, value) },
     derivedFrom: [{ reference: urn(responseId) }],
   });
   for (const indicator of INDICATORS) {
     const value = a[indicator.key];
     const chosen = Array.isArray(value) ? value : typeof value === "string" && value ? [value] : [];
-    for (const v of chosen) observations.push(survey(indicator.key, v, indicator));
+    for (const v of chosen) {
+      // "Not sure" has no official code, so it stays in the QuestionnaireResponse only.
+      if (OAH_ANSWERS[indicator.key] && !OAH_ANSWERS[indicator.key]?.[v]) continue;
+      observations.push(survey(indicator.key, v, indicator));
+    }
   }
   for (const v of a.life) {
     if (LIFE_PRESENT[v]) observations.push(survey("life", v, LIFE_PRESENT[v], true));
@@ -369,6 +459,7 @@ export function buildFhirBundle(record: AssessmentRecord): Json {
   };
 
   const resources = [
+    buildQuestionnaire(),
     location,
     response,
     ...observations,

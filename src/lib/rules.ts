@@ -21,6 +21,7 @@ export interface Rule {
 
 const SENSITIVE = "mayfly_stonefly";
 const WATER_READINGS: FieldKey[] = ["clarity", "colour", "temperatureC", "ph", "dissolvedOxygen"];
+const WELL_COVERED = ["61-80-percent", "81-100-percent"];
 const MUD_WORDS = /\b(mud|muddy|silt|silty)\b/i;
 
 function outside(value: number | null, min: number, max: number): boolean {
@@ -180,11 +181,11 @@ export const RULES: Rule[] = [
     reads: ["life", "vegetation", "clarity"],
     severity: "unusual",
     test: (a) =>
-      a.life.length === 1 && a.life[0] === "none" && a.vegetation === "dense" && a.clarity === "clear"
+      a.life.length === 1 && a.life[0] === "none" && WELL_COVERED.includes(a.vegetation) && a.clarity === "clear"
         ? ["life", "vegetation", "clarity"]
         : null,
     concern: () =>
-      "No animals or plants in clear water with dense bank vegetation is uncommon and worth a second look.",
+      "No animals or plants in clear water with well-covered banks is uncommon and worth a second look.",
     why: () =>
       "Clear water with well-covered banks usually has at least some visible life, such as snails, insects or birds. Small animals are easy to miss on a short visit.",
     question: "Did you have a chance to look under a stone or along the water's edge?",

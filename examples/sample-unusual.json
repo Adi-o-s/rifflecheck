@@ -23,9 +23,10 @@
     "temperatureC": 14,
     "ph": null,
     "dissolvedOxygen": null,
-    "vegetation": "moderate",
+    "vegetation": "41-60-percent",
     "erosion": "none",
     "channel": "natural",
+    "invasivePlants": "absent",
     "landUse": [
       "housing",
       "park"
@@ -57,9 +58,10 @@
     "temperatureC": "14 °C",
     "ph": "Not recorded",
     "dissolvedOxygen": "Not recorded",
-    "vegetation": "Moderate",
+    "vegetation": "41-60%",
     "erosion": "None",
     "channel": "Natural",
+    "invasivePlants": "None seen",
     "landUse": "Homes, Park or green space",
     "pollutionSources": "Pipe or drain",
     "life": "Mayfly or stonefly larvae, Snails, Water birds",
@@ -67,7 +69,7 @@
     "notes": "Sewage smell comes from a manhole on the footpath, not from the water. Found three larvae with three tails under stones in the fast part."
   },
   "summary": {
-    "text": "At Ribeira de Eiras (sample) on 2026-09-25 09:15 the flow was moderate and the water was clear and colourless, with a sewage smell. Bank vegetation was moderate, erosion none and the channel natural; life seen: mayfly or stonefly larvae, snails, water birds.",
+    "text": "At Ribeira de Eiras (sample) on 2026-09-25 09:15 the flow was moderate and the water was clear and colourless, with a sewage smell. Bank vegetation cover was 41-60%, erosion none and the channel natural; life seen: mayfly or stonefly larvae, snails, water birds.",
     "source": "answers"
   },
   "contextNotes": [],
@@ -76,7 +78,7 @@
     "mode": "demo",
     "notice": "Demo mode: no AI key is set, so this is a prepared example response for the built-in sample.",
     "reviewedAt": "2026-09-25T03:50:00.000Z",
-    "inputHash": "ee85ff74"
+    "inputHash": "2644aa1b"
   },
   "dataQuality": {
     "rule": {

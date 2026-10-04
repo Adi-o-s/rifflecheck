@@ -71,6 +71,7 @@ export const ReviewRequestSchema = z.object({
     vegetation: choice,
     erosion: choice,
     channel: choice,
+    invasivePlants: choice.default(""),
     landUse: choices,
     pollutionSources: choices,
     life: choices,

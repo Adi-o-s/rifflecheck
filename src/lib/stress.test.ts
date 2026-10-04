@@ -342,7 +342,7 @@ describe("stress: exports with hostile text", { timeout: TIMEOUT }, () => {
         clarity: "clear",
         odour: "none",
         surface: "none",
-        vegetation: "dense",
+        vegetation: "81-100-percent",
         erosion: "none",
         channel: "natural",
         landUse: ["park"],

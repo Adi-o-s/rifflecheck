@@ -28,7 +28,7 @@ export function summariseAnswers(a: Assessment): string {
   if (!isEmpty(a.surface) && a.surface !== "none") extras.push(`${lower("surface")} on the surface`);
   const first = `${water}${extras.length ? `, with ${extras.join(" and ")}` : ""}.`;
 
-  const banks = `Bank vegetation was ${lower("vegetation")}, erosion ${lower("erosion")} and the channel ${lower("channel")}`;
+  const banks = `Bank vegetation cover was ${lower("vegetation")}, erosion ${lower("erosion")} and the channel ${lower("channel")}`;
   const seen = a.life.length === 1 && a.life[0] === "none" ? "no animals or plants were seen" : `life seen: ${lower("life")}`;
   return `${first} ${banks}; ${seen}.`;
 }

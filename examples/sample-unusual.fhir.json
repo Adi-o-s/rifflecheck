@@ -8,6 +8,801 @@
   "timestamp": "2026-09-25T03:54:00.000Z",
   "entry": [
     {
+      "fullUrl": "urn:uuid:cea41760-f1ac-426d-8848-2f4ad6ce223f",
+      "resource": {
+        "resourceType": "Questionnaire",
+        "id": "cea41760-f1ac-426d-8848-2f4ad6ce223f",
+        "url": "https://rifflecheck.example/fhir/Questionnaire/stream-assessment",
+        "version": "1.0.0",
+        "name": "RiffleCheckStreamAssessment",
+        "title": "RiffleCheck citizen stream assessment",
+        "status": "draft",
+        "experimental": true,
+        "subjectType": [
+          "Location"
+        ],
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>RiffleCheck citizen stream assessment, version 1.0.0.</p><p>Site: Stream name, Latitude, Longitude, Date and time, Weather now, Rain in the last 48 hours</p><p>Water: Flow, Water colour, Clarity, Odour, On the surface, Water temperature, pH, Dissolved oxygen</p><p>Banks and surroundings: Bank vegetation cover, Bank erosion, Channel, Invasive plants, Nearby land use, Visible pollution sources</p><p>Life: Animals and plants seen, Your overall impression, Photo, Notes</p></div>"
+        },
+        "description": "A visual stream assessment for citizen scientists. Prototype form; to be mapped to the official OneAquaHealth protocol.",
+        "item": [
+          {
+            "linkId": "step-site",
+            "text": "Site",
+            "type": "group",
+            "item": [
+              {
+                "linkId": "streamName",
+                "text": "Stream name",
+                "type": "string",
+                "required": true,
+                "repeats": false
+              },
+              {
+                "linkId": "latitude",
+                "text": "Latitude",
+                "type": "decimal",
+                "required": true,
+                "repeats": false
+              },
+              {
+                "linkId": "longitude",
+                "text": "Longitude",
+                "type": "decimal",
+                "required": true,
+                "repeats": false
+              },
+              {
+                "linkId": "observedAt",
+                "text": "Date and time",
+                "type": "dateTime",
+                "required": true,
+                "repeats": false
+              },
+              {
+                "linkId": "weather",
+                "text": "Weather now",
+                "type": "choice",
+                "required": true,
+                "repeats": false,
+                "answerOption": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/weather",
+                      "code": "sunny",
+                      "display": "Sunny"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/weather",
+                      "code": "cloudy",
+                      "display": "Cloudy"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/weather",
+                      "code": "light_rain",
+                      "display": "Light rain"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/weather",
+                      "code": "heavy_rain",
+                      "display": "Heavy rain"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/weather",
+                      "code": "fog",
+                      "display": "Fog"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/weather",
+                      "code": "snow",
+                      "display": "Snow or ice"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "rain48h",
+                "text": "Rain in the last 48 hours",
+                "type": "choice",
+                "required": true,
+                "repeats": false,
+                "answerOption": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/rain48h",
+                      "code": "yes",
+                      "display": "Yes"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/rain48h",
+                      "code": "no",
+                      "display": "No"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "linkId": "step-water",
+            "text": "Water",
+            "type": "group",
+            "item": [
+              {
+                "linkId": "flow",
+                "text": "Flow",
+                "type": "choice",
+                "required": true,
+                "repeats": false,
+                "answerOption": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/flow",
+                      "code": "dry",
+                      "display": "Dry"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/flow",
+                      "code": "pools",
+                      "display": "Pools only"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/flow",
+                      "code": "slow",
+                      "display": "Slow"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/flow",
+                      "code": "moderate",
+                      "display": "Moderate"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/flow",
+                      "code": "fast",
+                      "display": "Fast"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "colour",
+                "text": "Water colour",
+                "type": "choice",
+                "required": false,
+                "repeats": false,
+                "answerOption": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/colour",
+                      "code": "colourless",
+                      "display": "No colour"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/colour",
+                      "code": "green",
+                      "display": "Green"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/colour",
+                      "code": "brown",
+                      "display": "Brown"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/colour",
+                      "code": "grey",
+                      "display": "Grey"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/colour",
+                      "code": "milky",
+                      "display": "Milky or white"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/colour",
+                      "code": "orange",
+                      "display": "Orange or red"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/colour",
+                      "code": "other",
+                      "display": "Other"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "clarity",
+                "text": "Clarity",
+                "type": "choice",
+                "required": false,
+                "repeats": false,
+                "answerOption": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/clarity",
+                      "code": "clear",
+                      "display": "Clear"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/clarity",
+                      "code": "slightly_cloudy",
+                      "display": "Slightly cloudy"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/clarity",
+                      "code": "cloudy",
+                      "display": "Cloudy"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/clarity",
+                      "code": "opaque",
+                      "display": "Opaque"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "odour",
+                "text": "Odour",
+                "type": "choice",
+                "required": true,
+                "repeats": false,
+                "answerOption": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/odour",
+                      "code": "none",
+                      "display": "None"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/odour",
+                      "code": "earthy",
+                      "display": "Earthy"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/odour",
+                      "code": "sewage",
+                      "display": "Sewage"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/odour",
+                      "code": "chemical",
+                      "display": "Chemical"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/odour",
+                      "code": "rotten_egg",
+                      "display": "Rotten egg"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "surface",
+                "text": "On the surface",
+                "type": "choice",
+                "required": false,
+                "repeats": false,
+                "answerOption": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/surface",
+                      "code": "none",
+                      "display": "Nothing"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/surface",
+                      "code": "foam",
+                      "display": "Foam"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/surface",
+                      "code": "oil",
+                      "display": "Oil sheen"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/surface",
+                      "code": "scum",
+                      "display": "Scum"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/surface",
+                      "code": "litter",
+                      "display": "Litter"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "temperatureC",
+                "text": "Water temperature",
+                "type": "decimal",
+                "required": false,
+                "repeats": false
+              },
+              {
+                "linkId": "ph",
+                "text": "pH",
+                "type": "decimal",
+                "required": false,
+                "repeats": false
+              },
+              {
+                "linkId": "dissolvedOxygen",
+                "text": "Dissolved oxygen",
+                "type": "decimal",
+                "required": false,
+                "repeats": false
+              }
+            ]
+          },
+          {
+            "linkId": "step-banks",
+            "text": "Banks and surroundings",
+            "type": "group",
+            "item": [
+              {
+                "linkId": "vegetation",
+                "text": "Bank vegetation cover",
+                "type": "choice",
+                "required": true,
+                "repeats": false,
+                "answerOption": [
+                  {
+                    "valueCoding": {
+                      "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+                      "code": "0-20-percent",
+                      "display": "0-20%"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+                      "code": "21-40-percent",
+                      "display": "21-40%"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+                      "code": "41-60-percent",
+                      "display": "41-60%"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+                      "code": "61-80-percent",
+                      "display": "61-80%"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+                      "code": "81-100-percent",
+                      "display": "81-100%"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "erosion",
+                "text": "Bank erosion",
+                "type": "choice",
+                "required": true,
+                "repeats": false,
+                "answerOption": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/erosion",
+                      "code": "none",
+                      "display": "None"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/erosion",
+                      "code": "some",
+                      "display": "Some"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/erosion",
+                      "code": "severe",
+                      "display": "Severe"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "channel",
+                "text": "Channel",
+                "type": "choice",
+                "required": true,
+                "repeats": false,
+                "answerOption": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/channel",
+                      "code": "natural",
+                      "display": "Natural"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/channel",
+                      "code": "partly_modified",
+                      "display": "Partly modified"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/channel",
+                      "code": "concrete",
+                      "display": "Concrete"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "invasivePlants",
+                "text": "Invasive plants",
+                "type": "choice",
+                "required": false,
+                "repeats": false,
+                "answerOption": [
+                  {
+                    "valueCoding": {
+                      "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+                      "code": "absent",
+                      "display": "Absent"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+                      "code": "present",
+                      "display": "Present"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+                      "code": "extensive",
+                      "display": "Extensive"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/invasivePlants",
+                      "code": "unsure",
+                      "display": "Not sure"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "landUse",
+                "text": "Nearby land use",
+                "type": "choice",
+                "required": true,
+                "repeats": true,
+                "answerOption": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/landUse",
+                      "code": "housing",
+                      "display": "Homes"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/landUse",
+                      "code": "commercial",
+                      "display": "Shops or offices"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/landUse",
+                      "code": "industry",
+                      "display": "Industry"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/landUse",
+                      "code": "farmland",
+                      "display": "Farmland"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/landUse",
+                      "code": "park",
+                      "display": "Park or green space"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/landUse",
+                      "code": "roads",
+                      "display": "Roads or car parks"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/landUse",
+                      "code": "woodland",
+                      "display": "Woodland"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/landUse",
+                      "code": "construction",
+                      "display": "Construction site"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "pollutionSources",
+                "text": "Visible pollution sources",
+                "type": "choice",
+                "required": true,
+                "repeats": true,
+                "answerOption": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/pollutionSources",
+                      "code": "none_seen",
+                      "display": "None seen"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/pollutionSources",
+                      "code": "pipe",
+                      "display": "Pipe or drain"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/pollutionSources",
+                      "code": "litter",
+                      "display": "Litter or dumped rubbish"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/pollutionSources",
+                      "code": "road_runoff",
+                      "display": "Road runoff"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/pollutionSources",
+                      "code": "farm_runoff",
+                      "display": "Farm runoff"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/pollutionSources",
+                      "code": "construction",
+                      "display": "Building works"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/pollutionSources",
+                      "code": "industrial",
+                      "display": "Industrial discharge"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/pollutionSources",
+                      "code": "animal_waste",
+                      "display": "Animal waste"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "linkId": "step-life",
+            "text": "Life",
+            "type": "group",
+            "item": [
+              {
+                "linkId": "life",
+                "text": "Animals and plants seen",
+                "type": "choice",
+                "required": true,
+                "repeats": true,
+                "answerOption": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/life",
+                      "code": "fish",
+                      "display": "Fish"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/life",
+                      "code": "frogs",
+                      "display": "Frogs or tadpoles"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/life",
+                      "code": "water_birds",
+                      "display": "Water birds"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/life",
+                      "code": "dragonflies",
+                      "display": "Dragonflies"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/life",
+                      "code": "mayfly_stonefly",
+                      "display": "Mayfly or stonefly larvae"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/life",
+                      "code": "snails",
+                      "display": "Snails"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/life",
+                      "code": "worms_midges",
+                      "display": "Worms or midge larvae"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/life",
+                      "code": "algae_mats",
+                      "display": "Algae mats"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/life",
+                      "code": "none",
+                      "display": "None"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "overallImpression",
+                "text": "Your overall impression",
+                "type": "choice",
+                "required": false,
+                "repeats": false,
+                "answerOption": [
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/overallImpression",
+                      "code": "good",
+                      "display": "Good"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/overallImpression",
+                      "code": "moderate",
+                      "display": "Moderate"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/overallImpression",
+                      "code": "poor",
+                      "display": "Poor"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "system": "https://rifflecheck.example/fhir/CodeSystem/overallImpression",
+                      "code": "unsure",
+                      "display": "Not sure"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "photo",
+                "text": "Photo",
+                "type": "attachment",
+                "required": false,
+                "repeats": false
+              },
+              {
+                "linkId": "notes",
+                "text": "Notes",
+                "type": "text",
+                "required": false,
+                "repeats": false
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "fullUrl": "urn:uuid:9a264b11-f892-4340-9acb-3ed79ce7e97e",
       "resource": {
         "resourceType": "Location",
@@ -44,12 +839,13 @@
         "id": "1beb8105-e67d-4564-9de0-54afa72087c6",
         "text": {
           "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Stream assessment of Ribeira de Eiras (sample), observed 2026-09-25 09:15.</p><p>Stream name: Ribeira de Eiras (sample)</p><p>Latitude: 40.2431</p><p>Longitude: -8.4302</p><p>Date and time: 2026-09-25 09:15</p><p>Weather now: Cloudy</p><p>Rain in the last 48 hours: No</p><p>Flow: Moderate</p><p>Water colour: No colour</p><p>Clarity: Clear</p><p>Odour: Sewage</p><p>On the surface: Nothing</p><p>Water temperature: 14 °C</p><p>Bank vegetation cover: Moderate</p><p>Bank erosion: None</p><p>Channel: Natural</p><p>Nearby land use: Homes, Park or green space</p><p>Visible pollution sources: Pipe or drain</p><p>Animals and plants seen: Mayfly or stonefly larvae, Snails, Water birds</p><p>Your overall impression: Moderate</p><p>Notes: Sewage smell comes from a manhole on the footpath, not from the water. Found three larvae with three tails under stones in the fast part.</p></div>"
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Stream assessment of Ribeira de Eiras (sample), observed 2026-09-25 09:15.</p><p>Stream name: Ribeira de Eiras (sample)</p><p>Latitude: 40.2431</p><p>Longitude: -8.4302</p><p>Date and time: 2026-09-25 09:15</p><p>Weather now: Cloudy</p><p>Rain in the last 48 hours: No</p><p>Flow: Moderate</p><p>Water colour: No colour</p><p>Clarity: Clear</p><p>Odour: Sewage</p><p>On the surface: Nothing</p><p>Water temperature: 14 °C</p><p>Bank vegetation cover: 41-60%</p><p>Bank erosion: None</p><p>Channel: Natural</p><p>Invasive plants: None seen</p><p>Nearby land use: Homes, Park or green space</p><p>Visible pollution sources: Pipe or drain</p><p>Animals and plants seen: Mayfly or stonefly larvae, Snails, Water birds</p><p>Your overall impression: Moderate</p><p>Notes: Sewage smell comes from a manhole on the footpath, not from the water. Found three larvae with three tails under stones in the fast part.</p></div>"
         },
         "identifier": {
           "system": "urn:ietf:rfc:3986",
           "value": "urn:uuid:71d70e57-badd-407e-ab6a-d335339d7944"
         },
+        "questionnaire": "https://rifflecheck.example/fhir/Questionnaire/stream-assessment|1.0.0",
         "status": "completed",
         "subject": {
           "reference": "urn:uuid:9a264b11-f892-4340-9acb-3ed79ce7e97e",
@@ -58,7 +854,7 @@
         "authored": "2026-09-25T03:54:00.000Z",
         "item": [
           {
-            "linkId": "site",
+            "linkId": "step-site",
             "text": "Site",
             "item": [
               {
@@ -126,7 +922,7 @@
             ]
           },
           {
-            "linkId": "water",
+            "linkId": "step-water",
             "text": "Water",
             "item": [
               {
@@ -206,7 +1002,7 @@
             ]
           },
           {
-            "linkId": "banks",
+            "linkId": "step-banks",
             "text": "Banks and surroundings",
             "item": [
               {
@@ -215,9 +1011,9 @@
                 "answer": [
                   {
                     "valueCoding": {
-                      "system": "https://rifflecheck.example/fhir/CodeSystem/vegetation",
-                      "code": "moderate",
-                      "display": "Moderate"
+                      "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+                      "code": "41-60-percent",
+                      "display": "41-60%"
                     }
                   }
                 ]
@@ -244,6 +1040,19 @@
                       "system": "https://rifflecheck.example/fhir/CodeSystem/channel",
                       "code": "natural",
                       "display": "Natural"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "invasivePlants",
+                "text": "Invasive plants",
+                "answer": [
+                  {
+                    "valueCoding": {
+                      "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+                      "code": "absent",
+                      "display": "Absent"
                     }
                   }
                 ]
@@ -284,7 +1093,7 @@
             ]
           },
           {
-            "linkId": "life",
+            "linkId": "step-life",
             "text": "Life",
             "item": [
               {
@@ -662,10 +1471,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:4865bcfd-a106-4d72-bf15-856bf7b4e108",
+      "fullUrl": "urn:uuid:42cd0480-f415-405d-ba02-be5ae420d477",
       "resource": {
         "resourceType": "Observation",
-        "id": "4865bcfd-a106-4d72-bf15-856bf7b4e108",
+        "id": "42cd0480-f415-405d-ba02-be5ae420d477",
         "meta": {
           "profile": [
             "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
@@ -673,7 +1482,7 @@
         },
         "text": {
           "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Bank vegetation cover: Moderate, as seen by the volunteer at Ribeira de Eiras (sample).</p></div>"
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Bank vegetation cover: 41-60%, as seen by the volunteer at Ribeira de Eiras (sample).</p></div>"
         },
         "status": "final",
         "category": [
@@ -715,12 +1524,80 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "https://rifflecheck.example/fhir/CodeSystem/vegetation",
-              "code": "moderate",
-              "display": "Moderate"
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "41-60-percent",
+              "display": "41-60%"
             }
           ],
-          "text": "Moderate"
+          "text": "41-60%"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:1beb8105-e67d-4564-9de0-54afa72087c6"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:882c5e52-5bf5-47cd-8b0c-a00c0ebc3acf",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "882c5e52-5bf5-47cd-8b0c-a00c0ebc3acf",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Invasive plants: None seen, as seen by the volunteer at Ribeira de Eiras (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "invasiveOrganisms",
+              "display": "Invasive invertebrate, plants and fish"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "invasivePlants",
+              "display": "Invasive plants"
+            }
+          ],
+          "text": "Invasive plants"
+        },
+        "subject": {
+          "reference": "urn:uuid:9a264b11-f892-4340-9acb-3ed79ce7e97e",
+          "display": "Ribeira de Eiras (sample)"
+        },
+        "effectiveDateTime": "2026-09-25T09:15:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "absent",
+              "display": "Absent"
+            }
+          ],
+          "text": "None seen"
         },
         "derivedFrom": [
           {
@@ -1030,7 +1907,10 @@
             "reference": "urn:uuid:83f62e7f-03de-44f2-bc9f-15955b0c8910"
           },
           {
-            "reference": "urn:uuid:4865bcfd-a106-4d72-bf15-856bf7b4e108"
+            "reference": "urn:uuid:42cd0480-f415-405d-ba02-be5ae420d477"
+          },
+          {
+            "reference": "urn:uuid:882c5e52-5bf5-47cd-8b0c-a00c0ebc3acf"
           },
           {
             "reference": "urn:uuid:b88e2986-d7cb-48dd-b605-99e0073b3a27"

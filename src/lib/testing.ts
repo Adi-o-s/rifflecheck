@@ -18,7 +18,7 @@ export function cleanAssessment(overrides: Partial<Assessment> = {}): Assessment
     temperatureC: 15.5,
     ph: 7.4,
     dissolvedOxygen: 9.1,
-    vegetation: "dense",
+    vegetation: "81-100-percent",
     erosion: "none",
     channel: "natural",
     landUse: ["park", "housing"],

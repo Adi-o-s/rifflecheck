@@ -4,6 +4,9 @@ import { seededRecords } from "../seed";
 import { CSV_COLUMNS, toCsv } from "./csv";
 import {
   OAH_CODE_SYSTEM,
+  QUESTIONNAIRE_URL,
+  buildQuestionnaire,
+  toTransaction,
   UCUM,
   buildFhirBundle,
   stableUuid,
@@ -145,7 +148,8 @@ describe("FHIR bundle", () => {
       ["foam", "colour", "brown"],
       ["foam", "odour", "sewage"],
       ["foam", "surface", "foam"],
-      ["riparianVegetation", "vegetation", "sparse"],
+      ["riparianVegetation", "vegetation", "21-40-percent"],
+      ["invasiveOrganisms", "invasivePlants", "present"],
       ["morophology", "channel", "partly_modified"],
       ["LandUse", "landUse", "commercial"],
       ["LandUse", "landUse", "roads"],
@@ -193,6 +197,51 @@ describe("FHIR bundle", () => {
         },
       },
     ]);
+  });
+
+  it("uses the official OneAquaHealth value codes for bank vegetation and invasive plants", () => {
+    const survey = ofType("Observation").filter((o) => o.valueCodeableConcept);
+    const vegetation = survey.find((o) => o.code.coding[1].code === "vegetation")!;
+    expect(vegetation.valueCodeableConcept.coding[0]).toEqual({ system: OAH_CODE_SYSTEM, code: "21-40-percent", display: "21-40%" });
+    const invasive = survey.find((o) => o.code.coding[1].code === "invasivePlants")!;
+    expect(invasive.valueCodeableConcept.coding[0]).toEqual({ system: OAH_CODE_SYSTEM, code: "present", display: "Present" });
+  });
+
+  it("does not export 'Not sure' as an invasive-plants Observation", () => {
+    const record = structuredClone(contradictory);
+    record.assessment.invasivePlants = "unsure";
+    expect(ofType("Observation", record).some((o) => o.code.coding[1]?.code === "invasivePlants")).toBe(false);
+  });
+
+  it("includes the form as a Questionnaire that the response points to, with every answer among its options", () => {
+    const [questionnaire] = ofType("Questionnaire");
+    const [qr] = ofType("QuestionnaireResponse");
+    expect(questionnaire).toEqual(buildQuestionnaire());
+    expect(qr.questionnaire).toBe(`${QUESTIONNAIRE_URL}|${questionnaire.version}`);
+    const defined = new Map<string, Res>(
+      questionnaire.item.flatMap((g: Res) => g.item.map((i: Res) => [i.linkId, i])),
+    );
+    for (const group of qr.item) {
+      expect(questionnaire.item.map((g: Res) => g.linkId)).toContain(group.linkId);
+      for (const item of group.item) {
+        const def = defined.get(item.linkId)!;
+        expect(def).toBeTruthy();
+        if (!def.repeats) expect(item.answer).toHaveLength(1);
+        for (const answer of item.answer) {
+          if (!answer.valueCoding) continue;
+          const options = def.answerOption.map((o: Res) => `${o.valueCoding.system}|${o.valueCoding.code}`);
+          expect(options).toContain(`${answer.valueCoding.system}|${answer.valueCoding.code}`);
+        }
+      }
+    }
+  });
+
+  it("turns into a transaction that stores each resource under its own stable id", () => {
+    const tx = toTransaction(buildFhirBundle(contradictory)) as Res;
+    expect(tx.type).toBe("transaction");
+    for (const entry of tx.entry) {
+      expect(entry.request).toEqual({ method: "PUT", url: `${entry.resource.resourceType}/${entry.resource.id}` });
+    }
   });
 
   it("uses no extensions, so it validates without a custom profile", () => {

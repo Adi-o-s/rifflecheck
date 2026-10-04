@@ -133,7 +133,7 @@ describe("'none' ticked with other answers (error)", () => {
     ).toBe("error");
   });
   it("does not fire for 'none' alone", () => {
-    expect(find({ life: ["none"], vegetation: "sparse" }, "life-none-with-others")).toBeUndefined();
+    expect(find({ life: ["none"], vegetation: "21-40-percent" }, "life-none-with-others")).toBeUndefined();
     expect(find({ pollutionSources: ["none_seen"] }, "sources-none-with-others")).toBeUndefined();
   });
 });
@@ -216,14 +216,14 @@ describe("sensitive larvae with pollution signs (unusual)", () => {
 });
 
 describe("no life in a healthy-looking stream (unusual)", () => {
-  it("fires for none + dense vegetation + clear water", () => {
+  it("fires for none + well-covered banks + clear water", () => {
     const flag = find({ life: ["none"] }, "no-life-in-healthy-looking-stream");
     expect(flag?.severity).toBe("unusual");
     expect(flag?.concern.toLowerCase()).toContain("uncommon");
     expect(`${flag?.concern} ${flag?.why}`.toLowerCase()).not.toMatch(/\b(wrong|incorrect|mistake)\b/);
   });
 
-  it.each([{ vegetation: "sparse" }, { clarity: "cloudy" }] as Partial<Assessment>[])(
+  it.each([{ vegetation: "21-40-percent" }, { clarity: "cloudy" }] as Partial<Assessment>[])(
     "does not fire when %o",
     (overrides) => {
       expect(find({ life: ["none"], ...overrides }, "no-life-in-healthy-looking-stream")).toBeUndefined();

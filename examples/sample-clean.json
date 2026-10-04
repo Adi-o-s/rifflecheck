@@ -23,9 +23,10 @@
     "temperatureC": 15.5,
     "ph": 7.4,
     "dissolvedOxygen": 9.1,
-    "vegetation": "dense",
+    "vegetation": "81-100-percent",
     "erosion": "none",
     "channel": "natural",
+    "invasivePlants": "absent",
     "landUse": [
       "park",
       "housing"
@@ -57,9 +58,10 @@
     "temperatureC": "15.5 °C",
     "ph": "7.4",
     "dissolvedOxygen": "9.1 mg/L",
-    "vegetation": "Dense",
+    "vegetation": "81-100%",
     "erosion": "None",
     "channel": "Natural",
+    "invasivePlants": "None seen",
     "landUse": "Park or green space, Homes",
     "pollutionSources": "None seen",
     "life": "Fish, Dragonflies, Mayfly or stonefly larvae",
@@ -67,7 +69,7 @@
     "notes": "Water running over stones. Saw two small fish near the footbridge."
   },
   "summary": {
-    "text": "At Ribeira de Coselhas (sample) on 2026-09-20 10:30 the flow was moderate and the water was clear and colourless, with no smell. Bank vegetation was dense, erosion none and the channel natural; life seen: fish, dragonflies, mayfly or stonefly larvae.",
+    "text": "At Ribeira de Coselhas (sample) on 2026-09-20 10:30 the flow was moderate and the water was clear and colourless, with no smell. Bank vegetation cover was 81-100%, erosion none and the channel natural; life seen: fish, dragonflies, mayfly or stonefly larvae.",
     "source": "answers"
   },
   "contextNotes": [],
@@ -76,7 +78,7 @@
     "mode": "demo",
     "notice": "Demo mode: no AI key is set, so this is a prepared example response for the built-in sample.",
     "reviewedAt": "2026-09-20T05:05:00.000Z",
-    "inputHash": "60d5cd34"
+    "inputHash": "1210260c"
   },
   "dataQuality": {
     "rule": {

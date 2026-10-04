@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { qualityStats } from "@/lib/audit";
 import { download, fileSlug, formatWhen } from "@/lib/client";
 import { toCsv } from "@/lib/export/csv";
 import { buildFhirBundle } from "@/lib/export/fhir";
 import { toJsonExport } from "@/lib/export/json";
 import { FIELDS, STEPS, displayValue } from "@/lib/fields";
-import { useRecord } from "@/lib/storage";
+import { saveRecord, useRecord } from "@/lib/storage";
 import type { AssessmentRecord, TrackedFlag } from "@/lib/types";
 import { Changes } from "./FlagCard";
 import { Card, Notice, SeverityBadge, SourceBadge, btnPrimary, btnSecondary } from "./ui";
@@ -79,6 +80,83 @@ function Downloads({ record }: { record: AssessmentRecord }) {
           Download CSV
         </button>
       </div>
+    </Card>
+  );
+}
+
+/** Lets the volunteer send the record to the OneAquaHealth FHIR server. Their choice, never automatic. */
+function SendToServer({ record }: { record: AssessmentRecord }) {
+  const [target, setTarget] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/fhir")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data: { enabled: boolean; server: string | null } | null) => {
+        if (!cancelled && data?.enabled) setTarget(data.server);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  if (!target && !record.sent) return null;
+
+  const send = async () => {
+    setBusy(true);
+    setError("");
+    try {
+      const response = await fetch("/api/fhir", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(buildFhirBundle(record)),
+        signal: AbortSignal.timeout(45_000),
+      });
+      const data = await response.json();
+      if (!response.ok) setError(data.error ?? "The record could not be sent.");
+      else {
+        saveRecord({
+          ...record,
+          sent: { server: data.server, at: new Date().toISOString(), responseUrl: data.responseUrl, stored: data.stored },
+        });
+      }
+    } catch {
+      setError("The record could not be sent. Check your connection and try again.");
+    }
+    setBusy(false);
+  };
+
+  return (
+    <Card>
+      <h2 className="text-lg font-semibold">Send to OneAquaHealth</h2>
+      <p className="mt-1 text-sm text-slate-800">
+        Store this record, with its audit trail, on the OneAquaHealth project&apos;s FHIR test server, where the
+        project&apos;s other data lives. It is a public test server: the record has no name on it, but it does
+        include the location. Your photo is not sent.
+      </p>
+      {record.sent ? (
+        <p className="mt-3 rounded-xl border border-teal-300 bg-teal-50 p-3 text-sm text-teal-950">
+          <strong>Sent {formatWhen(record.sent.at)}.</strong> {record.sent.stored} resources stored.{" "}
+          <a href={record.sent.responseUrl} target="_blank" rel="noreferrer" className="font-semibold underline underline-offset-2">
+            View it on the server
+          </a>
+        </p>
+      ) : null}
+      <div aria-live="polite">
+        {error ? (
+          <p role="alert" className="mt-3 text-sm font-semibold text-red-800">
+            {error}
+          </p>
+        ) : null}
+      </div>
+      {target ? (
+        <button type="button" className={`${btnSecondary} mt-3`} onClick={send} disabled={busy}>
+          {busy ? "Sending…" : record.sent ? "Send again (updates the same record)" : "Send this record"}
+        </button>
+      ) : null}
     </Card>
   );
 }
@@ -204,6 +282,8 @@ export function RecordView({ id }: { id: string }) {
       </Card>
 
       <Downloads record={record} />
+
+      <SendToServer record={record} />
 
       <section aria-labelledby="audit-heading">
         <h2 id="audit-heading" className="font-display text-2xl font-semibold">

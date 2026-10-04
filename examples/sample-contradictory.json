@@ -23,9 +23,10 @@
     "temperatureC": 19,
     "ph": 7.9,
     "dissolvedOxygen": 4.2,
-    "vegetation": "sparse",
+    "vegetation": "21-40-percent",
     "erosion": "some",
     "channel": "partly_modified",
+    "invasivePlants": "present",
     "landUse": [
       "commercial",
       "roads"
@@ -56,9 +57,10 @@
     "temperatureC": "19 °C",
     "ph": "7.9",
     "dissolvedOxygen": "4.2 mg/L",
-    "vegetation": "Sparse",
+    "vegetation": "21-40%",
     "erosion": "Some",
     "channel": "Partly modified",
+    "invasivePlants": "Some",
     "landUse": "Shops or offices, Roads or car parks",
     "pollutionSources": "Pipe or drain",
     "life": "Worms or midge larvae, Algae mats",
@@ -66,7 +68,7 @@
     "notes": "Water barely moving today. Lots of mud on the bottom. A pipe on the far bank was dripping into the stream."
   },
   "summary": {
-    "text": "At Ribeira dos Covoes (sample) on 2026-09-22 17:10 the flow was slow and the water was cloudy and brown, with a sewage smell and foam on the surface. Bank vegetation was sparse, erosion some and the channel partly modified; life seen: worms or midge larvae, algae mats.",
+    "text": "At Ribeira dos Covoes (sample) on 2026-09-22 17:10 the flow was slow and the water was cloudy and brown, with a sewage smell and foam on the surface. Bank vegetation cover was 21-40%, erosion some and the channel partly modified; life seen: worms or midge larvae, algae mats.",
     "source": "answers"
   },
   "contextNotes": [],
@@ -75,7 +77,7 @@
     "mode": "demo",
     "notice": "Demo mode: no AI key is set, so this is a prepared example response for the built-in sample.",
     "reviewedAt": "2026-09-22T11:45:00.000Z",
-    "inputHash": "1e293e74"
+    "inputHash": "cd27021e"
   },
   "dataQuality": {
     "rule": {
