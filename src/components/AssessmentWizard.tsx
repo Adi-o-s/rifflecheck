@@ -306,6 +306,16 @@ export function AssessmentWizard({ id }: { id: string }) {
             </div>
           ) : null}
 
+          {step === 1 && !fixing ? (
+            <div className="mb-4">
+              <Notice>
+                <strong>How this works:</strong> fill in four short screens about the stream. At the end,
+                RiffleCheck asks about any answers that do not fit together. You decide what to do about each
+                one; nothing is changed for you.
+              </Notice>
+            </div>
+          ) : null}
+
           {step === 2 && a.flow === "dry" ? (
             <div className="mb-4">
               <Notice>

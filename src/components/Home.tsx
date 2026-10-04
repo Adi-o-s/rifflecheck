@@ -9,7 +9,8 @@ import { REVIEW_STEP, STEPS } from "@/lib/fields";
 import { RULES } from "@/lib/rules";
 import { SAMPLES, draftFromSample, type Sample } from "@/lib/seed";
 import { deleteRecord, newId, saveRecord, useRecords } from "@/lib/storage";
-import { SeverityBadge, SourceBadge, btnQuiet, btnSecondary } from "./ui";
+import { HeroDemo } from "./HeroDemo";
+import { btnQuiet, btnSecondary } from "./ui";
 
 const SAMPLE_OUTCOME: Record<string, string> = {
   "sample-clean": "0 flags",
@@ -31,51 +32,6 @@ function Chip({ label, value }: { label: string; value: string }) {
       <span className="text-slate-600">{label}</span>
       <strong>{value}</strong>
     </span>
-  );
-}
-
-/** A still picture of a flag, used as an illustration. The real ones are on the review screen. */
-function FlagPreview() {
-  return (
-    <div
-      role="img"
-      aria-label="Example of a check: You marked the water as clear, and also brown. Could you look again? With two choices: Fix it, or Keep my answer."
-      className="rise w-full max-w-sm rounded-3xl border border-white/20 bg-white p-4 text-left text-slate-900 shadow-2xl shadow-teal-950/40"
-    >
-      <div aria-hidden="true">
-        <div className="flex flex-wrap gap-2">
-          <SeverityBadge severity="check" />
-          <SourceBadge source="rule" />
-        </div>
-        <p className="mt-3 font-semibold">You marked the water as clear, and also brown. Could you look again?</p>
-        <p className="mt-1 text-sm text-slate-700">Can you see the stream bed clearly through the water?</p>
-        <div className="mt-3 flex flex-wrap gap-2">
-          <Chip label="Clarity" value="Clear" />
-          <Chip label="Colour" value="Brown" />
-        </div>
-        <div className="mt-4 grid grid-cols-2 gap-2 text-center text-sm font-semibold">
-          <span className="rounded-xl bg-teal-700 px-3 py-2.5 text-white">Fix it</span>
-          <span className="rounded-xl border border-slate-300 px-3 py-2.5">Keep my answer</span>
-        </div>
-        <p className="mt-3 text-center text-xs text-slate-600">Nothing changes unless you change it.</p>
-      </div>
-    </div>
-  );
-}
-
-function Chapter({ n, where, title, children }: { n: number; where: string; title: string; children: ReactNode }) {
-  return (
-    <li className="relative pl-12">
-      <span
-        aria-hidden="true"
-        className="absolute left-0 top-0 flex size-10 items-center justify-center rounded-full border-4 border-[#f3f7f6] bg-teal-700 font-display text-lg font-semibold text-white"
-      >
-        {n}
-      </span>
-      <p className="text-sm font-semibold uppercase tracking-wide text-teal-800">{where}</p>
-      <h3 className="font-display mt-0.5 text-xl font-semibold text-slate-950">{title}</h3>
-      <div className="mt-2 space-y-3 text-slate-800">{children}</div>
-    </li>
   );
 }
 
@@ -118,14 +74,15 @@ export function Home() {
         <div className={`${section} grid items-center gap-8 pb-20 pt-10 md:grid-cols-[1.1fr_1fr] md:pb-28 md:pt-16`}>
           <div>
             <p className="text-sm font-semibold uppercase tracking-wide text-teal-200">
-              OneAquaHealth · citizen stream assessment
+              For volunteers who survey streams with OneAquaHealth
             </p>
             <h1 className="font-display mt-3 text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
-              Every stream check deserves a second look.
+              A stream survey form that catches mistakes before you send it.
             </h1>
             <p className="mt-4 max-w-xl text-lg text-teal-50">
-              You are the one standing at the stream. RiffleCheck asks a question when two of your answers do not
-              fit together, explains why, and then leaves the decision to you.
+              You record what you see at a stream. If two answers do not fit together, RiffleCheck asks you
+              about it on the spot. You fix the answer, or keep it and say why. Researchers get a record they
+              can trust.
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <button
@@ -133,19 +90,19 @@ export function Home() {
                 onClick={start}
                 className="inline-flex min-h-12 items-center justify-center rounded-xl bg-white px-6 py-3 text-base font-semibold text-teal-900 shadow-lg shadow-teal-950/30 hover:bg-teal-50 focus-visible:outline-white"
               >
-                Start a stream check
+                Start a stream survey
               </button>
               <a
                 href="#samples"
                 className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/50 px-6 py-3 text-base font-semibold text-white hover:bg-white/10 focus-visible:outline-white"
               >
-                See it on a sample
+                Open a filled-in example
               </a>
             </div>
             <p className="mt-3 text-sm text-teal-100">Four short steps, about four minutes. No account.</p>
           </div>
           <div className="flex justify-center md:justify-end">
-            <FlagPreview />
+            <HeroDemo />
           </div>
         </div>
         <svg aria-hidden="true" viewBox="0 0 1440 80" preserveAspectRatio="none" className="absolute inset-x-0 bottom-0 h-10 w-full text-[#f3f7f6] md:h-16">
@@ -188,47 +145,79 @@ export function Home() {
         </section>
       ) : null}
 
-      {/* The story */}
-      <section aria-labelledby="story-heading" className={`${section} pt-12`}>
-        <p className="text-sm font-semibold uppercase tracking-wide text-teal-800">Why this exists</p>
-        <h2 id="story-heading" className="font-display mt-1 max-w-2xl text-3xl font-semibold tracking-tight">
-          A record is only useful if someone can trust it later.
+      {/* What you do */}
+      <section aria-labelledby="steps-heading" className={`${section} pt-10`}>
+        <h2 id="steps-heading" className="font-display text-3xl font-semibold tracking-tight">
+          What you do, in three steps
         </h2>
-        <ol className="streamline mt-8 max-w-2xl space-y-10">
-          <Chapter n={1} where="At the stream" title="A volunteer writes down what they see.">
-            <p>
-              It is drizzling, the bank is slippery, and the form has twenty questions. They tick{" "}
-              <strong>Clear</strong> for clarity, then <strong>Brown</strong> for colour, and move on.
-            </p>
-            <div className="flex flex-wrap gap-2">
+        <ol className="mt-5 grid gap-3 md:grid-cols-3">
+          {[
+            ["Fill in what you see", "Four short screens: the site, the water, the banks, and the animals and plants. Every term is explained."],
+            ["Answer its questions", "If answers do not fit together, it asks. For each question you either fix your answer or keep it and say why."],
+            ["Send it", "Your record goes out with its history attached, in a format health and research systems can read."],
+          ].map(([title, text], i) => (
+            <li key={title} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+              <span aria-hidden="true" className="font-display flex size-10 items-center justify-center rounded-full bg-teal-700 text-lg font-semibold text-white">
+                {i + 1}
+              </span>
+              <h3 className="mt-3 text-lg font-semibold text-slate-950">{title}</h3>
+              <p className="mt-1 text-slate-800">{text}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      {/* Why it matters: the same record, with and without the question */}
+      <section aria-labelledby="story-heading" className={`${section} pt-14`}>
+        <p className="text-sm font-semibold uppercase tracking-wide text-teal-800">Why this exists</p>
+        <h2 id="story-heading" className="font-display mt-1 max-w-3xl text-3xl font-semibold tracking-tight">
+          The same stream visit, with and without the question.
+        </h2>
+        <p className="mt-2 max-w-3xl text-slate-800">
+          A volunteer ticks <strong>Clear</strong> for clarity and <strong>Brown</strong> for colour. Months
+          later a researcher opens the record.
+        </p>
+        <div className="mt-5 grid gap-3 md:grid-cols-2">
+          <div className="rounded-2xl border-2 border-slate-300 bg-white p-4">
+            <p className="text-sm font-semibold uppercase tracking-wide text-slate-700">Without RiffleCheck</p>
+            <div className="mt-3 flex flex-wrap gap-2">
               <Chip label="Clarity" value="Clear" />
               <Chip label="Colour" value="Brown" />
-              <Chip label="Notes" value="“lots of mud”" />
             </div>
-          </Chapter>
-          <Chapter n={2} where="Months later, at a desk" title="A researcher cannot tell what happened.">
-            <p>
-              Clear <em>and</em> brown? A slip of the thumb, or peat-stained water you really can see through?
-              Nobody can ask the volunteer now. The record is set aside, and one more stream goes unmonitored.
+            <p className="mt-3 text-slate-800">
+              Clear <em>and</em> brown? A slip, or stained water you can see through? Nobody can ask the
+              volunteer now.
             </p>
-          </Chapter>
-          <Chapter n={3} where="With RiffleCheck" title="The question is asked while they are still there.">
-            <p>
-              The volunteer looks at the water again. They either <strong>fix the answer</strong>, or{" "}
-              <strong>keep it and say why</strong>. The researcher gets the answer, the reason, and a record
-              they can use.
+            <p className="mt-3 flex items-center gap-2 font-semibold text-red-800">
+              <svg aria-hidden="true" viewBox="0 0 24 24" className="size-5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                <path d="m6 6 12 12M18 6 6 18" />
+              </svg>
+              The record is set aside. The visit was wasted.
             </p>
-            <p className="rounded-2xl border border-teal-200 bg-teal-50 p-3 text-sm text-teal-950">
-              <strong>Kept:</strong> “Peat-stained but I can see the bottom.” · Clarity: Clear (unchanged) ·
-              Colour: Brown (unchanged)
+          </div>
+          <div className="rounded-2xl border-2 border-teal-600 bg-teal-50 p-4">
+            <p className="text-sm font-semibold uppercase tracking-wide text-teal-800">With RiffleCheck</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <Chip label="Clarity" value="Clear → Cloudy" />
+              <Chip label="Colour" value="Brown" />
+            </div>
+            <p className="mt-3 text-slate-800">
+              The app asked while the volunteer was still on the bank. They looked again and changed the
+              answer themselves. The record says so.
             </p>
-          </Chapter>
-        </ol>
+            <p className="mt-3 flex items-center gap-2 font-semibold text-teal-900">
+              <svg aria-hidden="true" viewBox="0 0 24 24" className="size-5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m5 12 5 5 9-10" />
+              </svg>
+              The record is used, with its history attached.
+            </p>
+          </div>
+        </div>
       </section>
 
       {/* How the second look works */}
       <section aria-labelledby="how-heading" className={`${section} pt-14`}>
-        <p className="text-sm font-semibold uppercase tracking-wide text-teal-800">How the second look works</p>
+        <p className="text-sm font-semibold uppercase tracking-wide text-teal-800">The rules it follows</p>
         <h2 id="how-heading" className="font-display mt-1 max-w-2xl text-3xl font-semibold tracking-tight">
           It asks. You decide. Both are recorded.
         </h2>
@@ -257,9 +246,9 @@ export function Home() {
 
       {/* Samples */}
       <section id="samples" aria-labelledby="samples-heading" className={`${section} scroll-mt-28 pt-14`}>
-        <p className="text-sm font-semibold uppercase tracking-wide text-teal-800">Try it now</p>
+        <p className="text-sm font-semibold uppercase tracking-wide text-teal-800">See the full thing</p>
         <h2 id="samples-heading" className="font-display mt-1 text-3xl font-semibold tracking-tight">
-          Three streams, already filled in.
+          Three surveys, already filled in.
         </h2>
         <p className="mt-2 max-w-2xl text-slate-800">
           Each opens on the review screen, so you can see the checks and make the decisions yourself. They are
@@ -359,7 +348,7 @@ export function Home() {
             onClick={start}
             className="mt-5 inline-flex min-h-12 items-center justify-center rounded-xl bg-white px-6 py-3 font-semibold text-teal-900 hover:bg-teal-50 focus-visible:outline-white"
           >
-            Start a stream check
+            Start a stream survey
           </button>
         </div>
       </section>

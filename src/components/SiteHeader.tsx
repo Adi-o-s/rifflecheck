@@ -13,6 +13,9 @@ export function SiteHeader() {
             <path d="M2 8c3-3 5 3 8 0s5 3 8 0 3 1 4 0M2 15c3-3 5 3 8 0s5 3 8 0 3 1 4 0" />
           </svg>
           RiffleCheck
+          <span className="ml-1 hidden font-sans text-sm font-normal text-slate-600 md:inline">
+            stream surveys with a built-in second look
+          </span>
         </Link>
         <nav aria-label="Main" className="flex items-center text-sm font-medium">
           <Link href="/" className="whitespace-nowrap rounded-lg px-2.5 py-2 text-slate-700 hover:bg-slate-100">
