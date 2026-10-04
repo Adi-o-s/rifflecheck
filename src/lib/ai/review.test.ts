@@ -3,7 +3,7 @@ import { runRules } from "../rules";
 import { SAMPLES } from "../seed";
 import { cleanAssessment } from "../testing";
 import { SYSTEM_PROMPT, buildPayload, buildUserMessage } from "./prompt";
-import { parseResponse, reviewAssessment, sanitise, violatesPolicy } from "./review";
+import { isGrounded, parseResponse, reviewAssessment, sanitise, violatesPolicy } from "./review";
 
 const GOOD = {
   flags: [
@@ -91,7 +91,7 @@ describe("demo mode (no key)", () => {
     expect(result.mode).toBe("demo");
     expect(result.flags.map((f) => f.fields)).toEqual([
       ["flow", "notes"],
-      ["weather", "rain48h"],
+      ["notes", "pollutionSources"],
     ]);
     expect(result.notice).toContain("Demo mode");
   });
@@ -107,7 +107,7 @@ describe("demo mode (no key)", () => {
     const sample = SAMPLES.find((s) => s.id === "sample-contradictory")!;
     const edited = { ...sample.assessment, flow: "slow" };
     const result = await reviewAssessment({ assessment: edited, seedId: sample.id });
-    expect(result.flags.map((f) => f.fields)).toEqual([["weather", "rain48h"]]);
+    expect(result.flags.map((f) => f.fields)).toEqual([["notes", "pollutionSources"]]);
   });
 
   it("says AI review is unavailable for anything else", async () => {
@@ -170,12 +170,50 @@ describe("output guards", () => {
   ])("drops text that breaks the rules: %s", (text) => {
     expect(violatesPolicy(text)).toBe(true);
     const response = parseResponse(JSON.stringify({ flags: [{ ...GOOD.flags[0], why: text }], summary: text }));
-    expect(sanitise(response, [])).toEqual({ flags: [], summary: null });
+    expect(sanitise(response, [])).toEqual({ flags: [], summary: null, dropped: 1 });
   });
 
   it("lets ordinary questions through", () => {
     expect(violatesPolicy(GOOD.flags[0].concern)).toBe(false);
     expect(violatesPolicy("Is there a pipe nearby that you may have missed?")).toBe(false);
+  });
+});
+
+describe("grounding guard", () => {
+  const payload = buildPayload(cleanAssessment({ flow: "fast", notes: "Water barely moving", temperatureC: 15.5 }), [], []);
+
+  it("accepts text that only quotes and counts what was submitted", () => {
+    expect(isGrounded('Flow is "Fast" but the notes say "Water barely moving".', payload)).toBe(true);
+    expect(isGrounded("Water temperature is 15.5 and rain in the last 48 hours is No.", payload)).toBe(true);
+  });
+
+  it("rejects a quoted value that was never entered", () => {
+    expect(isGrounded('Odour is "Sewage" but the notes say nothing about a smell.', payload)).toBe(false);
+  });
+
+  it("rejects a number that was never entered", () => {
+    expect(isGrounded("A temperature of 31 seems high for this flow.", payload)).toBe(false);
+  });
+
+  it("drops an invented flag from a live reply and reports how many were dropped", async () => {
+    const invented = {
+      ...GOOD,
+      flags: [
+        GOOD.flags[0],
+        { ...GOOD.flags[0], fields: ["odour", "notes"], why: 'Odour is "Rotten egg" but the notes do not mention a smell.' },
+      ],
+    };
+    const fetchImpl = fetchReturning(geminiReply(JSON.stringify(invented)));
+    const result = await reviewAssessment({ assessment }, { apiKey: "k", fetchImpl });
+    expect(result.flags.map((f) => f.fields)).toEqual([["flow", "notes"]]);
+    expect(result.dropped).toBe(1);
+  });
+
+  it("discards a summary that mentions something not in the answers", async () => {
+    const reply = { flags: [], summary: 'The volunteer saw "otters" and measured a pH of 3.' };
+    const fetchImpl = fetchReturning(geminiReply(JSON.stringify(reply)));
+    const result = await reviewAssessment({ assessment }, { apiKey: "k", fetchImpl });
+    expect(result.summary).toBeNull();
   });
 });
 

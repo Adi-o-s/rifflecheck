@@ -2,7 +2,7 @@ import { isFieldKey } from "../fields";
 import { contextNotes, runRules } from "../rules";
 import type { AiFlagPayload, AiReviewResult, Assessment, FieldKey, Flag } from "../types";
 import { cannedReview, hasCanned } from "./canned";
-import { SYSTEM_PROMPT, buildPayload, buildUserMessage } from "./prompt";
+import { SYSTEM_PROMPT, buildPayload, buildUserMessage, type PromptPayload } from "./prompt";
 import { AI_FIELD_KEYS, AiResponseSchema, GEMINI_RESPONSE_SCHEMA, type AiResponse } from "./schema";
 
 export const DEFAULT_MODEL = "gemini-3.5-flash";
@@ -37,8 +37,39 @@ function fieldSetKey(fields: string[]): string {
   return [...fields].sort().join("|");
 }
 
-/** Keep only flags that point at real, visible fields, obey the policy, and add something new. */
-export function sanitise(response: AiResponse, ruleFlags: Flag[]): { flags: AiFlagPayload[]; summary: string | null } {
+const normalise = (text: string) => text.toLowerCase().replace(/\s+/g, " ");
+
+/**
+ * Grounding check: the AI may only refer to what was submitted. Anything it
+ * puts in quotation marks, and every number it mentions, must appear in the
+ * answers it was shown. A flag that fails is treated as invented and dropped.
+ */
+export function isGrounded(text: string, payload: PromptPayload): boolean {
+  const corpus = normalise(payload.answers.map((a) => `${a.question} ${a.answer}`).join(" \n "));
+  const quoted = [...text.matchAll(/"([^"]{2,})"|\u201c([^\u201d]{2,})\u201d/g)].map((m) => m[1] ?? m[2]);
+  for (const quote of quoted) {
+    if (!corpus.includes(normalise(quote).replace(/[.,;:!?]+$/, ""))) return false;
+  }
+  const known = new Set(corpus.match(/\d+(?:\.\d+)?/g) ?? []);
+  for (const number of text.match(/\d+(?:\.\d+)?/g) ?? []) {
+    if (!known.has(number)) return false;
+  }
+  return true;
+}
+
+export interface Sanitised {
+  flags: AiFlagPayload[];
+  summary: string | null;
+  /** How many of the model's flags the guards removed. */
+  dropped: number;
+}
+
+/**
+ * Keep only flags that point at real, visible fields, obey the policy, stay
+ * grounded in the submitted answers (when a payload is given), and add
+ * something new.
+ */
+export function sanitise(response: AiResponse, ruleFlags: Flag[], payload?: PromptPayload): Sanitised {
   const ruleSets = new Set(ruleFlags.map((f) => fieldSetKey(f.fields)));
   const seen = new Set<string>();
   const flags: AiFlagPayload[] = [];
@@ -47,13 +78,16 @@ export function sanitise(response: AiResponse, ruleFlags: Flag[]): { flags: AiFl
       (k): k is FieldKey => isFieldKey(k) && AI_FIELD_KEYS.includes(k),
     );
     if (fields.length === 0) continue;
-    if (violatesPolicy(`${flag.concern} ${flag.why} ${flag.question}`)) continue;
+    const text = `${flag.concern} ${flag.why} ${flag.question}`;
+    if (violatesPolicy(text)) continue;
+    if (payload && !isGrounded(text, payload)) continue;
     const key = fieldSetKey(fields);
     if (ruleSets.has(key) || seen.has(key)) continue;
     seen.add(key);
     flags.push({ ...flag, fields });
   }
-  return { flags, summary: violatesPolicy(response.summary) ? null : response.summary };
+  const summaryOk = !violatesPolicy(response.summary) && (!payload || isGrounded(response.summary, payload));
+  return { flags, summary: summaryOk ? response.summary : null, dropped: response.flags.length - flags.length };
 }
 
 /** Parse and validate the model's raw text. Throws on anything that is not the agreed shape. */
@@ -104,7 +138,7 @@ export async function reviewAssessment(
   if (!deps.apiKey) {
     if (hasCanned(seedId)) {
       const canned = cannedReview(seedId, assessment);
-      const clean = sanitise(canned, ruleFlags);
+      const clean = sanitise(canned, ruleFlags, buildPayload(assessment, ruleFlags, []));
       return {
         mode: "demo",
         flags: clean.flags,
@@ -126,13 +160,14 @@ export async function reviewAssessment(
     fetchImpl: deps.fetchImpl ?? fetch,
     timeoutMs: deps.timeoutMs ?? 15_000,
   };
-  const message = buildUserMessage(buildPayload(assessment, ruleFlags, contextNotes(assessment)));
+  const payload = buildPayload(assessment, ruleFlags, contextNotes(assessment));
+  const message = buildUserMessage(payload);
 
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
     try {
       const parsed = parseResponse(await callGemini(message, settings));
-      const clean = sanitise(parsed, ruleFlags);
-      return { mode: "live", flags: clean.flags, summary: clean.summary, model: settings.model };
+      const clean = sanitise(parsed, ruleFlags, payload);
+      return { mode: "live", flags: clean.flags, summary: clean.summary, model: settings.model, dropped: clean.dropped };
     } catch (error) {
       console.warn(`AI review attempt ${attempt} failed:`, error instanceof Error ? error.message : error);
     }

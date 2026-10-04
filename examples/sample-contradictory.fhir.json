@@ -44,7 +44,7 @@
         "id": "86e326b5-2500-4178-93e0-bb431e900f5e",
         "text": {
           "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Stream assessment of Ribeira dos Covoes (sample), observed 2026-09-22 17:10.</p><p>Stream name: Ribeira dos Covoes (sample)</p><p>Latitude: 40.1952</p><p>Longitude: -8.4571</p><p>Date and time: 2026-09-22 17:10</p><p>Weather now: Heavy rain</p><p>Rain in the last 48 hours: No</p><p>Flow: Slow</p><p>Water colour: Brown</p><p>Clarity: Cloudy</p><p>Odour: Sewage</p><p>On the surface: Foam</p><p>Water temperature: 19 °C</p><p>pH: 7.9</p><p>Dissolved oxygen: 4.2 mg/L</p><p>Bank vegetation cover: Sparse</p><p>Bank erosion: Some</p><p>Channel: Partly modified</p><p>Nearby land use: Shops or offices, Roads or car parks</p><p>Visible pollution sources: Pipe or drain</p><p>Animals and plants seen: Worms or midge larvae, Algae mats</p><p>Your overall impression: Poor</p><p>Notes: Water barely moving today. Lots of mud on the bottom.</p></div>"
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Stream assessment of Ribeira dos Covoes (sample), observed 2026-09-22 17:10.</p><p>Stream name: Ribeira dos Covoes (sample)</p><p>Latitude: 40.1952</p><p>Longitude: -8.4571</p><p>Date and time: 2026-09-22 17:10</p><p>Weather now: Heavy rain</p><p>Rain in the last 48 hours: No</p><p>Flow: Slow</p><p>Water colour: Brown</p><p>Clarity: Cloudy</p><p>Odour: Sewage</p><p>On the surface: Foam</p><p>Water temperature: 19 °C</p><p>pH: 7.9</p><p>Dissolved oxygen: 4.2 mg/L</p><p>Bank vegetation cover: Sparse</p><p>Bank erosion: Some</p><p>Channel: Partly modified</p><p>Nearby land use: Shops or offices, Roads or car parks</p><p>Visible pollution sources: Pipe or drain</p><p>Animals and plants seen: Worms or midge larvae, Algae mats</p><p>Your overall impression: Poor</p><p>Notes: Water barely moving today. Lots of mud on the bottom. A pipe on the far bank was dripping into the stream.</p></div>"
         },
         "identifier": {
           "system": "urn:ietf:rfc:3986",
@@ -343,7 +343,7 @@
                 "text": "Notes",
                 "answer": [
                   {
-                    "valueString": "Water barely moving today. Lots of mud on the bottom."
+                    "valueString": "Water barely moving today. Lots of mud on the bottom. A pipe on the far bank was dripping into the stream."
                   }
                 ]
               }
@@ -1047,7 +1047,7 @@
         "id": "167973f5-b8ff-4358-8d53-2fd71cc653c2",
         "text": {
           "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Stream assessment recorded by a volunteer with RiffleCheck.</p><p>Flags raised: 4. Fixed by the volunteer: 3. Kept by the volunteer: 1.</p><p>AI review: demo. No answer was changed automatically.</p></div>"
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Stream assessment recorded by a volunteer with RiffleCheck.</p><p>Flags raised: 5. Fixed by the volunteer: 4. Kept by the volunteer: 1.</p><p>AI review: demo. No answer was changed automatically.</p></div>"
         },
         "target": [
           {
@@ -1126,7 +1126,7 @@
         "id": "6a01ed22-1a8c-4ced-a10f-d4c0d25cc04b",
         "text": {
           "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Flag clear-but-coloured (rule check, check), raised 2026-09-22T11:44:00.000Z: You marked the water as clear, and also recorded the colour as brown and mud or silt in your notes. Could you look again?</p><p>The volunteer changed their answer.</p><p>Clarity: before &quot;Clear&quot;, after &quot;Cloudy&quot;</p><p>Water colour: before &quot;Brown&quot;, after &quot;Brown&quot;</p><p>Notes: before &quot;Water barely moving today. Lots of mud on the bottom.&quot;, after &quot;Water barely moving today. Lots of mud on the bottom.&quot;</p></div>"
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Flag clear-but-coloured (rule check, check), raised 2026-09-22T11:44:00.000Z: You marked the water as clear, and also recorded the colour as brown and mud or silt in your notes. Could you look again?</p><p>The volunteer changed their answer.</p><p>Clarity: before &quot;Clear&quot;, after &quot;Cloudy&quot;</p><p>Water colour: before &quot;Brown&quot;, after &quot;Brown&quot;</p><p>Notes: before &quot;Water barely moving today. Lots of mud on the bottom. A pipe on the far bank was dripping into the stream.&quot;, after &quot;Water barely moving today. Lots of mud on the bottom. A pipe on the far bank was dripping into the stream.&quot;</p></div>"
         },
         "target": [
           {
@@ -1252,13 +1252,65 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:5b594f2d-b35f-49de-b20c-c0e783215f00",
+      "resource": {
+        "resourceType": "Provenance",
+        "id": "5b594f2d-b35f-49de-b20c-c0e783215f00",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Flag raining-now-no-recent-rain (rule check, check), raised 2026-09-22T11:44:00.000Z: Weather now is &quot;Heavy rain&quot;, but rain in the last 48 hours is &quot;No&quot;. Does that answer include today?</p><p>The volunteer kept their answer. Reason given: The rain started just as I arrived. It had been dry for the two days before.</p><p>Weather now: before &quot;Heavy rain&quot;, after &quot;Heavy rain&quot;</p><p>Rain in the last 48 hours: before &quot;No&quot;, after &quot;No&quot;</p></div>"
+        },
+        "target": [
+          {
+            "reference": "urn:uuid:86e326b5-2500-4178-93e0-bb431e900f5e"
+          }
+        ],
+        "occurredDateTime": "2026-09-22T11:48:00.000Z",
+        "recorded": "2026-09-22T11:48:00.000Z",
+        "activity": {
+          "text": "Volunteer kept their answer after a flag"
+        },
+        "reason": [
+          {
+            "text": "The rain started just as I arrived. It had been dry for the two days before."
+          }
+        ],
+        "agent": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                  "code": "author",
+                  "display": "Author"
+                }
+              ]
+            },
+            "who": {
+              "display": "Citizen science volunteer (anonymous)"
+            }
+          },
+          {
+            "role": [
+              {
+                "text": "Raised the flag (rule check)"
+              }
+            ],
+            "who": {
+              "display": "RiffleCheck rule check (raining-now-no-recent-rain)"
+            }
+          }
+        ]
+      }
+    },
+    {
       "fullUrl": "urn:uuid:5dc81d45-0b39-45b0-b65c-885f8e9dddf2",
       "resource": {
         "resourceType": "Provenance",
         "id": "5dc81d45-0b39-45b0-b65c-885f8e9dddf2",
         "text": {
           "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Flag ai:2026-09-22T11:45:00.000Z:0 (AI review, check, high confidence), raised 2026-09-22T11:45:00.000Z: Your notes and your flow answer seem to describe different water speeds. Could you look again?</p><p>The volunteer changed their answer.</p><p>Flow: before &quot;Fast&quot;, after &quot;Slow&quot;</p><p>Notes: before &quot;Water barely moving today. Lots of mud on the bottom.&quot;, after &quot;Water barely moving today. Lots of mud on the bottom.&quot;</p></div>"
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Flag ai:2026-09-22T11:45:00.000Z:0 (AI review, check, high confidence), raised 2026-09-22T11:45:00.000Z: Your notes and your flow answer seem to describe different water speeds. Could you look again?</p><p>The volunteer changed their answer.</p><p>Flow: before &quot;Fast&quot;, after &quot;Slow&quot;</p><p>Notes: before &quot;Water barely moving today. Lots of mud on the bottom. A pipe on the far bank was dripping into the stream.&quot;, after &quot;Water barely moving today. Lots of mud on the bottom. A pipe on the far bank was dripping into the stream.&quot;</p></div>"
         },
         "target": [
           {
@@ -1324,23 +1376,25 @@
         "id": "5cc81bb2-0c39-4743-b55c-86cc8f9ddf85",
         "text": {
           "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Flag ai:2026-09-22T11:45:00.000Z:1 (AI review, check, medium confidence), raised 2026-09-22T11:45:00.000Z: It is raining now, but rain in the last 48 hours is recorded as no. Does that answer include today?</p><p>The volunteer kept their answer. Reason given: The rain started just as I arrived. It had been dry for the two days before.</p><p>Weather now: before &quot;Heavy rain&quot;, after &quot;Heavy rain&quot;</p><p>Rain in the last 48 hours: before &quot;No&quot;, after &quot;No&quot;</p></div>"
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Flag ai:2026-09-22T11:45:00.000Z:1 (AI review, check, high confidence), raised 2026-09-22T11:45:00.000Z: Your notes mention a pipe, but visible pollution sources is recorded as None seen. Could you look again?</p><p>The volunteer changed their answer.</p><p>Notes: before &quot;Water barely moving today. Lots of mud on the bottom. A pipe on the far bank was dripping into the stream.&quot;, after &quot;Water barely moving today. Lots of mud on the bottom. A pipe on the far bank was dripping into the stream.&quot;</p><p>Visible pollution sources: before &quot;None seen&quot;, after &quot;Pipe or drain&quot;</p></div>"
         },
         "target": [
           {
             "reference": "urn:uuid:86e326b5-2500-4178-93e0-bb431e900f5e"
           }
         ],
-        "occurredDateTime": "2026-09-22T11:48:00.000Z",
-        "recorded": "2026-09-22T11:48:00.000Z",
+        "occurredDateTime": "2026-09-22T11:46:00.000Z",
+        "recorded": "2026-09-22T11:46:00.000Z",
         "activity": {
-          "text": "Volunteer kept their answer after a flag"
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+              "code": "UPDATE",
+              "display": "revise"
+            }
+          ],
+          "text": "Volunteer changed their answer after a flag"
         },
-        "reason": [
-          {
-            "text": "The rain started just as I arrived. It had been dry for the two days before."
-          }
-        ],
         "agent": [
           {
             "type": {
@@ -1364,6 +1418,18 @@
             ],
             "who": {
               "display": "RiffleCheck AI review (prepared demo response)"
+            }
+          }
+        ],
+        "entity": [
+          {
+            "role": "revision",
+            "what": {
+              "identifier": {
+                "system": "https://rifflecheck.example/fhir/field",
+                "value": "pollutionSources"
+              },
+              "display": "Visible pollution sources: before \"None seen\", after \"Pipe or drain\""
             }
           }
         ]

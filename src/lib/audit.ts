@@ -296,3 +296,32 @@ export function qualityStats(record: AssessmentRecord): Record<Source | "total",
     total: row(record.flags),
   };
 }
+
+export interface CheckStat {
+  id: string;
+  source: Source;
+  raised: number;
+  fixed: number;
+  kept: number;
+}
+
+/**
+ * Across submitted records, how often each check was raised and what volunteers
+ * did about it. A check that is mostly kept may be too strict or badly worded;
+ * one that is mostly fixed is catching real slips. All AI flags count as one check.
+ */
+export function checkStats(records: AssessmentRecord[]): CheckStat[] {
+  const stats = new Map<string, CheckStat>();
+  for (const record of records) {
+    if (record.status !== "submitted") continue;
+    for (const flag of record.flags) {
+      const id = flag.source === "ai" ? "ai-review" : flag.id;
+      const stat = stats.get(id) ?? { id, source: flag.source, raised: 0, fixed: 0, kept: 0 };
+      stat.raised += 1;
+      if (flag.decision === "fixed") stat.fixed += 1;
+      if (flag.decision === "kept") stat.kept += 1;
+      stats.set(id, stat);
+    }
+  }
+  return [...stats.values()].sort((x, y) => y.raised - x.raised || x.id.localeCompare(y.id));
+}

@@ -44,7 +44,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000. Other commands: `npm test` (134 unit tests), `npm run build`, `npm run examples` (regenerates `examples/`), `python3 scripts/validate-fhir.py` (validates the example bundles with the HL7 validator).
+Open http://localhost:3000. Other commands: `npm test` (154 unit tests), `npm run eval:ai` (runs the live model five times on each sample and checks every flag; needs a key), `npm run build`, `npm run examples` (regenerates `examples/`), `python3 scripts/validate-fhir.py` (validates the example bundles with the HL7 validator).
 
 ### Demo mode (no API key)
 
@@ -67,7 +67,7 @@ The home page has three made-up assessments that open on the review screen:
 | Sample | What to expect |
 |---|---|
 | Clean | Zero rule flags; the AI returns an empty list. |
-| Contradictory | Two rule flags (clear but brown and muddy; sewage smell but no source seen) and two AI flags (notes say "barely moving" but flow is "Fast"; raining now but "no rain in 48 hours"). |
+| Contradictory | Three rule flags (clear but brown and muddy; sewage smell but no source seen; raining now but "no rain in 48 hours") and two AI flags that only free text reveals (notes say "barely moving" but flow is "Fast"; notes mention a pipe but sources is "None seen"). |
 | Unusual but plausible | One "unusual" flag (mayfly larvae with a sewage smell) that the volunteer can keep with a reason. |
 
 Finished versions of the same three are already in the reviewer view.
@@ -86,8 +86,10 @@ Finished versions of the same three are already in the reviewer view.
 | `required:*` | error | A required answer is missing |
 | `clear-but-coloured` | check | Clarity is "Clear" but colour is brown or grey, or the notes mention mud or silt |
 | `pollution-signs-no-source` | check | Sewage or chemical smell, or an oil sheen, with pollution sources "None seen" |
+| `raining-now-no-recent-rain` | check | Weather now is light or heavy rain, but rain in the last 48 hours is "No" |
 | `sensitive-life-with-pollution-signs` | unusual | Mayfly or stonefly larvae with a sewage smell or opaque water |
 | `no-life-in-healthy-looking-stream` | unusual | No life seen, but dense bank vegetation and clear water |
+| `good-impression-with-pollution-signs` | unusual | The volunteer's overall impression is "Good" with a sewage or chemical smell, an oil sheen, or opaque water |
 
 Recent rain with cloudy water is not a flag. It adds a note to the record that the rain can explain the cloudiness.
 
@@ -97,7 +99,13 @@ Errors must be fixed. "Check" flags are phrased as questions. "Unusual" flags sa
 
 - Model: Gemini (`gemini-3.5-flash` by default, set `GEMINI_MODEL` to change), called from `src/app/api/review/route.ts` with a JSON response schema.
 - The response is validated with Zod on the server. If it fails to parse or has the wrong shape, the server retries once, then returns rule results only with a visible notice. The same happens if the network is down. Nothing crashes.
-- After validation the server drops any flag that names a field that does not exist or was not shown to the AI, repeats a rule flag, or contains text that reads like a score, a stated cause, health advice, or a correction (`violatesPolicy` in `src/lib/ai/review.ts`).
+- After validation the server drops any flag that:
+  - names a field that does not exist or was not shown to the AI;
+  - **is not grounded**: anything the model puts in quotation marks, and every number it mentions, must appear in the answers it was sent (`isGrounded` in `src/lib/ai/review.ts`). A flag that quotes a value the volunteer never entered is treated as invented;
+  - repeats a rule flag;
+  - reads like a score, a stated cause, health advice, or a correction (`violatesPolicy`).
+- The route is rate limited (12 reviews a minute per caller) and rejects oversized requests, so a public deployment cannot be used to burn the API quota.
+- `npm run eval:ai` runs the live model five times on each sample, prints every flag and how many the guards dropped, and fails if the clean sample gets a flag.
 
 ## Responsible-AI design choices
 
@@ -108,6 +116,7 @@ Errors must be fixed. "Check" flags are phrased as questions. "Unusual" flags sa
 - **Every flag shows its source.** "Rule check" or "AI review", with the AI's confidence, and an explanation of why it appeared. AI flags carry a reminder that the AI cannot see the stream and may be mistaken.
 - **Data minimisation.** The photo and the exact coordinates are never sent to the AI. The volunteer's notes are passed as data, with an instruction to the model not to treat them as instructions.
 - **No stream health score.** The data quality panel describes the record (flags raised, fixed, kept), not the stream. The only rating in the app is the volunteer's own "overall impression".
+- **Overrides feed back into the checks.** The reviewer view shows, for every check, how often volunteers fixed their answer and how often they kept it. A check that is mostly kept is a signal to researchers that the rule or its wording needs work, so the people in the field calibrate the system rather than the other way round.
 - **It degrades safely.** With no key, a broken model reply, or no network, the volunteer still gets the rule checks and can submit.
 - **Accessibility.** Labelled inputs, native radios and checkboxes, keyboard reachable, visible focus, tap targets of 44 px or more, and severity shown by icon and text as well as colour.
 
@@ -193,7 +202,8 @@ src/lib/
   storage.ts         localStorage store
   ai/prompt.ts       system prompt and payload
   ai/schema.ts       Zod schema for the AI reply, and the request
-  ai/review.ts       Gemini call, validation, retry, fallback, output guards
+  ai/review.ts       Gemini call, validation, retry, fallback, grounding and policy guards
+  rateLimit.ts       per-caller limit for the AI route
   ai/canned.ts       demo-mode responses
   export/            fhir.ts, csv.ts, json.ts
 src/app/
@@ -204,13 +214,13 @@ src/app/
   api/review/        Layer 2 route
 ```
 
-Tests (Vitest) cover every rule firing and not firing, the wording of "unusual" flags, the fix / keep / submit state machine, AI retry and fallback with a mocked model, the output guards, the FHIR bundle's required fields and reference integrity, and CSV escaping.
+Tests (Vitest) cover every rule firing and not firing, the wording of "unusual" flags, the fix / keep / submit state machine, AI retry and fallback with a mocked model, the grounding and policy guards, the rate limit, the FHIR bundle's required fields and reference integrity, and CSV escaping.
 
 ## Limitations
 
 - **The fields are not the official OneAquaHealth protocol.** They are a generic visual assessment with a mapping table. The rules would need review by a freshwater ecologist before real use.
 - **The rule thresholds are simple.** For example, a temperature limit of 40 °C and "mud" as a keyword. They catch slips, not subtle errors, and the keyword check only understands English.
-- **The AI can be wrong in both directions.** It can miss a real inconsistency or question a correct answer. The output guards are pattern-based and can be evaded by unusual wording. The retry, fallback and guards are tested with mocked model replies; the prompt has had only limited testing against live model output.
+- **The AI can be wrong in both directions.** It can miss a real inconsistency or question a correct answer. The policy guard is pattern-based and can be evaded by unusual wording, and the grounding guard only checks quoted text and numbers, so it will sometimes drop a fair question and cannot catch an invented claim written without quotes. The retry, fallback and guards are tested with mocked model replies; the prompt has had only limited testing against live model output.
 - **Data stays in one browser.** There is no sync, no backup and no way to send a record to OneAquaHealth yet. Clearing browser data deletes everything.
 - **The reviewer view shows only this browser's records.** It demonstrates what a researcher would see; it is not a multi-user tool.
 - **Photos are stored as small thumbnails** in localStorage, are not included in the exports, and are not analysed.
@@ -226,6 +236,17 @@ Tests (Vitest) cover every rule firing and not firing, the wording of "unusual" 
 4. Give researchers the override data: which rules are kept most often shows which questions or helpers are confusing, and which rules are too strict.
 5. Evaluate the AI layer on real, anonymised assessments with ecologists labelling the flags as useful or not, before it is switched on for volunteers.
 6. Translate the form and prompts into the languages of the project's research cities.
+
+## What production would still need
+
+This is a prototype. Before volunteers rely on it, it would need:
+
+- The official protocol's questions, and rules reviewed and signed off by freshwater ecologists.
+- A server-side store with accounts or pseudonymous IDs, consent, and a GDPR review. Today everything lives in one browser.
+- Offline support at the stream (installable app with a service worker) and translations for the research cities.
+- An evaluation of the AI layer on real assessments, with ecologists labelling flags as useful or not, and monitoring of how often the guards drop output.
+- Validation against the published OneAquaHealth FHIR package once it is available, and agreement with the IG authors on how citizen answers and the audit trail are modelled.
+- A shared rate limiter, error monitoring, and an accessibility audit with screen-reader users.
 
 ## Licence
 

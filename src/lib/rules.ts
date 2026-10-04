@@ -180,6 +180,40 @@ export const RULES: Rule[] = [
       "Clear water with well-covered banks usually has at least some visible life, such as snails, insects or birds. Small animals are easy to miss on a short visit.",
     question: "Did you have a chance to look under a stone or along the water's edge?",
   },
+  {
+    id: "raining-now-no-recent-rain",
+    reads: ["weather", "rain48h"],
+    severity: "check",
+    test: (a) =>
+      (a.weather === "light_rain" || a.weather === "heavy_rain") && a.rain48h === "no" ? ["weather", "rain48h"] : null,
+    concern: (a) =>
+      `Weather now is "${displayValue("weather", a.weather)}", but rain in the last 48 hours is "No". Does that answer include today?`,
+    why: () => "The last 48 hours include right now, so rain falling during your visit counts as recent rain.",
+    question: "Has any rain fallen here today or in the two days before?",
+  },
+  {
+    id: "good-impression-with-pollution-signs",
+    reads: ["overallImpression", "odour", "surface", "clarity"],
+    severity: "unusual",
+    test: (a) => {
+      if (a.overallImpression !== "good") return null;
+      const fields: FieldKey[] = [];
+      if (a.odour === "sewage" || a.odour === "chemical") fields.push("odour");
+      if (a.surface === "oil") fields.push("surface");
+      if (a.clarity === "opaque") fields.push("clarity");
+      return fields.length ? ["overallImpression", ...fields] : null;
+    },
+    concern: (a) => {
+      const signs: string[] = [];
+      if (a.odour === "sewage" || a.odour === "chemical") signs.push(`a ${displayValue("odour", a.odour).toLowerCase()} smell`);
+      if (a.surface === "oil") signs.push("an oil sheen");
+      if (a.clarity === "opaque") signs.push("opaque water");
+      return `An overall impression of "Good" together with ${listOf(signs)} is uncommon and worth a second look.`;
+    },
+    why: () =>
+      "Your overall impression is your own judgement and stays yours. These signs are usually recorded at streams that people rate lower, so it helps researchers to know you weighed them.",
+    question: "Thinking about the smell and look of the water, is Good still your overall impression?",
+  },
 ];
 
 /** Lower-case a label for use mid-sentence, leaving "pH" as it is. */

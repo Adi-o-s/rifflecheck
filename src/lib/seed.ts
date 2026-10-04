@@ -70,7 +70,7 @@ export const SAMPLES: Sample[] = [
       pollutionSources: ["none_seen"],
       life: ["worms_midges", "algae_mats"],
       overallImpression: "poor",
-      notes: "Water barely moving today. Lots of mud on the bottom.",
+      notes: "Water barely moving today. Lots of mud on the bottom. A pipe on the far bank was dripping into the stream.",
     },
   },
   {
@@ -156,10 +156,13 @@ export function seededRecords(): AssessmentRecord[] {
       r = updateAssessment(r, { clarity: "cloudy" }, at(6));
       r = updateAssessment(r, { pollutionSources: ["pipe"] }, at(6));
       r = updateAssessment(r, { flow: "slow" }, at(7));
-      const rain = r.flags.find((f) => f.source === "ai" && f.fields.includes("rain48h"));
-      if (!rain) throw new Error("Seed data is inconsistent");
       return must(
-        keepAnswer(r, rain.id, "The rain started just as I arrived. It had been dry for the two days before.", at(8)),
+        keepAnswer(
+          r,
+          "raining-now-no-recent-rain",
+          "The rain started just as I arrived. It had been dry for the two days before.",
+          at(8),
+        ),
       ).record;
     }),
     seededRecord(unusual, (r, at) =>

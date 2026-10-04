@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { qualityStats } from "@/lib/audit";
+import { checkStats, qualityStats } from "@/lib/audit";
 import { download, formatWhen } from "@/lib/client";
 import { toCsv } from "@/lib/export/csv";
 import { useRecords } from "@/lib/storage";
@@ -22,6 +22,7 @@ export function ReviewerView() {
     .filter((row) => !onlyOverrides || row.stats.total.kept > 0);
   const drafts = records.length - submitted.length;
   const withOverrides = submitted.filter((r) => r.flags.some((f) => f.decision === "kept")).length;
+  const checks = checkStats(submitted);
 
   return (
     <div className="space-y-4">
@@ -113,6 +114,56 @@ export function ReviewerView() {
           </table>
         </div>
       )}
+
+      <section aria-labelledby="checks-heading">
+        <h2 id="checks-heading" className="text-lg font-semibold">
+          How the checks are doing
+        </h2>
+        <p className="mb-2 mt-1 text-sm text-slate-800">
+          Each check, across all submitted records. A check that volunteers mostly keep may be too strict or
+          unclear and is worth reviewing; one they mostly fix is catching real slips. This is how volunteers&apos;
+          decisions feed back into the checks.
+        </p>
+        {checks.length === 0 ? (
+          <Card>
+            <p className="text-slate-800">No flags have been raised yet.</p>
+          </Card>
+        ) : (
+          <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+            <table className="w-full text-left text-sm">
+              <caption className="sr-only">How often each check was raised, fixed and kept</caption>
+              <thead>
+                <tr className="border-b border-slate-300 bg-slate-50">
+                  <th scope="col" className="px-3 py-2.5 font-semibold">Check</th>
+                  <th scope="col" className="px-3 py-2.5 text-right font-semibold">Raised</th>
+                  <th scope="col" className="px-3 py-2.5 text-right font-semibold">Fixed</th>
+                  <th scope="col" className="px-3 py-2.5 text-right font-semibold">Kept</th>
+                </tr>
+              </thead>
+              <tbody>
+                {checks.map((check) => (
+                  <tr key={check.id} className="border-b border-slate-200 align-top last:border-0">
+                    <th scope="row" className="px-3 py-2.5 font-normal">
+                      <span className="font-medium">
+                        {check.source === "ai" ? "AI review (all questions)" : check.id.replace(/-/g, " ")}
+                      </span>
+                      <span className="block text-slate-700">{check.source === "ai" ? "AI" : "Rule"}</span>
+                    </th>
+                    <td className="px-3 py-2.5 text-right tabular-nums">{check.raised}</td>
+                    <td className="px-3 py-2.5 text-right tabular-nums">{check.fixed}</td>
+                    <td className="px-3 py-2.5 text-right tabular-nums">
+                      {check.kept}
+                      {check.kept > 0 ? (
+                        <span className="block text-slate-700">{Math.round((check.kept / check.raised) * 100)}%</span>
+                      ) : null}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
     </div>
   );
 }

@@ -1,7 +1,21 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  poweredByHeader: false,
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          // Location and camera are used by the form itself; nothing else is allowed.
+          { key: "Permissions-Policy", value: "geolocation=(self), camera=(self), microphone=()" },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

@@ -108,4 +108,6 @@ export interface AiReviewResult {
   summary: string | null;
   notice?: string;
   model?: string;
+  /** Flags the model produced that the server-side guards removed. */
+  dropped?: number;
 }

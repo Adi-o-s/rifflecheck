@@ -49,6 +49,12 @@ export async function requestAiReview(record: AssessmentRecord): Promise<AiRevie
         assessment: { ...record.assessment, photo: null, latitude: null, longitude: null },
       }),
     });
+    if (response.status === 429) {
+      return {
+        ...offline,
+        notice: `${UNAVAILABLE} Too many AI reviews were requested in a short time. Wait a minute and try again, or carry on without it.`,
+      };
+    }
     if (!response.ok) return offline;
     const data = (await response.json()) as AiReviewResult;
     if (!data || !Array.isArray(data.flags)) return offline;

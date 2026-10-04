@@ -231,6 +231,41 @@ describe("no life in a healthy-looking stream (unusual)", () => {
   );
 });
 
+describe("raining now but no rain in 48 hours (check)", () => {
+  it.each(["light_rain", "heavy_rain"])("fires for %s with rain48h 'no', phrased as a question", (weather) => {
+    const flag = find({ weather, rain48h: "no" }, "raining-now-no-recent-rain");
+    expect(flag?.severity).toBe("check");
+    expect(flag?.fields).toEqual(["weather", "rain48h"]);
+    expect(flag?.concern).toMatch(/\?$/);
+  });
+
+  it("does not fire when rain was recorded, or when it is dry now", () => {
+    expect(find({ weather: "heavy_rain", rain48h: "yes" }, "raining-now-no-recent-rain")).toBeUndefined();
+    expect(find({ weather: "cloudy", rain48h: "no" }, "raining-now-no-recent-rain")).toBeUndefined();
+  });
+});
+
+describe("overall impression 'Good' with pollution signs (unusual)", () => {
+  it.each([
+    [{ odour: "sewage", pollutionSources: ["pipe"], life: ["snails"] }, ["overallImpression", "odour"]],
+    [{ surface: "oil", pollutionSources: ["pipe"] }, ["overallImpression", "surface"]],
+    [{ clarity: "opaque", life: ["snails"] }, ["overallImpression", "clarity"]],
+  ] as [Partial<Assessment>, string[]][])("fires for %o", (overrides, fields) => {
+    const flag = find(overrides, "good-impression-with-pollution-signs");
+    expect(flag?.severity).toBe("unusual");
+    expect(flag?.fields).toEqual(fields);
+    const text = `${flag?.concern} ${flag?.why}`.toLowerCase();
+    expect(text).toContain("uncommon");
+    expect(text).not.toMatch(/\b(wrong|incorrect|mistake)\b/);
+  });
+
+  it.each(["moderate", "poor", "unsure", ""])("does not fire when the impression is %j", (overallImpression) => {
+    expect(
+      find({ overallImpression, odour: "sewage", pollutionSources: ["pipe"], life: ["snails"] }, "good-impression-with-pollution-signs"),
+    ).toBeUndefined();
+  });
+});
+
 describe("required fields (error)", () => {
   it("lists every required field on an empty form", () => {
     const missing = missingRequired(emptyAssessment());
@@ -256,7 +291,7 @@ describe("required fields (error)", () => {
 
 describe("recent rain and cloudy water (context note, not a flag)", () => {
   it.each(["cloudy", "opaque"])("attaches a note for %s water after rain", (clarity) => {
-    const a = cleanAssessment({ rain48h: "yes", clarity, life: ["fish"] });
+    const a = cleanAssessment({ rain48h: "yes", clarity, life: ["fish"], overallImpression: "moderate" });
     expect(contextNotes(a)).toHaveLength(1);
     expect(contextNotes(a)[0]).toContain("rain");
     expect(runRules(a, TEST_NOW)).toEqual([]);

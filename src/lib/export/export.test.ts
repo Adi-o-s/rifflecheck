@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { checkStats } from "../audit";
 import { seededRecords } from "../seed";
 import { CSV_COLUMNS, toCsv } from "./csv";
 import {
@@ -33,10 +34,28 @@ describe("seeded records", () => {
     expect(contradictory.flags.map((f) => [f.source, f.decision])).toEqual([
       ["rule", "fixed"],
       ["rule", "fixed"],
+      ["rule", "kept"],
       ["ai", "fixed"],
-      ["ai", "kept"],
+      ["ai", "fixed"],
     ]);
     expect(unusual.flags.map((f) => [f.severity, f.decision])).toEqual([["unusual", "kept"]]);
+  });
+});
+
+describe("check calibration across records", () => {
+  it("counts how often each check was raised, fixed and kept", () => {
+    const stats = checkStats([clean, contradictory, unusual]);
+    expect(stats).toEqual([
+      { id: "ai-review", source: "ai", raised: 2, fixed: 2, kept: 0 },
+      { id: "clear-but-coloured", source: "rule", raised: 1, fixed: 1, kept: 0 },
+      { id: "pollution-signs-no-source", source: "rule", raised: 1, fixed: 1, kept: 0 },
+      { id: "raining-now-no-recent-rain", source: "rule", raised: 1, fixed: 0, kept: 1 },
+      { id: "sensitive-life-with-pollution-signs", source: "rule", raised: 1, fixed: 0, kept: 1 },
+    ]);
+  });
+
+  it("ignores unfinished assessments", () => {
+    expect(checkStats([{ ...contradictory, status: "draft" }])).toEqual([]);
   });
 });
 
@@ -158,7 +177,8 @@ describe("FHIR bundle", () => {
     const keptOne = provenance.find((p) => p.reason)!;
     expect(keptOne.reason[0].text).toContain("rain started");
     expect(keptOne.activity.text).toContain("kept");
-    expect(keptOne.agent[1].who.display).toContain("AI review");
+    expect(keptOne.agent[1].who.display).toContain("rule check (raining-now-no-recent-rain)");
+    expect(provenance.some((p) => p.agent[1]?.who.display.includes("AI review"))).toBe(true);
     expect(keptOne.entity).toBeUndefined();
     expect(keptOne.text.div).toContain("Reason given");
 
@@ -245,8 +265,8 @@ describe("CSV export", () => {
     expect(get("clarity")).toBe("Cloudy");
     expect(get("ph")).toBe("7.9");
     expect(get("landUse")).toBe("Shops or offices; Roads or car parks");
-    expect(get("flags_raised")).toBe("4");
-    expect(get("flags_fixed")).toBe("3");
+    expect(get("flags_raised")).toBe("5");
+    expect(get("flags_fixed")).toBe("4");
     expect(get("flags_kept")).toBe("1");
     expect(get("has_overrides")).toBe("yes");
     expect(get("kept_reasons")).toContain("rain started");

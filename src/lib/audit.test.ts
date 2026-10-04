@@ -293,8 +293,8 @@ describe("data quality counts", () => {
     const kept = keepAnswer(r, r.flags.find((f) => f.source === "ai")!.id, "Checked on site", T1);
     if (!kept.ok) throw new Error(kept.error);
     const stats = qualityStats(kept.record);
-    expect(stats.rule).toEqual({ raised: 3, fixed: 1, kept: 0, open: 2 });
+    expect(stats.rule).toEqual({ raised: 4, fixed: 1, kept: 0, open: 3 });
     expect(stats.ai).toEqual({ raised: 1, fixed: 0, kept: 1, open: 0 });
-    expect(stats.total.raised).toBe(4);
+    expect(stats.total.raised).toBe(5);
   });
 });

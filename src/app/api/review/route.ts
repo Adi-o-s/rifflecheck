@@ -1,6 +1,9 @@
 import { DEFAULT_MODEL, reviewAssessment } from "@/lib/ai/review";
 import { ReviewRequestSchema } from "@/lib/ai/schema";
+import { allowRequest } from "@/lib/rateLimit";
 import { hasErrors, runRules } from "@/lib/rules";
+
+const MAX_BODY_BYTES = 20_000;
 
 function settings() {
   return {
@@ -17,9 +20,21 @@ export async function GET() {
 
 /** Layer 2: AI review. Returns flags and a summary; never a changed assessment. */
 export async function POST(request: Request) {
+  const caller = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "local";
+  if (!allowRequest(caller)) {
+    return Response.json(
+      { error: "Too many AI reviews in a short time. Please wait a minute and try again." },
+      { status: 429, headers: { "Retry-After": "60" } },
+    );
+  }
+
   let body: unknown;
   try {
-    body = await request.json();
+    const raw = await request.text();
+    if (raw.length > MAX_BODY_BYTES) {
+      return Response.json({ error: "The request was too large." }, { status: 413 });
+    }
+    body = JSON.parse(raw);
   } catch {
     return Response.json({ error: "The request was not valid JSON." }, { status: 400 });
   }
