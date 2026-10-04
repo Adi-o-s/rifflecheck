@@ -27,6 +27,7 @@ export function ReviewScreen({ record, now, busy, onFix, onKeep, onReopen, onAiR
   const tracked = record.flags.filter((f) => f.severity !== "error" || !f.decision);
   const open = tracked.filter((f) => !f.decision && f.severity !== "error");
   const decided = record.flags.filter((f) => f.decision);
+  const total = decided.length + open.length;
   const notes = contextNotes(record.assessment);
   const aiDone = record.ai.status === "done";
   const aiStale = aiDone && record.ai.inputHash !== fingerprint(record.assessment);
@@ -52,9 +53,28 @@ export function ReviewScreen({ record, now, busy, onFix, onKeep, onReopen, onAiR
   return (
     <div className="space-y-4">
       <Card>
-        <p className="text-base text-slate-800">
-          The checks below only ask questions. <strong>Nothing is changed for you.</strong> For each one,
-          either fix your answer or keep it and say why. Both are fine, and both are recorded.
+        <div className="flex items-baseline justify-between gap-3">
+          <h2 className="text-lg font-semibold">
+            {total === 0 ? "Nothing to decide so far" : `${decided.length} of ${total} decided`}
+          </h2>
+          <p className="text-sm text-slate-700">Fix it or keep it. Both are fine.</p>
+        </div>
+        <div
+          role="progressbar"
+          aria-label="Flags decided"
+          aria-valuemin={0}
+          aria-valuemax={Math.max(total, 1)}
+          aria-valuenow={decided.length}
+          className="mt-3 h-2.5 overflow-hidden rounded-full bg-slate-200"
+        >
+          <div
+            className="h-full rounded-full bg-teal-600 transition-all"
+            style={{ width: `${total === 0 ? 0 : (decided.length / total) * 100}%` }}
+          />
+        </div>
+        <p className="mt-3 text-slate-800">
+          The checks below only ask questions. For each one, either fix your answer or keep it and say why.
+          Your decision and your reason go into the record.
         </p>
       </Card>
 
@@ -69,7 +89,10 @@ export function ReviewScreen({ record, now, busy, onFix, onKeep, onReopen, onAiR
 
       <section aria-labelledby="ai-heading">
         <Card>
-          <h3 id="ai-heading" className="text-lg font-semibold">
+          <h3 id="ai-heading" className="flex items-center gap-2 text-lg font-semibold">
+            <svg aria-hidden="true" viewBox="0 0 24 24" className="size-5 text-teal-700" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7z" />
+            </svg>
             AI review
           </h3>
           {!aiDone ? (

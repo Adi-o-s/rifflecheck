@@ -3,6 +3,7 @@
 @theme inline {
   --font-sans: var(--font-geist-sans), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-display: var(--font-fraunces), Georgia, serif;
 }
 
 :root {
@@ -10,7 +11,7 @@
 }
 
 body {
-  background: #f1f5f9;
+  background: #f3f7f6;
   color: #0f172a;
   font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
@@ -26,4 +27,39 @@ body {
 .field-target {
   box-shadow: 0 0 0 3px #f59e0b;
   border-radius: 12px;
+}
+
+/* The page column used by the form, record and reviewer screens. */
+.page {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 42rem;
+  padding: 1.25rem 1rem 4rem;
+}
+
+/* The line that runs down the story and the audit trail, like a stream. */
+.streamline {
+  position: relative;
+}
+.streamline::before {
+  content: "";
+  position: absolute;
+  left: 1.125rem;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  width: 3px;
+  border-radius: 3px;
+  background: linear-gradient(#5eead4, #0f766e);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .rise {
+    animation: rise 0.5s ease-out both;
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
 }

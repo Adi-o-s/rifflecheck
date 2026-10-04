@@ -5,5 +5,9 @@ export const metadata: Metadata = { title: "Record · RiffleCheck" };
 
 export default async function RecordPage({ params }: PageProps<"/record/[id]">) {
   const { id } = await params;
-  return <RecordView id={id} />;
+  return (
+    <div className="page">
+      <RecordView id={id} />
+    </div>
+  );
 }

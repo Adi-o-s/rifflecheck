@@ -27,7 +27,8 @@ export function ReviewerView() {
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Reviewer view</h1>
+        <p className="text-sm font-semibold uppercase tracking-wide text-teal-800">For researchers</p>
+        <h1 className="font-display text-3xl font-semibold tracking-tight">Reviewer view</h1>
         <p className="mt-1 text-slate-800">
           For researchers. Every submitted assessment in this browser, with how many flags were raised and
           what the volunteer decided. A record with overrides is one where the volunteer kept an answer that a
@@ -116,7 +117,7 @@ export function ReviewerView() {
       )}
 
       <section aria-labelledby="checks-heading">
-        <h2 id="checks-heading" className="text-lg font-semibold">
+        <h2 id="checks-heading" className="font-display text-2xl font-semibold">
           How the checks are doing
         </h2>
         <p className="mb-2 mt-1 text-sm text-slate-800">

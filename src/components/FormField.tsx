@@ -90,7 +90,7 @@ function NumberInput({
 
 function Shell({ def, target, errors, children }: Pick<FieldProps, "def" | "target" | "errors"> & { children: React.ReactNode }) {
   return (
-    <div id={`field-${def.key}`} className={`scroll-mt-24 p-2 -m-1 ${target ? "field-target" : ""}`}>
+    <div id={`field-${def.key}`} className={`scroll-mt-28 -mx-2 px-2 py-1 ${target ? "field-target" : ""}`}>
       <label htmlFor={`input-${def.key}`} className="block text-base font-semibold text-slate-900">
         <LabelText def={def} />
       </label>
@@ -117,7 +117,7 @@ function ChoiceGroup({ def, assessment, onChange, errors, target }: FieldProps) 
     onChange({ [def.key]: ordered });
   };
   return (
-    <div id={`field-${def.key}`} className={`scroll-mt-24 p-2 -m-1 ${target ? "field-target" : ""}`}>
+    <div id={`field-${def.key}`} className={`scroll-mt-28 -mx-2 px-2 py-1 ${target ? "field-target" : ""}`}>
     <fieldset aria-describedby={describedBy(def.key, errors.length > 0)}>
       <legend className="text-base font-semibold text-slate-900">
         <LabelText def={def} />
@@ -249,7 +249,7 @@ export function LocationField({
           const def = field(key);
           const errors = errorsFor(key);
           return (
-            <div key={key} id={`field-${key}`} className={`scroll-mt-24 ${targets.includes(key) ? "field-target" : ""}`}>
+            <div key={key} id={`field-${key}`} className={`scroll-mt-28 ${targets.includes(key) ? "field-target" : ""}`}>
               <label htmlFor={`input-${key}`} className="block text-sm font-semibold text-slate-900">
                 {def.label}
               </label>

@@ -4,5 +4,9 @@ import { ReviewerView } from "@/components/ReviewerView";
 export const metadata: Metadata = { title: "Reviewer view · RiffleCheck" };
 
 export default function ReviewerPage() {
-  return <ReviewerView />;
+  return (
+    <div className="page">
+      <ReviewerView />
+    </div>
+  );
 }

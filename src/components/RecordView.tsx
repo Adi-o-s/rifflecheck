@@ -14,7 +14,18 @@ import { Card, Notice, SeverityBadge, SourceBadge, btnPrimary, btnSecondary } fr
 
 function AuditEntry({ flag }: { flag: TrackedFlag }) {
   return (
-    <li className="rounded-2xl border border-slate-300 bg-white p-4">
+    <li className="relative pl-12">
+      <span
+        aria-hidden="true"
+        className={`absolute left-0 top-3 flex size-10 items-center justify-center rounded-full border-4 border-[#f3f7f6] text-white ${
+          flag.decision === "kept" ? "bg-amber-600" : "bg-teal-700"
+        }`}
+      >
+        <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          {flag.decision === "kept" ? <path d="M5 21V4m0 0h11l-2 4 2 4H5" /> : <path d="m5 12 5 5 9-10" />}
+        </svg>
+      </span>
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
       <div className="flex flex-wrap items-center gap-2">
         <SeverityBadge severity={flag.severity} />
         <SourceBadge source={flag.source} confidence={flag.confidence} />
@@ -29,6 +40,7 @@ function AuditEntry({ flag }: { flag: TrackedFlag }) {
       <p className="mt-2 text-sm text-slate-700">
         Raised {formatWhen(flag.raisedAt)} · decided {formatWhen(flag.decidedAt)}
       </p>
+      </div>
     </li>
   );
 }
@@ -106,13 +118,38 @@ export function RecordView({ id }: { id: string }) {
 
   return (
     <div className="space-y-4">
-      <div>
-        <p className="text-sm font-semibold text-teal-800">Submitted {formatWhen(record.submittedAt)}</p>
-        <h1 className="text-2xl font-semibold tracking-tight">{a.streamName}</h1>
-      </div>
+      <section className="rise overflow-hidden rounded-3xl bg-gradient-to-br from-teal-950 via-teal-900 to-teal-700 p-5 text-white sm:p-6">
+        <p className="flex items-center gap-2 text-sm font-semibold text-teal-100">
+          <span className="flex size-7 items-center justify-center rounded-full bg-white text-teal-800">
+            <svg aria-hidden="true" viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              <path d="m5 12 5 5 9-10" />
+            </svg>
+          </span>
+          Submitted {formatWhen(record.submittedAt)}
+        </p>
+        <h1 className="font-display mt-3 text-3xl font-semibold tracking-tight">{a.streamName}</h1>
+        <p className="mt-2 text-teal-50">
+          {stats.total.raised === 0
+            ? "The checks had no questions about this assessment."
+            : `The checks asked ${stats.total.raised} ${stats.total.raised === 1 ? "question" : "questions"}. The volunteer settled ${stats.total.fixed} by changing an answer and kept ${stats.total.kept} as it was, giving a reason. Nothing was changed for them.`}
+        </p>
+        <dl className="mt-4 grid grid-cols-4 gap-2 text-center">
+          {[
+            ["Asked", stats.total.raised],
+            ["Fixed", stats.total.fixed],
+            ["Kept", stats.total.kept],
+            ["Changed for you", 0],
+          ].map(([label, value]) => (
+            <div key={label} className="rounded-2xl bg-white/10 px-1 py-2">
+              <dd className="font-display text-2xl font-semibold">{value}</dd>
+              <dt className="text-xs text-teal-100">{label}</dt>
+            </div>
+          ))}
+        </dl>
+      </section>
 
       <Card>
-        <h2 className="text-lg font-semibold">Summary</h2>
+        <h2 className="text-lg font-semibold">What was recorded</h2>
         <p className="mt-1 text-slate-900">{record.summary?.text}</p>
         <p className="mt-2 text-sm text-slate-700">
           {record.summary?.source === "ai"
@@ -169,15 +206,18 @@ export function RecordView({ id }: { id: string }) {
       <Downloads record={record} />
 
       <section aria-labelledby="audit-heading">
-        <h2 id="audit-heading" className="mb-2 text-lg font-semibold">
-          Audit trail
+        <h2 id="audit-heading" className="font-display text-2xl font-semibold">
+          The story of this record
         </h2>
+        <p className="mb-3 mt-1 text-sm text-slate-800">
+          The audit trail: every question the checks asked, in order, and what the volunteer did about it.
+        </p>
         {record.flags.length === 0 ? (
           <Card>
             <p className="text-slate-800">No flags were raised for this assessment.</p>
           </Card>
         ) : (
-          <ol className="space-y-3">
+          <ol className="streamline space-y-3">
             {record.flags.map((flag) => (
               <AuditEntry key={flag.id} flag={flag} />
             ))}

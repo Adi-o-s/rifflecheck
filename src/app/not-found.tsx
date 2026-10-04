@@ -2,6 +2,7 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
+    <div className="page">
     <section className="rounded-2xl border border-slate-200 bg-white p-5">
       <h1 className="text-xl font-semibold">Page not found</h1>
       <p className="mt-2 text-slate-800">That address does not exist in RiffleCheck.</p>
@@ -12,5 +13,6 @@ export default function NotFound() {
         Back to home
       </Link>
     </section>
+    </div>
   );
 }

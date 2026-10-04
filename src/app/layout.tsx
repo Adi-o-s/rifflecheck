@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import { SiteHeader } from "@/components/SiteHeader";
 import "./globals.css";
 
@@ -10,6 +10,11 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+const display = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
 });
 
@@ -27,7 +32,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${display.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         <a
           href="#main"
@@ -36,12 +41,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to content
         </a>
         <SiteHeader />
-        <main id="main" className="mx-auto w-full max-w-2xl flex-1 px-4 pb-16 pt-5">
+        <main id="main" className="flex-1">
           {children}
         </main>
-        <footer className="border-t border-slate-200 bg-white px-4 py-4 text-center text-sm text-slate-600">
-          RiffleCheck is a hackathon prototype for the OneAquaHealth IEEE Global Hackathon, Track 3. Your
-          assessments stay in this browser.
+        <footer className="border-t border-slate-200 bg-white px-4 py-6 text-center text-sm text-slate-700">
+          <p className="font-display text-base font-semibold text-teal-900">RiffleCheck</p>
+          <p className="mx-auto mt-1 max-w-md">
+            A prototype for the OneAquaHealth IEEE Global Hackathon, Track 3: AI-supported assessment. Your
+            assessments stay in this browser.
+          </p>
         </footer>
       </body>
     </html>

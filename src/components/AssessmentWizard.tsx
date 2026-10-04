@@ -173,7 +173,17 @@ export function AssessmentWizard({ id }: { id: string }) {
 
   return (
     <div>
-      <nav aria-label="Steps" className="mb-4">
+      <div
+        role="progressbar"
+        aria-label="Progress through the assessment"
+        aria-valuemin={1}
+        aria-valuemax={REVIEW_STEP}
+        aria-valuenow={step}
+        className="mb-3 h-1.5 overflow-hidden rounded-full bg-slate-200"
+      >
+        <div className="h-full rounded-full bg-teal-600 transition-all" style={{ width: `${(step / REVIEW_STEP) * 100}%` }} />
+      </div>
+      <nav aria-label="Steps" className="mb-5">
         <ol className="flex gap-1.5">
           {[...STEPS, { id: REVIEW_STEP, title: "Review" }].map((s) => {
             const active = s.id === step;
@@ -205,11 +215,14 @@ export function AssessmentWizard({ id }: { id: string }) {
         </ol>
       </nav>
 
-      <h1 ref={heading} tabIndex={-1} className="text-2xl font-semibold tracking-tight focus-visible:outline-none">
-        {onReview ? "Review" : `Step ${step} of ${STEPS.length}: ${current?.title}`}
+      <p className="text-sm font-semibold uppercase tracking-wide text-teal-800">
+        {onReview ? a.streamName || "Your assessment" : `Step ${step} of ${STEPS.length}`}
+      </p>
+      <h1 ref={heading} tabIndex={-1} className="font-display mt-0.5 text-3xl font-semibold tracking-tight focus-visible:outline-none">
+        {onReview ? "A second look before you send it" : current?.title}
       </h1>
-      <p className="mb-4 mt-1 text-slate-800">
-        {onReview ? `${a.streamName || "Your assessment"}: check, decide, then submit.` : current?.intro}
+      <p className="mb-5 mt-1 text-slate-800">
+        {onReview ? "Check, decide, then submit. Nothing is changed for you." : current?.intro}
       </p>
 
       {saveFailed ? (
@@ -324,17 +337,19 @@ export function AssessmentWizard({ id }: { id: string }) {
             })}
           </Card>
 
-          <div className="mt-4 flex gap-3">
-            {step > 1 ? (
-              <button type="button" className={`${btnSecondary} flex-1`} onClick={() => goTo(step - 1)}>
-                Back
+          <div className="sticky bottom-0 z-20 -mx-4 mt-5 border-t border-slate-200 bg-[#f3f7f6]/95 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur">
+            <div className="flex gap-3">
+              {step > 1 ? (
+                <button type="button" className={`${btnSecondary} flex-1`} onClick={() => goTo(step - 1)}>
+                  Back
+                </button>
+              ) : null}
+              <button type="submit" className={`${btnPrimary} flex-[2]`}>
+                {step === STEPS.length ? "Go to review" : `Next: ${STEPS[step]?.title}`}
               </button>
-            ) : null}
-            <button type="submit" className={`${btnPrimary} flex-1`}>
-              {step === STEPS.length ? "Go to review" : "Next"}
-            </button>
+            </div>
+            <p className="mt-2 text-center text-xs text-slate-700">Saved on this device as you go.</p>
           </div>
-          <p className="mt-3 text-center text-sm text-slate-700">Saved on this device as you go.</p>
         </form>
       )}
     </div>

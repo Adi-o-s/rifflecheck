@@ -9,6 +9,7 @@ export default function ErrorPage({ error, retry }: { error: Error & { digest?: 
   }, [error]);
 
   return (
+    <div className="page">
     <section className="rounded-2xl border border-slate-200 bg-white p-5">
       <h1 className="text-xl font-semibold">Something went wrong on this screen</h1>
       <p className="mt-2 text-slate-800">
@@ -31,5 +32,6 @@ export default function ErrorPage({ error, retry }: { error: Error & { digest?: 
         </Link>
       </div>
     </section>
+    </div>
   );
 }
