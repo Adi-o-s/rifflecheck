@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import { coerceAssessment } from "./fields";
 import { seededRecords } from "./seed";
 import type { AssessmentRecord } from "./types";
 
@@ -28,8 +29,11 @@ function read(): AssessmentRecord[] {
   try {
     const raw = window.localStorage.getItem(KEY);
     if (raw) {
-      cache = JSON.parse(raw) as AssessmentRecord[];
-      return cache;
+      const parsed: unknown = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        cache = parsed.filter(isUsable).map(repair);
+        return cache;
+      }
     }
   } catch {
     // Fall through to a fresh seed.
@@ -37,6 +41,23 @@ function read(): AssessmentRecord[] {
   cache = seededRecords();
   persist(cache);
   return cache;
+}
+
+function isUsable(value: unknown): value is AssessmentRecord {
+  const r = value as Partial<AssessmentRecord> | null;
+  return !!r && typeof r === "object" && typeof r.id === "string" && (r.status === "draft" || r.status === "submitted");
+}
+
+/** Saved data can be damaged (a half-written save, an old version). Mend what can be mended. */
+function repair(record: AssessmentRecord): AssessmentRecord {
+  return {
+    ...record,
+    step: Number.isInteger(record.step) && record.step >= 1 && record.step <= 5 ? record.step : 1,
+    assessment: coerceAssessment(record.assessment),
+    flags: Array.isArray(record.flags) ? record.flags.filter((f) => f && typeof f.id === "string" && Array.isArray(f.fields)) : [],
+    ai: record.ai && typeof record.ai === "object" ? record.ai : { status: "idle" },
+    contextNotes: Array.isArray(record.contextNotes) ? record.contextNotes : [],
+  };
 }
 
 function emit(): void {

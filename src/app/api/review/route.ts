@@ -29,6 +29,11 @@ export async function POST(request: Request) {
     );
   }
 
+  // Refuse an oversized body before reading it.
+  if (Number(request.headers.get("content-length") ?? 0) > MAX_BODY_BYTES) {
+    return Response.json({ error: "The request was too large." }, { status: 413 });
+  }
+
   let body: unknown;
   try {
     const raw = await request.text();

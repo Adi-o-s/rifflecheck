@@ -104,11 +104,38 @@ export function stableUuid(seed: string): string {
 /** "YYYY-MM-DDTHH:mm" in local time -> FHIR dateTime with seconds and a UTC offset. */
 export function toFhirDateTime(local: string): string {
   const date = new Date(local);
+  // The rules stop an unreadable date being submitted; this is a second guard for the export.
+  if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(local) || Number.isNaN(date.getTime())) {
+    return new Date(0).toISOString();
+  }
   const offset = -date.getTimezoneOffset();
   const sign = offset >= 0 ? "+" : "-";
   const pad = (n: number) => String(Math.abs(n)).padStart(2, "0");
   const base = local.length === 16 ? `${local}:00` : local.slice(0, 19);
   return `${base}${sign}${pad(Math.trunc(Math.abs(offset) / 60))}:${pad(Math.abs(offset) % 60)}`;
+}
+
+/**
+ * FHIR strings may not contain control characters (other than tab and line
+ * breaks) and must be well-formed Unicode. Volunteers can paste anything into
+ * notes, so every string in the bundle goes through this.
+ */
+export function cleanText(text: string): string {
+  return (
+    text
+       
+      .replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g, "")
+      .replace(/[\ud800-\udbff](?![\udc00-\udfff])|(?<![\ud800-\udbff])[\udc00-\udfff]/g, "\ufffd")
+  );
+}
+
+function cleanDeep<T>(value: T): T {
+  if (typeof value === "string") return cleanText(value) as T;
+  if (Array.isArray(value)) return value.map(cleanDeep) as T;
+  if (value && typeof value === "object") {
+    return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, cleanDeep(v)])) as T;
+  }
+  return value;
 }
 
 function escapeXml(text: string): string {
@@ -349,11 +376,11 @@ export function buildFhirBundle(record: AssessmentRecord): Json {
     ...decided.map((f) => decisionProvenance(f, record, urn(responseId))),
   ];
 
-  return {
+  return cleanDeep({
     resourceType: "Bundle",
     identifier: { system: "urn:ietf:rfc:3986", value: urn(stableUuid(`${record.id}:bundle`)) },
     type: "collection",
     timestamp: authored,
     entry: resources.map((resource) => ({ fullUrl: urn(resource.id as string), resource })),
-  };
+  });
 }

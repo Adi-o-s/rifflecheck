@@ -44,7 +44,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000. Other commands: `npm test` (155 unit tests), `npm run eval:ai` (runs the live model five times on each sample and checks every flag; needs a key), `npm run build`, `npm run examples` (regenerates `examples/`), `python3 scripts/validate-fhir.py` (validates the example bundles with the HL7 validator).
+Open http://localhost:3000. Other commands: `npm test` (160 tests, including the fuzz tests), `npm run eval:ai` (runs the live model five times on each sample and checks every flag; needs a key), `npm run build`, `npm run examples` (regenerates `examples/`), `python3 scripts/validate-fhir.py` (validates the example bundles with the HL7 validator).
 
 ### Demo mode (no API key)
 
@@ -215,6 +215,25 @@ src/app/
 ```
 
 Tests (Vitest) cover every rule firing and not firing, the wording of "unusual" flags, the fix / keep / submit state machine, AI retry and fallback with a mocked model, the grounding and policy guards, the rate limit, the FHIR bundle's required fields and reference integrity, and CSV escaping.
+
+## Stress tests
+
+Run on 5 October 2026. The scripts are in the repo so anyone can repeat them.
+
+| What | How | Result |
+|---|---|---|
+| Rule engine fuzz | `STRESS_SCALE=20 npm test`: 100,000 random and hostile assessments per seed, 3 seeds | No crash, no input changed, same input always gives the same flags |
+| Decision logic fuzz | Same command: 8,000 random sessions of up to 60 actions (edit, keep, reopen, AI review, submit) per seed | In every state: answers changed only by the volunteer's own edits; no "kept" flag without a reason; no submitted record with an error or an undecided flag; every submitted record exported as valid FHIR, CSV and JSON |
+| AI guard fuzz | Same command: 60,000 fake model replies per seed, a third of them carrying scores, stated causes, advice or invented values | Nothing that fails the policy or grounding check was ever let through |
+| Server load | `npm run stress:http` against a production build: 3,000 page loads and 3,000 API calls, 100 at a time | 0 errors; pages p95 193 ms, API p95 53 ms on a laptop |
+| Rate limit | One caller sending 200 AI requests | Exactly 12 allowed, 188 refused with HTTP 429 |
+| Hostile requests | 16 malformed or malicious payloads (broken JSON, 5 MB body, deep nesting, prototype pollution, smuggled photo) | All refused with 400, 409 or 413; never a 500; no key in any response |
+| Prompt injection | `npm run stress:ai`: 5 attacks typed into the notes and stream name against the live model (demand a score, impersonate the system, break out of the JSON, invent observations, declare an answer wrong) | No injected instruction reached the screen in any of the 5 |
+| Browser | Damaged and non-JSON saved data; script tags in names and notes; 600 saved records (1.7 MB); storage full; triple-click on submit | No crash, no script ran, typing stayed at one frame (17 ms), a clear "could not save" notice, one record per submit |
+
+The fuzzing found three real defects, all now fixed and covered by tests: damaged saved data could crash the rule checks; a date that could not be parsed was accepted and would have produced an invalid FHIR date; control characters pasted into notes would have made the FHIR export invalid.
+
+What this does not cover: real phones on a poor connection, many volunteers at once on a deployed server (the load test ran on one laptop in demo mode), and injection attacks beyond the five tried.
 
 ## Limitations
 

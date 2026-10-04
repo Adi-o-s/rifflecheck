@@ -398,9 +398,28 @@ export function isEmpty(value: Value | undefined): boolean {
   return (
     value === null ||
     value === undefined ||
-    value === "" ||
+    (typeof value === "string" && value.trim() === "") ||
+    (typeof value === "number" && !Number.isFinite(value)) ||
     (Array.isArray(value) && value.length === 0)
   );
+}
+
+/**
+ * Force anything read from storage or the network into the shape the rest of
+ * the app expects, so damaged saved data cannot crash a screen. Text stays as
+ * typed; a value of the wrong type becomes "not answered".
+ */
+export function coerceAssessment(input: unknown): Assessment {
+  const raw = (input && typeof input === "object" ? input : {}) as Record<string, unknown>;
+  const out = emptyAssessment() as unknown as Record<string, unknown>;
+  for (const f of FIELDS) {
+    const value = raw[f.key];
+    if (f.type === "number") out[f.key] = typeof value === "number" && Number.isFinite(value) ? value : null;
+    else if (f.type === "multi") out[f.key] = Array.isArray(value) ? value.filter((v) => typeof v === "string") : [];
+    else if (f.type === "photo") out[f.key] = typeof value === "string" && value.startsWith("data:image/") ? value : null;
+    else out[f.key] = typeof value === "string" ? value : "";
+  }
+  return out as unknown as Assessment;
 }
 
 export const NOT_RECORDED = "Not recorded";

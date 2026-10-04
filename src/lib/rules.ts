@@ -1,4 +1,4 @@
-import { FIELDS, displayValue, field, isEmpty } from "./fields";
+import { FIELDS, coerceAssessment, displayValue, field, isEmpty } from "./fields";
 import type { Assessment, FieldKey, Flag, Severity } from "./types";
 
 /**
@@ -68,6 +68,15 @@ export const RULES: Rule[] = [
   rangeRule("dissolvedOxygen", "oxygen-range", "Dissolved oxygen"),
   rangeRule("latitude", "latitude-range", "Latitude"),
   rangeRule("longitude", "longitude-range", "Longitude"),
+  {
+    id: "date-invalid",
+    reads: ["observedAt"],
+    severity: "error",
+    test: (a) => (a.observedAt && !isValidLocalDateTime(a.observedAt) ? ["observedAt"] : null),
+    concern: () => "The date and time could not be understood.",
+    why: () => "The record needs a real calendar date and time so researchers know when the stream was visited.",
+    question: "Can you pick the date and time again?",
+  },
   {
     id: "date-future",
     reads: ["observedAt"],
@@ -249,7 +258,25 @@ export function isRequiredFlag(flag: Pick<Flag, "id">): boolean {
   return flag.id.startsWith("required:");
 }
 
-export function runRules(a: Assessment, now: Date = new Date()): Flag[] {
+/** True for "YYYY-MM-DDTHH:mm" (optionally with seconds) that names a real moment. */
+export function isValidLocalDateTime(value: string): boolean {
+  const match = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::\d{2})?$/.exec(value);
+  if (!match) return false;
+  const [year, month, day, hour, minute] = match.slice(1).map(Number);
+  const date = new Date(year, month - 1, day, hour, minute);
+  return (
+    year >= 1900 &&
+    date.getFullYear() === year &&
+    date.getMonth() === month - 1 &&
+    date.getDate() === day &&
+    hour < 24 &&
+    minute < 60
+  );
+}
+
+export function runRules(input: Assessment, now: Date = new Date()): Flag[] {
+  // Never trust the shape of what comes in: it may be from damaged storage.
+  const a = coerceAssessment(input);
   const flags: Flag[] = [];
   for (const rule of RULES) {
     const fields = rule.test(a, now);

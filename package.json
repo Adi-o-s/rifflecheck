@@ -10,7 +10,9 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "examples": "vite-node scripts/make-examples.ts",
-    "eval:ai": "vite-node scripts/eval-ai.ts"
+    "eval:ai": "vite-node scripts/eval-ai.ts",
+    "stress:http": "node scripts/stress-http.mjs",
+    "stress:ai": "vite-node scripts/stress-ai.ts"
   },
   "dependencies": {
     "next": "16.3.8",
