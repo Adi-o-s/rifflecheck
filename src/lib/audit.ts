@@ -229,7 +229,12 @@ export function applyAiReview(record: AssessmentRecord, result: AiReviewResult, 
       reviewedAt: iso,
       inputHash: fingerprint(a),
     },
-    summary: result.summary ? { text: result.summary, source: "ai" } : ran ? undefined : record.summary,
+    // Demo-mode summaries are built from the answers, so they are not labelled as AI-written.
+    summary: result.summary
+      ? { text: result.summary, source: result.mode === "live" ? "ai" : "answers" }
+      : ran
+        ? undefined
+        : record.summary,
     updatedAt: iso,
   };
 }

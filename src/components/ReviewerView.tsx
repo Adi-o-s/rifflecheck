@@ -68,16 +68,13 @@ export function ReviewerView() {
         </Card>
       ) : (
         <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
-          <table className="w-full min-w-[34rem] text-left text-sm">
+          <table className="w-full text-left text-sm">
             <caption className="sr-only">Submitted assessments with flag counts and decisions</caption>
             <thead>
               <tr className="border-b border-slate-300 bg-slate-50">
                 <th scope="col" className="px-3 py-2.5 font-semibold">Stream</th>
-                <th scope="col" className="px-3 py-2.5 font-semibold">Rule flags</th>
-                <th scope="col" className="px-3 py-2.5 font-semibold">AI flags</th>
-                <th scope="col" className="px-3 py-2.5 text-right font-semibold">Fixed</th>
-                <th scope="col" className="px-3 py-2.5 text-right font-semibold">Kept</th>
-                <th scope="col" className="px-3 py-2.5 font-semibold">Overrides</th>
+                <th scope="col" className="px-3 py-2.5 font-semibold">Flags raised</th>
+                <th scope="col" className="px-3 py-2.5 font-semibold">Decisions</th>
               </tr>
             </thead>
             <tbody>
@@ -89,28 +86,26 @@ export function ReviewerView() {
                     </Link>
                     <span className="block text-slate-700">{formatWhen(record.submittedAt)}</span>
                   </th>
-                  <td className="px-3 py-2.5 tabular-nums">{stats.rule.raised}</td>
-                  <td className="px-3 py-2.5 tabular-nums">
-                    {stats.ai.raised}
-                    {record.ai.mode && record.ai.mode !== "live" ? (
-                      <span className="block text-slate-700">
-                        {record.ai.mode === "demo" ? "demo" : "AI unavailable"}
-                      </span>
-                    ) : null}
+                  <td className="whitespace-nowrap px-3 py-2.5 tabular-nums">
+                    <span className="block">{stats.rule.raised} rule</span>
+                    <span className="block">
+                      {stats.ai.raised} AI
+                      {record.ai.mode && record.ai.mode !== "live" ? (
+                        <span className="text-slate-700"> ({record.ai.mode === "demo" ? "demo" : "did not run"})</span>
+                      ) : null}
+                    </span>
                   </td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">{stats.total.fixed}</td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">{stats.total.kept}</td>
-                  <td className="px-3 py-2.5">
+                  <td className="whitespace-nowrap px-3 py-2.5 tabular-nums">
+                    <span className="block">{stats.total.fixed} fixed</span>
+                    <span className="block">{stats.total.kept} kept</span>
                     {stats.total.kept > 0 ? (
-                      <span className="inline-flex items-center gap-1 rounded-full border border-amber-300 bg-amber-50 px-2 py-0.5 font-semibold text-amber-950">
+                      <span className="mt-1 inline-flex items-center gap-1 rounded-full border border-amber-300 bg-amber-50 px-2 py-0.5 font-semibold text-amber-950">
                         <svg aria-hidden="true" viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M5 21V4m0 0h11l-2 4 2 4H5" />
                         </svg>
-                        Yes
+                        Override
                       </span>
-                    ) : (
-                      <span className="text-slate-700">No</span>
-                    )}
+                    ) : null}
                   </td>
                 </tr>
               ))}
