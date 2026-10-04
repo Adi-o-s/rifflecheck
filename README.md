@@ -2,6 +2,8 @@
 
 A guided stream assessment that checks a volunteer's answers as they go, explains every concern in plain language, and leaves every decision with the person.
 
+**Live: https://rifflecheck.vercel.app** (works on a phone; try the ten-second demo at the top, or open the "Contradictory" sample).
+
 **OneAquaHealth IEEE Global Hackathon 2026, Track 3: AI-Supported Assessment.** The track asks teams to "use AI responsibly to support stream assessment without replacing human judgment". RiffleCheck answers it with two layers of checking that can only ask questions: the volunteer either fixes an answer or keeps it and says why, and both outcomes are recorded.
 
 ## The problem
