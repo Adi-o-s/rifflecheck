@@ -38,7 +38,7 @@ flowchart TD
 Needs Node 20 or newer.
 
 ```bash
-git clone <this-repo-url> rifflecheck
+git clone https://github.com/Adi-o-s/rifflecheck.git
 cd rifflecheck
 npm install
 npm run dev
