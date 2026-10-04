@@ -7,7 +7,10 @@ import type { AssessmentRecord, FieldKey, Snapshot, TrackedFlag } from "../types
  * Bundle (collection) containing:
  * - Location: the site, with latitude and longitude.
  * - QuestionnaireResponse: every answer, linkId = field key.
- * - Observation: one per numeric measurement that was entered.
+ * - Observation: one per numeric measurement that was entered, and one per
+ *   qualitative answer that matches a OneAquaHealth indicator (flow, colour,
+ *   odour, surface, bank vegetation, channel, land use, and fish / amphibians /
+ *   birds seen).
  * - Provenance: one for the record, plus one per flag decision (the audit trail).
  *   Only standard elements are used: the decision in `activity`, the volunteer's
  *   reason in `reason`, who raised the flag in `agent`, and each changed answer
@@ -44,6 +47,38 @@ export const MEASUREMENTS: Measurement[] = [
   { key: "ph", oahCode: "pH", oahDisplay: "pH", unit: "pH", ucum: "[pH]" },
   { key: "dissolvedOxygen", oahCode: "dissolvedO2", oahDisplay: "Dissolved O2", unit: "mg/L", ucum: "mg/L" },
 ];
+
+/**
+ * Answers that are not numbers but still match a OneAquaHealth indicator. The
+ * guide's webinar says citizen reports should share the same Observation
+ * profiles as sensor and lab data, so each of these also becomes an Observation
+ * (category "survey") coded with the OAH indicator. Codes and displays are
+ * copied from the IG's TemporaryOahSystem; "morophology" is its own spelling.
+ */
+interface Indicator {
+  key: FieldKey;
+  oahCode: string;
+  oahDisplay: string;
+}
+
+export const INDICATORS: Indicator[] = [
+  { key: "flow", oahCode: "hydrology", oahDisplay: "Hydrology of the stream" },
+  { key: "colour", oahCode: "foam", oahDisplay: "Foam/colour/smell" },
+  { key: "odour", oahCode: "foam", oahDisplay: "Foam/colour/smell" },
+  { key: "surface", oahCode: "foam", oahDisplay: "Foam/colour/smell" },
+  { key: "vegetation", oahCode: "riparianVegetation", oahDisplay: "Riparian vegetation" },
+  { key: "channel", oahCode: "morophology", oahDisplay: "Morphology of the streams" },
+  { key: "landUse", oahCode: "LandUse", oahDisplay: "Land use in the margins" },
+];
+
+/** Animals the volunteer ticked that have their own OAH indicator, recorded as "Present". */
+export const LIFE_PRESENT: Record<string, { oahCode: string; oahDisplay: string }> = {
+  fish: { oahCode: "fish", oahDisplay: "Fish" },
+  frogs: { oahCode: "amphibians", oahDisplay: "Amphibians" },
+  water_birds: { oahCode: "birds", oahDisplay: "Birds" },
+};
+
+const OBSERVATION_CATEGORY = "http://terminology.hl7.org/CodeSystem/observation-category";
 
 const VOLUNTEER = { display: "Citizen science volunteer (anonymous)" };
 
@@ -242,6 +277,44 @@ export function buildFhirBundle(record: AssessmentRecord): Json {
     valueQuantity: { value: a[m.key], unit: m.unit, system: UCUM, code: m.ucum },
     derivedFrom: [{ reference: urn(responseId) }],
   }));
+
+  // Qualitative answers as OAH indicator Observations, one per answer chosen.
+  const survey = (key: FieldKey, value: string, oah: { oahCode: string; oahDisplay: string }, present = false): Json => ({
+    resourceType: "Observation",
+    id: stableUuid(`${record.id}:observation:${key}:${value}`),
+    meta: { profile: [OAH_OBSERVATION_PROFILE] },
+    text: narrative([`${field(key).label}: ${optionLabel(key, value)}, as seen by the volunteer at ${a.streamName}.`]),
+    status: "final",
+    category: [{ coding: [{ system: OBSERVATION_CATEGORY, code: "survey", display: "Survey" }] }],
+    code: {
+      coding: [
+        { system: OAH_CODE_SYSTEM, code: oah.oahCode, display: oah.oahDisplay },
+        { system: `${LOCAL_BASE}/CodeSystem/question`, code: key, display: field(key).label },
+      ],
+      text: field(key).label,
+    },
+    subject: locationRef,
+    effectiveDateTime: effective,
+    performer: [VOLUNTEER],
+    valueCodeableConcept: present
+      ? {
+          coding: [{ system: OAH_CODE_SYSTEM, code: "present", display: "Present" }],
+          text: `${optionLabel(key, value)} seen`,
+        }
+      : {
+          coding: [{ system: `${LOCAL_BASE}/CodeSystem/${key}`, code: value, display: optionLabel(key, value) }],
+          text: optionLabel(key, value),
+        },
+    derivedFrom: [{ reference: urn(responseId) }],
+  });
+  for (const indicator of INDICATORS) {
+    const value = a[indicator.key];
+    const chosen = Array.isArray(value) ? value : typeof value === "string" && value ? [value] : [];
+    for (const v of chosen) observations.push(survey(indicator.key, v, indicator));
+  }
+  for (const v of a.life) {
+    if (LIFE_PRESENT[v]) observations.push(survey("life", v, LIFE_PRESENT[v], true));
+  }
 
   const decided = record.flags.filter((f) => f.decision);
   const fixed = decided.filter((f) => f.decision === "fixed").length;

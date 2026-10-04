@@ -96,7 +96,7 @@ describe("FHIR bundle", () => {
   });
 
   it("has one final Observation per numeric measurement, with OAH codes and UCUM units", () => {
-    const observations = ofType("Observation");
+    const observations = ofType("Observation").filter((o) => o.valueQuantity);
     expect(observations.map((o) => [o.code.coding[0].code, o.valueQuantity.value, o.valueQuantity.code])).toEqual([
       ["waterTemperature", 19, "Cel"],
       ["pH", 7.9, "[pH]"],
@@ -114,7 +114,37 @@ describe("FHIR bundle", () => {
   });
 
   it("leaves out Observations for measurements that were not taken", () => {
-    expect(ofType("Observation", unusual).map((o) => o.code.coding[0].code)).toEqual(["waterTemperature"]);
+    const measured = ofType("Observation", unusual).filter((o) => o.valueQuantity);
+    expect(measured.map((o) => o.code.coding[0].code)).toEqual(["waterTemperature"]);
+  });
+
+  it("codes qualitative answers as OAH indicator Observations, the way citizen data is modelled in the IG", () => {
+    const survey = ofType("Observation").filter((o) => o.valueCodeableConcept);
+    const pairs = survey.map((o) => [o.code.coding[0].code, o.code.coding[1].code, o.valueCodeableConcept.coding[0].code]);
+    expect(pairs).toEqual([
+      ["hydrology", "flow", "slow"],
+      ["foam", "colour", "brown"],
+      ["foam", "odour", "sewage"],
+      ["foam", "surface", "foam"],
+      ["riparianVegetation", "vegetation", "sparse"],
+      ["morophology", "channel", "partly_modified"],
+      ["LandUse", "landUse", "commercial"],
+      ["LandUse", "landUse", "roads"],
+    ]);
+    for (const o of survey) {
+      expect(o.status).toBe("final");
+      expect(o.category[0].coding[0].code).toBe("survey");
+      expect(o.code.coding[0].system).toBe(OAH_CODE_SYSTEM);
+      expect(o.subject.reference).toMatch(/^urn:uuid:/);
+      expect(o.performer.length).toBeGreaterThan(0);
+      expect(o.derivedFrom[0].reference).toMatch(/^urn:uuid:/);
+    }
+  });
+
+  it("records fish, amphibians and birds that were seen as 'Present', and nothing for animals not ticked", () => {
+    const seen = ofType("Observation", unusual).filter((o) => o.code.coding[1]?.code === "life");
+    expect(seen.map((o) => [o.code.coding[0].code, o.valueCodeableConcept.coding[0].code])).toEqual([["birds", "present"]]);
+    expect(seen[0].valueCodeableConcept.coding[0].system).toBe(OAH_CODE_SYSTEM);
   });
 
   it("carries the audit trail as Provenance: one for the record and one per flag decision", () => {

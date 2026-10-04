@@ -497,6 +497,550 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:a845b6e1-af93-4936-8d96-b3d363c60360",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "a845b6e1-af93-4936-8d96-b3d363c60360",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Flow: Slow, as seen by the volunteer at Ribeira dos Covoes (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "hydrology",
+              "display": "Hydrology of the stream"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "flow",
+              "display": "Flow"
+            }
+          ],
+          "text": "Flow"
+        },
+        "subject": {
+          "reference": "urn:uuid:90f8d361-7cfc-432c-a7bf-fdb3d127f726",
+          "display": "Ribeira dos Covoes (sample)"
+        },
+        "effectiveDateTime": "2026-09-22T17:10:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/flow",
+              "code": "slow",
+              "display": "Slow"
+            }
+          ],
+          "text": "Slow"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:86e326b5-2500-4178-93e0-bb431e900f5e"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:7a1b4748-1cbb-408d-819e-783226bd6aff",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "7a1b4748-1cbb-408d-819e-783226bd6aff",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Water colour: Brown, as seen by the volunteer at Ribeira dos Covoes (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "foam",
+              "display": "Foam/colour/smell"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "colour",
+              "display": "Water colour"
+            }
+          ],
+          "text": "Water colour"
+        },
+        "subject": {
+          "reference": "urn:uuid:90f8d361-7cfc-432c-a7bf-fdb3d127f726",
+          "display": "Ribeira dos Covoes (sample)"
+        },
+        "effectiveDateTime": "2026-09-22T17:10:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/colour",
+              "code": "brown",
+              "display": "Brown"
+            }
+          ],
+          "text": "Brown"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:86e326b5-2500-4178-93e0-bb431e900f5e"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:8d92bb99-81fd-46b4-ba53-9e8722426e52",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "8d92bb99-81fd-46b4-ba53-9e8722426e52",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Odour: Sewage, as seen by the volunteer at Ribeira dos Covoes (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "foam",
+              "display": "Foam/colour/smell"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "odour",
+              "display": "Odour"
+            }
+          ],
+          "text": "Odour"
+        },
+        "subject": {
+          "reference": "urn:uuid:90f8d361-7cfc-432c-a7bf-fdb3d127f726",
+          "display": "Ribeira dos Covoes (sample)"
+        },
+        "effectiveDateTime": "2026-09-22T17:10:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/odour",
+              "code": "sewage",
+              "display": "Sewage"
+            }
+          ],
+          "text": "Sewage"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:86e326b5-2500-4178-93e0-bb431e900f5e"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:35cb26a8-f6f4-4ed1-b9fa-d42e1f4811df",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "35cb26a8-f6f4-4ed1-b9fa-d42e1f4811df",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>On the surface: Foam, as seen by the volunteer at Ribeira dos Covoes (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "foam",
+              "display": "Foam/colour/smell"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "surface",
+              "display": "On the surface"
+            }
+          ],
+          "text": "On the surface"
+        },
+        "subject": {
+          "reference": "urn:uuid:90f8d361-7cfc-432c-a7bf-fdb3d127f726",
+          "display": "Ribeira dos Covoes (sample)"
+        },
+        "effectiveDateTime": "2026-09-22T17:10:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/surface",
+              "code": "foam",
+              "display": "Foam"
+            }
+          ],
+          "text": "Foam"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:86e326b5-2500-4178-93e0-bb431e900f5e"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:510d48bc-a87f-459f-a461-deaabfe98dc5",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "510d48bc-a87f-459f-a461-deaabfe98dc5",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Bank vegetation cover: Sparse, as seen by the volunteer at Ribeira dos Covoes (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "riparianVegetation",
+              "display": "Riparian vegetation"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "vegetation",
+              "display": "Bank vegetation cover"
+            }
+          ],
+          "text": "Bank vegetation cover"
+        },
+        "subject": {
+          "reference": "urn:uuid:90f8d361-7cfc-432c-a7bf-fdb3d127f726",
+          "display": "Ribeira dos Covoes (sample)"
+        },
+        "effectiveDateTime": "2026-09-22T17:10:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/vegetation",
+              "code": "sparse",
+              "display": "Sparse"
+            }
+          ],
+          "text": "Sparse"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:86e326b5-2500-4178-93e0-bb431e900f5e"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:4e18b083-3e4c-4cf8-803e-afa114dc8cbe",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "4e18b083-3e4c-4cf8-803e-afa114dc8cbe",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Channel: Partly modified, as seen by the volunteer at Ribeira dos Covoes (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "morophology",
+              "display": "Morphology of the streams"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "channel",
+              "display": "Channel"
+            }
+          ],
+          "text": "Channel"
+        },
+        "subject": {
+          "reference": "urn:uuid:90f8d361-7cfc-432c-a7bf-fdb3d127f726",
+          "display": "Ribeira dos Covoes (sample)"
+        },
+        "effectiveDateTime": "2026-09-22T17:10:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/channel",
+              "code": "partly_modified",
+              "display": "Partly modified"
+            }
+          ],
+          "text": "Partly modified"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:86e326b5-2500-4178-93e0-bb431e900f5e"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:73cffeba-7c4e-44bf-b91c-1a40ac395add",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "73cffeba-7c4e-44bf-b91c-1a40ac395add",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Nearby land use: Shops or offices, as seen by the volunteer at Ribeira dos Covoes (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "LandUse",
+              "display": "Land use in the margins"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "landUse",
+              "display": "Nearby land use"
+            }
+          ],
+          "text": "Nearby land use"
+        },
+        "subject": {
+          "reference": "urn:uuid:90f8d361-7cfc-432c-a7bf-fdb3d127f726",
+          "display": "Ribeira dos Covoes (sample)"
+        },
+        "effectiveDateTime": "2026-09-22T17:10:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/landUse",
+              "code": "commercial",
+              "display": "Shops or offices"
+            }
+          ],
+          "text": "Shops or offices"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:86e326b5-2500-4178-93e0-bb431e900f5e"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:49a183bf-050d-41b4-8853-3a9584ea3bd2",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "49a183bf-050d-41b4-8853-3a9584ea3bd2",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Nearby land use: Roads or car parks, as seen by the volunteer at Ribeira dos Covoes (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "LandUse",
+              "display": "Land use in the margins"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "landUse",
+              "display": "Nearby land use"
+            }
+          ],
+          "text": "Nearby land use"
+        },
+        "subject": {
+          "reference": "urn:uuid:90f8d361-7cfc-432c-a7bf-fdb3d127f726",
+          "display": "Ribeira dos Covoes (sample)"
+        },
+        "effectiveDateTime": "2026-09-22T17:10:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/landUse",
+              "code": "roads",
+              "display": "Roads or car parks"
+            }
+          ],
+          "text": "Roads or car parks"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:86e326b5-2500-4178-93e0-bb431e900f5e"
+          }
+        ]
+      }
+    },
+    {
       "fullUrl": "urn:uuid:167973f5-b8ff-4358-8d53-2fd71cc653c2",
       "resource": {
         "resourceType": "Provenance",
@@ -517,6 +1061,30 @@
           },
           {
             "reference": "urn:uuid:d52c4abf-9d4e-47ec-81f6-519992a04dce"
+          },
+          {
+            "reference": "urn:uuid:a845b6e1-af93-4936-8d96-b3d363c60360"
+          },
+          {
+            "reference": "urn:uuid:7a1b4748-1cbb-408d-819e-783226bd6aff"
+          },
+          {
+            "reference": "urn:uuid:8d92bb99-81fd-46b4-ba53-9e8722426e52"
+          },
+          {
+            "reference": "urn:uuid:35cb26a8-f6f4-4ed1-b9fa-d42e1f4811df"
+          },
+          {
+            "reference": "urn:uuid:510d48bc-a87f-459f-a461-deaabfe98dc5"
+          },
+          {
+            "reference": "urn:uuid:4e18b083-3e4c-4cf8-803e-afa114dc8cbe"
+          },
+          {
+            "reference": "urn:uuid:73cffeba-7c4e-44bf-b91c-1a40ac395add"
+          },
+          {
+            "reference": "urn:uuid:49a183bf-050d-41b4-8853-3a9584ea3bd2"
           }
         ],
         "occurredDateTime": "2026-09-22T17:10:00+05:30",

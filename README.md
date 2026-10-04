@@ -44,7 +44,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000. Other commands: `npm test` (132 unit tests), `npm run build`, `npm run examples` (regenerates `examples/`), `python3 scripts/validate-fhir.py` (validates the example bundles with the HL7 validator).
+Open http://localhost:3000. Other commands: `npm test` (134 unit tests), `npm run build`, `npm run examples` (regenerates `examples/`), `python3 scripts/validate-fhir.py` (validates the example bundles with the HL7 validator).
 
 ### Demo mode (no API key)
 
@@ -145,30 +145,34 @@ All fields, labels, helpers and options live in one table (`src/lib/fields.ts`) 
 |---|---|
 | `Location` | Stream name, `position.latitude` and `position.longitude`. Shaped to the OneAquaHealth IG profile `LocationOah` (identifier, name, mode = instance). |
 | `QuestionnaireResponse` | Every answer; `linkId` is the field key. |
-| `Observation` | One per numeric measurement entered (water temperature, pH, dissolved oxygen), `status` final, `valueQuantity` with UCUM units, subject = the Location. Shaped to the IG profile `ObservationIndicatorsOah`. |
+| `Observation` | One per numeric measurement entered (water temperature, pH, dissolved oxygen) with `valueQuantity` in UCUM units, and one per qualitative answer that matches a OneAquaHealth indicator (flow, colour, odour, surface, bank vegetation, channel, land use, and fish / amphibians / birds seen) with category `survey` and a `valueCodeableConcept`. All are `status` final, subject = the Location, `derivedFrom` the QuestionnaireResponse, and shaped to the IG profile `ObservationIndicatorsOah`. |
 | `Provenance` | The audit trail. One for the record, plus one per flag decision: the decision in `activity`, the volunteer's reason in `reason`, who raised the flag in `agent`, and each changed answer as an `entity` with role `revision`. The same detail is in the narrative. No extensions are used. |
 
 ### Codes used, and codes to confirm
 
 | Use | System | Codes | Status |
 |---|---|---|---|
-| Measurement type | `http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu` | `waterTemperature`, `pH`, `dissolvedO2` | Read verbatim from the OneAquaHealth IG source ([hl7-eu/oah](https://github.com/hl7-eu/oah), `oah-codeSystem.fsh`). **To confirm:** the code system is marked temporary and experimental, and its URL is built from the IG's canonical plus the code system id because the IG is not published yet. |
+| Measurement type | `http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu` | `waterTemperature`, `pH`, `dissolvedO2` | Read verbatim from the OneAquaHealth IG source ([hl7-eu/oah](https://github.com/hl7-eu/oah), `oah-codeSystem.fsh`). The system URL, the profile URL and the `Cel` unit match the water-temperature example on the project's FHIR sandbox (`Observation/Obs-WaterTemp-Almyros-2024-11-21` at https://sandbox.hl7europe.eu/oneaquahealth/fhir). The code system is marked temporary and experimental by its authors. |
+| Qualitative indicator | same system | `hydrology` (flow), `foam` (colour, odour, surface), `riparianVegetation` (bank vegetation), `morophology` (channel; the IG's own spelling), `LandUse` (land use), `fish`, `amphibians`, `birds`, and the value `present` | Read verbatim from the same source. **To confirm with the IG authors:** whether these are the right indicators for these citizen answers, in particular bank vegetation cover (the IG has percentage bands that the form's None / Sparse / Moderate / Dense do not map onto) and treating a ticked animal as `present`. Water clarity, bank erosion, pollution sources and the other animals have no matching indicator and stay in the QuestionnaireResponse only. |
 | Units | `http://unitsofmeasure.org` (UCUM) | `Cel`, `[pH]`, `mg/L` | Accepted by the HL7 validator. |
 | Provenance activity | `http://terminology.hl7.org/CodeSystem/v3-DataOperation` | `CREATE`, `UPDATE` | Accepted by the HL7 validator. |
 | Provenance agent type | `http://terminology.hl7.org/CodeSystem/provenance-participant-type` | `author` | Accepted by the HL7 validator. |
 | Choice answers | `https://rifflecheck.example/fhir/CodeSystem/<field>` | the option keys in `fields.ts` | **Placeholder.** To be replaced by the OneAquaHealth app's own answer codes. |
 
+**Why Observations and not only a QuestionnaireResponse.** The project's "Informatics, Technology & Standards" learning session (27 August 2026) says citizen reports should share the same Observation profiles, value sets and validation rules as sensor and laboratory data, with performer metadata on every observation. The export follows that: every answer that has a OneAquaHealth indicator is an Observation in the project's profile, linked back to the full QuestionnaireResponse with `derivedFrom`.
+
 **LOINC: none used.** The brief suggested LOINC for water temperature, pH and dissolved oxygen. Searching loinc.org turned up only body-fluid codes (for example 2748-2 "pH of Body fluid"), none for stream water, so no LOINC code is claimed. The OneAquaHealth IG defines its own codes for exactly these three measurements, and those are used instead. If the project later adopts LOINC or another environmental vocabulary, the mapping is three lines in `src/lib/export/fhir.ts`.
 
 ### HL7 validator result
 
-The three example bundles were validated with the official HL7 validator service (validator.fhir.org, FHIR 4.0.1) on 4 October 2026 using `scripts/validate-fhir.py`: **0 errors** on each. Warnings (5 to 9 per bundle), all expected:
+The three example bundles were validated with the official HL7 validator service (validator.fhir.org, FHIR 4.0.1) on 5 October 2026 using `scripts/validate-fhir.py`: **0 errors** on each. Warnings (42 to 44 per bundle, a handful of kinds repeated once per resource), all expected:
 
-- *Profile reference has not been checked because it could not be found*: the OneAquaHealth IG profiles are not published on a package server yet, so the validator cannot load them. Conformance to those profiles is therefore by construction and has not been machine-checked.
-- *A definition for CodeSystem `…temporarySystem-oah-eu` could not be found*: same cause.
+- *Profile reference has not been checked because it could not be found*: the OneAquaHealth IG is not on a package server (its build page returned 404 on 5 October 2026), so the validator cannot load the profiles. Conformance to them is by construction, checked by eye against the sandbox examples, and has not been machine-checked.
+- *A definition for CodeSystem could not be found*: the same cause for the OneAquaHealth code system, plus this prototype's placeholder answer codes.
 - *No code provided* on `Provenance.activity` and `Provenance.reason` for "kept" decisions: there is no standard code for "volunteer kept their answer" or for a free-text reason, so these are text only.
+- One *Error performing tx5 operation*: the validator's own terminology server timing out.
 
-Informational notes: the answer code systems are placeholders, and no `Questionnaire` is referenced.
+Informational notes: no `Questionnaire` is referenced.
 
 ### JSON and CSV
 
@@ -210,7 +214,7 @@ Tests (Vitest) cover every rule firing and not firing, the wording of "unusual" 
 - **Data stays in one browser.** There is no sync, no backup and no way to send a record to OneAquaHealth yet. Clearing browser data deletes everything.
 - **The reviewer view shows only this browser's records.** It demonstrates what a researcher would see; it is not a multi-user tool.
 - **Photos are stored as small thumbnails** in localStorage, are not included in the exports, and are not analysed.
-- **FHIR conformance to the OneAquaHealth profiles is unverified** because the IG is not published; see above. The IG has no model yet for citizen answers or for an audit trail, so the QuestionnaireResponse and Provenance shapes are proposals.
+- **FHIR conformance to the OneAquaHealth profiles is not machine-checked** because the IG package is not published; see above. The mapping of citizen answers to indicators is a proposal. The IG has no model yet for citizen answers or for an audit trail, so the QuestionnaireResponse and Provenance shapes are proposals.
 - **English only**, and not tested with screen-reader users.
 - **A volunteer can keep any non-error answer** with any reason. That is by design, and it means the record's quality still depends on the volunteer.
 
@@ -218,7 +222,7 @@ Tests (Vitest) cover every rule firing and not firing, the wording of "unusual" 
 
 1. Replace `fields.ts` with the app's real questions and answer codes, and have ecologists review and extend the rule table for the official protocol.
 2. Run the rule table inside the existing app as a library: it is plain TypeScript with no dependencies, so it works offline at the stream.
-3. Send records to the OneAquaHealth backend as the FHIR Bundle, and propose the `Provenance` audit trail and a citizen `Questionnaire` to the IG authors.
+3. Send records to the OneAquaHealth FHIR server (the project runs a sandbox at sandbox.hl7europe.eu/oneaquahealth) as the FHIR Bundle, and propose the `Provenance` audit trail and a citizen `Questionnaire` to the IG authors.
 4. Give researchers the override data: which rules are kept most often shows which questions or helpers are confusing, and which rules are too strict.
 5. Evaluate the AI layer on real, anonymised assessments with ecologists labelling the flags as useful or not, before it is switched on for volunteers.
 6. Translate the form and prompts into the languages of the project's research cities.

@@ -390,6 +390,618 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:ff84f84d-4d4c-422e-9dcc-cd7f143e8360",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "ff84f84d-4d4c-422e-9dcc-cd7f143e8360",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Flow: Moderate, as seen by the volunteer at Ribeira de Eiras (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "hydrology",
+              "display": "Hydrology of the stream"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "flow",
+              "display": "Flow"
+            }
+          ],
+          "text": "Flow"
+        },
+        "subject": {
+          "reference": "urn:uuid:9a264b11-f892-4340-9acb-3ed79ce7e97e",
+          "display": "Ribeira de Eiras (sample)"
+        },
+        "effectiveDateTime": "2026-09-25T09:15:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/flow",
+              "code": "moderate",
+              "display": "Moderate"
+            }
+          ],
+          "text": "Moderate"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:1beb8105-e67d-4564-9de0-54afa72087c6"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:f4689019-8d10-4872-816a-25b78a9ed858",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "f4689019-8d10-4872-816a-25b78a9ed858",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Water colour: No colour, as seen by the volunteer at Ribeira de Eiras (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "foam",
+              "display": "Foam/colour/smell"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "colour",
+              "display": "Water colour"
+            }
+          ],
+          "text": "Water colour"
+        },
+        "subject": {
+          "reference": "urn:uuid:9a264b11-f892-4340-9acb-3ed79ce7e97e",
+          "display": "Ribeira de Eiras (sample)"
+        },
+        "effectiveDateTime": "2026-09-25T09:15:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/colour",
+              "code": "colourless",
+              "display": "No colour"
+            }
+          ],
+          "text": "No colour"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:1beb8105-e67d-4564-9de0-54afa72087c6"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:70ebefe9-3fa4-4070-bfdc-0443b9aedf1a",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "70ebefe9-3fa4-4070-bfdc-0443b9aedf1a",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Odour: Sewage, as seen by the volunteer at Ribeira de Eiras (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "foam",
+              "display": "Foam/colour/smell"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "odour",
+              "display": "Odour"
+            }
+          ],
+          "text": "Odour"
+        },
+        "subject": {
+          "reference": "urn:uuid:9a264b11-f892-4340-9acb-3ed79ce7e97e",
+          "display": "Ribeira de Eiras (sample)"
+        },
+        "effectiveDateTime": "2026-09-25T09:15:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/odour",
+              "code": "sewage",
+              "display": "Sewage"
+            }
+          ],
+          "text": "Sewage"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:1beb8105-e67d-4564-9de0-54afa72087c6"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:83f62e7f-03de-44f2-bc9f-15955b0c8910",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "83f62e7f-03de-44f2-bc9f-15955b0c8910",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>On the surface: Nothing, as seen by the volunteer at Ribeira de Eiras (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "foam",
+              "display": "Foam/colour/smell"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "surface",
+              "display": "On the surface"
+            }
+          ],
+          "text": "On the surface"
+        },
+        "subject": {
+          "reference": "urn:uuid:9a264b11-f892-4340-9acb-3ed79ce7e97e",
+          "display": "Ribeira de Eiras (sample)"
+        },
+        "effectiveDateTime": "2026-09-25T09:15:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/surface",
+              "code": "none",
+              "display": "Nothing"
+            }
+          ],
+          "text": "Nothing"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:1beb8105-e67d-4564-9de0-54afa72087c6"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:4865bcfd-a106-4d72-bf15-856bf7b4e108",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "4865bcfd-a106-4d72-bf15-856bf7b4e108",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Bank vegetation cover: Moderate, as seen by the volunteer at Ribeira de Eiras (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "riparianVegetation",
+              "display": "Riparian vegetation"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "vegetation",
+              "display": "Bank vegetation cover"
+            }
+          ],
+          "text": "Bank vegetation cover"
+        },
+        "subject": {
+          "reference": "urn:uuid:9a264b11-f892-4340-9acb-3ed79ce7e97e",
+          "display": "Ribeira de Eiras (sample)"
+        },
+        "effectiveDateTime": "2026-09-25T09:15:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/vegetation",
+              "code": "moderate",
+              "display": "Moderate"
+            }
+          ],
+          "text": "Moderate"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:1beb8105-e67d-4564-9de0-54afa72087c6"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:b88e2986-d7cb-48dd-b605-99e0073b3a27",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "b88e2986-d7cb-48dd-b605-99e0073b3a27",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Channel: Natural, as seen by the volunteer at Ribeira de Eiras (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "morophology",
+              "display": "Morphology of the streams"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "channel",
+              "display": "Channel"
+            }
+          ],
+          "text": "Channel"
+        },
+        "subject": {
+          "reference": "urn:uuid:9a264b11-f892-4340-9acb-3ed79ce7e97e",
+          "display": "Ribeira de Eiras (sample)"
+        },
+        "effectiveDateTime": "2026-09-25T09:15:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/channel",
+              "code": "natural",
+              "display": "Natural"
+            }
+          ],
+          "text": "Natural"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:1beb8105-e67d-4564-9de0-54afa72087c6"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d18ca0df-9af5-4cd4-94cd-c4cd5ddda7ca",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "d18ca0df-9af5-4cd4-94cd-c4cd5ddda7ca",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Nearby land use: Homes, as seen by the volunteer at Ribeira de Eiras (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "LandUse",
+              "display": "Land use in the margins"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "landUse",
+              "display": "Nearby land use"
+            }
+          ],
+          "text": "Nearby land use"
+        },
+        "subject": {
+          "reference": "urn:uuid:9a264b11-f892-4340-9acb-3ed79ce7e97e",
+          "display": "Ribeira de Eiras (sample)"
+        },
+        "effectiveDateTime": "2026-09-25T09:15:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/landUse",
+              "code": "housing",
+              "display": "Homes"
+            }
+          ],
+          "text": "Homes"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:1beb8105-e67d-4564-9de0-54afa72087c6"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:f8c0b740-406f-4b91-a66f-5a022c37e9eb",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "f8c0b740-406f-4b91-a66f-5a022c37e9eb",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Nearby land use: Park or green space, as seen by the volunteer at Ribeira de Eiras (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "LandUse",
+              "display": "Land use in the margins"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "landUse",
+              "display": "Nearby land use"
+            }
+          ],
+          "text": "Nearby land use"
+        },
+        "subject": {
+          "reference": "urn:uuid:9a264b11-f892-4340-9acb-3ed79ce7e97e",
+          "display": "Ribeira de Eiras (sample)"
+        },
+        "effectiveDateTime": "2026-09-25T09:15:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/landUse",
+              "code": "park",
+              "display": "Park or green space"
+            }
+          ],
+          "text": "Park or green space"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:1beb8105-e67d-4564-9de0-54afa72087c6"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:4c8364ba-420e-4893-b088-d5109f3843f1",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "4c8364ba-420e-4893-b088-d5109f3843f1",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Animals and plants seen: Water birds, as seen by the volunteer at Ribeira de Eiras (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "birds",
+              "display": "Birds"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "life",
+              "display": "Animals and plants seen"
+            }
+          ],
+          "text": "Animals and plants seen"
+        },
+        "subject": {
+          "reference": "urn:uuid:9a264b11-f892-4340-9acb-3ed79ce7e97e",
+          "display": "Ribeira de Eiras (sample)"
+        },
+        "effectiveDateTime": "2026-09-25T09:15:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "present",
+              "display": "Present"
+            }
+          ],
+          "text": "Water birds seen"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:1beb8105-e67d-4564-9de0-54afa72087c6"
+          }
+        ]
+      }
+    },
+    {
       "fullUrl": "urn:uuid:dbcc2365-8a82-4c94-80e0-eae33545ff9a",
       "resource": {
         "resourceType": "Provenance",
@@ -404,6 +1016,33 @@
           },
           {
             "reference": "urn:uuid:d38eb8d9-7ae0-4508-9776-9dbb8d346b3a"
+          },
+          {
+            "reference": "urn:uuid:ff84f84d-4d4c-422e-9dcc-cd7f143e8360"
+          },
+          {
+            "reference": "urn:uuid:f4689019-8d10-4872-816a-25b78a9ed858"
+          },
+          {
+            "reference": "urn:uuid:70ebefe9-3fa4-4070-bfdc-0443b9aedf1a"
+          },
+          {
+            "reference": "urn:uuid:83f62e7f-03de-44f2-bc9f-15955b0c8910"
+          },
+          {
+            "reference": "urn:uuid:4865bcfd-a106-4d72-bf15-856bf7b4e108"
+          },
+          {
+            "reference": "urn:uuid:b88e2986-d7cb-48dd-b605-99e0073b3a27"
+          },
+          {
+            "reference": "urn:uuid:d18ca0df-9af5-4cd4-94cd-c4cd5ddda7ca"
+          },
+          {
+            "reference": "urn:uuid:f8c0b740-406f-4b91-a66f-5a022c37e9eb"
+          },
+          {
+            "reference": "urn:uuid:4c8364ba-420e-4893-b088-d5109f3843f1"
           }
         ],
         "occurredDateTime": "2026-09-25T09:15:00+05:30",

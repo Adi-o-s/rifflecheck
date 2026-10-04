@@ -504,6 +504,618 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:0ba58a57-bb1e-47ec-8ecb-eb41f9e76786",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "0ba58a57-bb1e-47ec-8ecb-eb41f9e76786",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Flow: Moderate, as seen by the volunteer at Ribeira de Coselhas (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "hydrology",
+              "display": "Hydrology of the stream"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "flow",
+              "display": "Flow"
+            }
+          ],
+          "text": "Flow"
+        },
+        "subject": {
+          "reference": "urn:uuid:5005326f-3ab7-43ca-9e72-a87510e17f78",
+          "display": "Ribeira de Coselhas (sample)"
+        },
+        "effectiveDateTime": "2026-09-20T10:30:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/flow",
+              "code": "moderate",
+              "display": "Moderate"
+            }
+          ],
+          "text": "Moderate"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:2db875b7-9bcd-485a-80ad-27c1915414cc"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0224657f-1653-4ed4-a6a8-f17d199beeda",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "0224657f-1653-4ed4-a6a8-f17d199beeda",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Water colour: No colour, as seen by the volunteer at Ribeira de Coselhas (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "foam",
+              "display": "Foam/colour/smell"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "colour",
+              "display": "Water colour"
+            }
+          ],
+          "text": "Water colour"
+        },
+        "subject": {
+          "reference": "urn:uuid:5005326f-3ab7-43ca-9e72-a87510e17f78",
+          "display": "Ribeira de Coselhas (sample)"
+        },
+        "effectiveDateTime": "2026-09-20T10:30:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/colour",
+              "code": "colourless",
+              "display": "No colour"
+            }
+          ],
+          "text": "No colour"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:2db875b7-9bcd-485a-80ad-27c1915414cc"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d3236c5d-49c2-4030-afe0-64f78d828412",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "d3236c5d-49c2-4030-afe0-64f78d828412",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Odour: None, as seen by the volunteer at Ribeira de Coselhas (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "foam",
+              "display": "Foam/colour/smell"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "odour",
+              "display": "Odour"
+            }
+          ],
+          "text": "Odour"
+        },
+        "subject": {
+          "reference": "urn:uuid:5005326f-3ab7-43ca-9e72-a87510e17f78",
+          "display": "Ribeira de Coselhas (sample)"
+        },
+        "effectiveDateTime": "2026-09-20T10:30:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/odour",
+              "code": "none",
+              "display": "None"
+            }
+          ],
+          "text": "None"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:2db875b7-9bcd-485a-80ad-27c1915414cc"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:32994eed-a021-4a5c-861c-41a3d57bdfca",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "32994eed-a021-4a5c-861c-41a3d57bdfca",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>On the surface: Nothing, as seen by the volunteer at Ribeira de Coselhas (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "foam",
+              "display": "Foam/colour/smell"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "surface",
+              "display": "On the surface"
+            }
+          ],
+          "text": "On the surface"
+        },
+        "subject": {
+          "reference": "urn:uuid:5005326f-3ab7-43ca-9e72-a87510e17f78",
+          "display": "Ribeira de Coselhas (sample)"
+        },
+        "effectiveDateTime": "2026-09-20T10:30:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/surface",
+              "code": "none",
+              "display": "Nothing"
+            }
+          ],
+          "text": "Nothing"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:2db875b7-9bcd-485a-80ad-27c1915414cc"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:86982ae1-be35-456c-a319-93bb5e9a6bbe",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "86982ae1-be35-456c-a319-93bb5e9a6bbe",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Bank vegetation cover: Dense, as seen by the volunteer at Ribeira de Coselhas (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "riparianVegetation",
+              "display": "Riparian vegetation"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "vegetation",
+              "display": "Bank vegetation cover"
+            }
+          ],
+          "text": "Bank vegetation cover"
+        },
+        "subject": {
+          "reference": "urn:uuid:5005326f-3ab7-43ca-9e72-a87510e17f78",
+          "display": "Ribeira de Coselhas (sample)"
+        },
+        "effectiveDateTime": "2026-09-20T10:30:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/vegetation",
+              "code": "dense",
+              "display": "Dense"
+            }
+          ],
+          "text": "Dense"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:2db875b7-9bcd-485a-80ad-27c1915414cc"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c1333b98-2471-4a73-9a6f-c4aaca7abed5",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "c1333b98-2471-4a73-9a6f-c4aaca7abed5",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Channel: Natural, as seen by the volunteer at Ribeira de Coselhas (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "morophology",
+              "display": "Morphology of the streams"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "channel",
+              "display": "Channel"
+            }
+          ],
+          "text": "Channel"
+        },
+        "subject": {
+          "reference": "urn:uuid:5005326f-3ab7-43ca-9e72-a87510e17f78",
+          "display": "Ribeira de Coselhas (sample)"
+        },
+        "effectiveDateTime": "2026-09-20T10:30:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/channel",
+              "code": "natural",
+              "display": "Natural"
+            }
+          ],
+          "text": "Natural"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:2db875b7-9bcd-485a-80ad-27c1915414cc"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0156347a-f27f-4507-8496-f9c40b037a89",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "0156347a-f27f-4507-8496-f9c40b037a89",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Nearby land use: Park or green space, as seen by the volunteer at Ribeira de Coselhas (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "LandUse",
+              "display": "Land use in the margins"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "landUse",
+              "display": "Nearby land use"
+            }
+          ],
+          "text": "Nearby land use"
+        },
+        "subject": {
+          "reference": "urn:uuid:5005326f-3ab7-43ca-9e72-a87510e17f78",
+          "display": "Ribeira de Coselhas (sample)"
+        },
+        "effectiveDateTime": "2026-09-20T10:30:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/landUse",
+              "code": "park",
+              "display": "Park or green space"
+            }
+          ],
+          "text": "Park or green space"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:2db875b7-9bcd-485a-80ad-27c1915414cc"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:f1c18e05-ae56-49ae-a8bc-c00b22d282ac",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "f1c18e05-ae56-49ae-a8bc-c00b22d282ac",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Nearby land use: Homes, as seen by the volunteer at Ribeira de Coselhas (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "LandUse",
+              "display": "Land use in the margins"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "landUse",
+              "display": "Nearby land use"
+            }
+          ],
+          "text": "Nearby land use"
+        },
+        "subject": {
+          "reference": "urn:uuid:5005326f-3ab7-43ca-9e72-a87510e17f78",
+          "display": "Ribeira de Coselhas (sample)"
+        },
+        "effectiveDateTime": "2026-09-20T10:30:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/landUse",
+              "code": "housing",
+              "display": "Homes"
+            }
+          ],
+          "text": "Homes"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:2db875b7-9bcd-485a-80ad-27c1915414cc"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:e98ab3ca-c6e8-40b9-bd45-67acfe112b93",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "e98ab3ca-c6e8-40b9-bd45-67acfe112b93",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Animals and plants seen: Fish, as seen by the volunteer at Ribeira de Coselhas (sample).</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "fish",
+              "display": "Fish"
+            },
+            {
+              "system": "https://rifflecheck.example/fhir/CodeSystem/question",
+              "code": "life",
+              "display": "Animals and plants seen"
+            }
+          ],
+          "text": "Animals and plants seen"
+        },
+        "subject": {
+          "reference": "urn:uuid:5005326f-3ab7-43ca-9e72-a87510e17f78",
+          "display": "Ribeira de Coselhas (sample)"
+        },
+        "effectiveDateTime": "2026-09-20T10:30:00+05:30",
+        "performer": [
+          {
+            "display": "Citizen science volunteer (anonymous)"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "present",
+              "display": "Present"
+            }
+          ],
+          "text": "Fish seen"
+        },
+        "derivedFrom": [
+          {
+            "reference": "urn:uuid:2db875b7-9bcd-485a-80ad-27c1915414cc"
+          }
+        ]
+      }
+    },
+    {
       "fullUrl": "urn:uuid:62543d3b-c34e-43be-a0ec-b33177d2d50c",
       "resource": {
         "resourceType": "Provenance",
@@ -524,6 +1136,33 @@
           },
           {
             "reference": "urn:uuid:c5d1b9d5-1a89-4c62-ba4e-63a328badba8"
+          },
+          {
+            "reference": "urn:uuid:0ba58a57-bb1e-47ec-8ecb-eb41f9e76786"
+          },
+          {
+            "reference": "urn:uuid:0224657f-1653-4ed4-a6a8-f17d199beeda"
+          },
+          {
+            "reference": "urn:uuid:d3236c5d-49c2-4030-afe0-64f78d828412"
+          },
+          {
+            "reference": "urn:uuid:32994eed-a021-4a5c-861c-41a3d57bdfca"
+          },
+          {
+            "reference": "urn:uuid:86982ae1-be35-456c-a319-93bb5e9a6bbe"
+          },
+          {
+            "reference": "urn:uuid:c1333b98-2471-4a73-9a6f-c4aaca7abed5"
+          },
+          {
+            "reference": "urn:uuid:0156347a-f27f-4507-8496-f9c40b037a89"
+          },
+          {
+            "reference": "urn:uuid:f1c18e05-ae56-49ae-a8bc-c00b22d282ac"
+          },
+          {
+            "reference": "urn:uuid:e98ab3ca-c6e8-40b9-bd45-67acfe112b93"
           }
         ],
         "occurredDateTime": "2026-09-20T10:30:00+05:30",
